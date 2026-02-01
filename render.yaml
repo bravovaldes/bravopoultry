@@ -7,7 +7,7 @@ services:
     name: bravopoultry-api
     runtime: docker
     region: frankfurt  # Proche de l'Afrique
-    plan: free  # Gratuit (upgrade vers 'starter' pour eviter cold starts)
+    plan: starter  # $7/mois, pas de cold starts
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     healthCheckPath: /health
@@ -49,5 +49,5 @@ databases:
     databaseName: bravopoultry
     user: bravopoultry
     region: frankfurt
-    plan: free  # Gratuit (upgrade vers 'basic' $7/mois pour production)
+    plan: basic  # $7/mois, 1GB storage, backups automatiques
     postgresMajorVersion: "16"
