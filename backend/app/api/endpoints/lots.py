@@ -11,7 +11,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.site import Site
 from app.models.building import Building
-from app.models.lot import Lot, LotStats, LotStatus
+from app.models.lot import Lot, LotStats, LotStatus, LotType
 from app.schemas.lot import LotCreate, LotUpdate, LotResponse, LotSummary, LotStatsResponse, LotDailyEntry, LotSplitRequest, LotSplitResponse
 from app.core.permissions import Permission, has_permission, can_write
 
@@ -130,9 +130,13 @@ async def get_lots(
     if building_id:
         query = query.filter(Lot.building_id == building_id)
     if status:
-        query = query.filter(Lot.status == status)
+        # Convert string to enum for PostgreSQL compatibility
+        status_enum = LotStatus(status)
+        query = query.filter(Lot.status == status_enum)
     if lot_type:
-        query = query.filter(Lot.type == lot_type)
+        # Convert string to enum for PostgreSQL compatibility
+        type_enum = LotType(lot_type)
+        query = query.filter(Lot.type == type_enum)
 
     lots = query.order_by(Lot.placement_date.desc()).all()
 
