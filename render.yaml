@@ -49,5 +49,5 @@ databases:
     databaseName: bravopoultry
     user: bravopoultry
     region: frankfurt
-    plan: basic  # $7/mois, 1GB storage, backups automatiques
+    plan: basic-1gb  # ~$7/mois, 1GB RAM, backups automatiques
     postgresMajorVersion: "16"
