@@ -56,6 +56,8 @@ export default function SiteDetailPage() {
   const { user } = useAuthStore()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [buildingToDelete, setBuildingToDelete] = useState<string | null>(null)
+  const [deleteConfirmInput, setDeleteConfirmInput] = useState('')
+  const [buildingDeleteConfirmInput, setBuildingDeleteConfirmInput] = useState('')
 
   // Lock body scroll when any modal is open
   useBodyScrollLock(showDeleteConfirm || !!buildingToDelete)
@@ -77,10 +79,17 @@ export default function SiteDetailPage() {
     },
     onSuccess: () => {
       toast.success('Site supprimé avec succès')
+      setShowDeleteConfirm(false)
+      setDeleteConfirmInput('')
       router.push('/sites')
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || 'Erreur lors de la suppression')
+      const errorData = error.response?.data
+      if (errorData?.error === 'site_has_active_lots') {
+        toast.error(`Ce site contient ${errorData.total_active_lots} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+      } else {
+        toast.error(errorData?.message || errorData?.detail || 'Erreur lors de la suppression')
+      }
     }
   })
 
@@ -91,11 +100,17 @@ export default function SiteDetailPage() {
     onSuccess: () => {
       toast.success('Bâtiment supprimé avec succès')
       queryClient.invalidateQueries({ queryKey: ['site', siteId] })
+      queryClient.invalidateQueries({ queryKey: ['sites'] })
       setBuildingToDelete(null)
+      setBuildingDeleteConfirmInput('')
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || 'Erreur lors de la suppression')
-      setBuildingToDelete(null)
+      const errorData = error.response?.data
+      if (errorData?.error === 'building_has_active_lots') {
+        toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+      } else {
+        toast.error(errorData?.message || errorData?.detail || 'Erreur lors de la suppression')
+      }
     }
   })
 
@@ -367,20 +382,38 @@ export default function SiteDetailPage() {
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Supprimer le site ?
             </h3>
-            <p className="text-gray-500 mb-6">
-              Cette action est irréversible. Tous les bâtiments, sections et lots associés seront également supprimés.
+            <p className="text-gray-500 mb-4">
+              Cette action est irréversible. Tous les bâtiments et données associées seront supprimés.
+            </p>
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">
+                Pour confirmer, tapez le nom du site: <span className="font-mono font-bold">{site.name}</span>
+              </p>
+            </div>
+            <input
+              type="text"
+              value={deleteConfirmInput}
+              onChange={(e) => setDeleteConfirmInput(e.target.value)}
+              placeholder="Entrez le nom du site"
+              className="w-full px-3 py-2 border rounded-lg mb-4 font-mono text-sm"
+            />
+            <p className="text-xs text-gray-500 mb-4">
+              Si c'est une erreur de saisie, vous pouvez <Link href={`/sites/${siteId}/edit`} className="text-orange-500 hover:underline font-medium">modifier le site</Link> à la place.
             </p>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => setShowDeleteConfirm(false)}
+                onClick={() => {
+                  setShowDeleteConfirm(false)
+                  setDeleteConfirmInput('')
+                }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
               >
                 Annuler
               </button>
               <button
                 onClick={() => deleteSite.mutate()}
-                disabled={deleteSite.isPending}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50"
+                disabled={deleteSite.isPending || deleteConfirmInput !== site.name}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {deleteSite.isPending ? 'Suppression...' : 'Supprimer'}
               </button>
@@ -390,33 +423,54 @@ export default function SiteDetailPage() {
       )}
 
       {/* Delete Building Confirmation Modal */}
-      {buildingToDelete && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Supprimer le bâtiment ?
-            </h3>
-            <p className="text-gray-500 mb-6">
-              Cette action est irréversible. Toutes les sections et lots associés seront également supprimés.
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setBuildingToDelete(null)}
-                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
-              >
-                Annuler
-              </button>
-              <button
-                onClick={() => deleteBuilding.mutate(buildingToDelete)}
-                disabled={deleteBuilding.isPending}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50"
-              >
-                {deleteBuilding.isPending ? 'Suppression...' : 'Supprimer'}
-              </button>
+      {buildingToDelete && (() => {
+        const buildingToDeleteData = site.buildings?.find(b => b.id === buildingToDelete)
+        return (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Supprimer le bâtiment ?
+              </h3>
+              <p className="text-gray-500 mb-4">
+                Cette action est irréversible. Toutes les sections et données associées seront supprimées.
+              </p>
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-800">
+                  Pour confirmer, tapez le nom du bâtiment: <span className="font-mono font-bold">{buildingToDeleteData?.name}</span>
+                </p>
+              </div>
+              <input
+                type="text"
+                value={buildingDeleteConfirmInput}
+                onChange={(e) => setBuildingDeleteConfirmInput(e.target.value)}
+                placeholder="Entrez le nom du bâtiment"
+                className="w-full px-3 py-2 border rounded-lg mb-4 font-mono text-sm"
+              />
+              <p className="text-xs text-gray-500 mb-4">
+                Si c'est une erreur de saisie, vous pouvez <Link href={`/buildings/${buildingToDelete}/edit`} className="text-orange-500 hover:underline font-medium">modifier le bâtiment</Link> à la place.
+              </p>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setBuildingToDelete(null)
+                    setBuildingDeleteConfirmInput('')
+                  }}
+                  className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={() => deleteBuilding.mutate(buildingToDelete)}
+                  disabled={deleteBuilding.isPending || buildingDeleteConfirmInput !== buildingToDeleteData?.name}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {deleteBuilding.isPending ? 'Suppression...' : 'Supprimer'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
     </div>
   )
 }

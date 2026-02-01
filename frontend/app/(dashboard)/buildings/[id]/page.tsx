@@ -70,6 +70,7 @@ export default function BuildingDetailPage() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteConfirmInput, setDeleteConfirmInput] = useState('')
   const [lotToDelete, setLotToDelete] = useState<string | null>(null)
 
   // Lock body scroll when modal is open
@@ -92,10 +93,17 @@ export default function BuildingDetailPage() {
     },
     onSuccess: () => {
       toast.success('Batiment supprime')
+      setShowDeleteConfirm(false)
+      setDeleteConfirmInput('')
       router.push(building?.site ? `/sites/${building.site.id}` : '/sites')
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || 'Erreur')
+      const errorData = error.response?.data
+      if (errorData?.error === 'building_has_active_lots') {
+        toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+      } else {
+        toast.error(errorData?.message || errorData?.detail || 'Erreur lors de la suppression')
+      }
     }
   })
 
@@ -446,26 +454,44 @@ export default function BuildingDetailPage() {
       </div>
 
       {/* Modal suppression batiment */}
-      {showDeleteConfirm && (
+      {showDeleteConfirm && building && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Supprimer ce batiment ?
             </h3>
-            <p className="text-gray-500 mb-6">
+            <p className="text-gray-500 mb-4">
               Toutes les donnees seront perdues. Cette action est irreversible.
+            </p>
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">
+                Pour confirmer, tapez le nom du bâtiment: <span className="font-mono font-bold">{building.name}</span>
+              </p>
+            </div>
+            <input
+              type="text"
+              value={deleteConfirmInput}
+              onChange={(e) => setDeleteConfirmInput(e.target.value)}
+              placeholder="Entrez le nom du bâtiment"
+              className="w-full px-3 py-2 border rounded-lg mb-4 font-mono text-sm"
+            />
+            <p className="text-xs text-gray-500 mb-4">
+              Si c'est une erreur de saisie, vous pouvez <Link href={`/buildings/${buildingId}/edit`} className="text-orange-500 hover:underline font-medium">modifier le bâtiment</Link> à la place.
             </p>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => setShowDeleteConfirm(false)}
+                onClick={() => {
+                  setShowDeleteConfirm(false)
+                  setDeleteConfirmInput('')
+                }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
               >
                 Annuler
               </button>
               <button
                 onClick={() => deleteBuilding.mutate()}
-                disabled={deleteBuilding.isPending}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50"
+                disabled={deleteBuilding.isPending || deleteConfirmInput !== building.name}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {deleteBuilding.isPending ? 'Suppression...' : 'Supprimer'}
               </button>
