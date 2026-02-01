@@ -134,15 +134,15 @@ class LotDailyEntry(BaseModel):
     """Combined daily entry for quick data input."""
     date: date
 
-    # Mortality
-    mortality_count: Optional[int] = 0
+    # Mortality - Default None to avoid resetting when not provided
+    mortality_count: Optional[int] = None
     mortality_cause: Optional[str] = None
 
-    # Eggs (layers)
-    eggs_normal: Optional[int] = 0
-    eggs_cracked: Optional[int] = 0
-    eggs_dirty: Optional[int] = 0
-    eggs_small: Optional[int] = 0
+    # Eggs (layers) - Default None to avoid resetting when not provided
+    eggs_normal: Optional[int] = None
+    eggs_cracked: Optional[int] = None
+    eggs_dirty: Optional[int] = None
+    eggs_small: Optional[int] = None
 
     # Weight (broilers)
     average_weight_g: Optional[Decimal] = None
