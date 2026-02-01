@@ -132,9 +132,10 @@ async def get_site(
     if str(site.organization_id) != str(current_user.organization_id):
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    # Get buildings for this site
+    # Get buildings for this site (only active ones)
     buildings = db.query(Building).filter(
-        Building.site_id == site_id
+        Building.site_id == site_id,
+        Building.is_active == True
     ).all()
 
     building_ids = [b.id for b in buildings]
