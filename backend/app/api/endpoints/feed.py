@@ -184,7 +184,9 @@ async def get_all_feed_stocks(
     if building_id:
         query = query.filter(FeedStock.building_id == building_id)
     if feed_type:
-        query = query.filter(FeedStock.feed_type == feed_type)
+        # Convert string to enum for PostgreSQL compatibility
+        feed_type_enum = FeedType(feed_type)
+        query = query.filter(FeedStock.feed_type == feed_type_enum)
 
     stocks = query.order_by(FeedStock.feed_type).all()
 
@@ -638,9 +640,13 @@ async def get_all_stock_movements(
     if end_date:
         query = query.filter(FeedStockMovement.date <= end_date)
     if movement_type:
-        query = query.filter(FeedStockMovement.movement_type == movement_type)
+        # Convert string to enum for PostgreSQL compatibility
+        movement_type_enum = StockMovementType(movement_type)
+        query = query.filter(FeedStockMovement.movement_type == movement_type_enum)
     if feed_type:
-        query = query.filter(FeedStock.feed_type == feed_type)
+        # Convert string to enum for PostgreSQL compatibility
+        feed_type_enum = FeedType(feed_type)
+        query = query.filter(FeedStock.feed_type == feed_type_enum)
 
     movements = query.order_by(FeedStockMovement.created_at.desc()).limit(limit).all()
 

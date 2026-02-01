@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from app.api.deps import get_db, get_current_user
 from app.models.user import User
-from app.models.finance import Sale, Client, SaleType
+from app.models.finance import Sale, Client, SaleType, PaymentStatus
 from app.models.production import EggProduction
 from app.models.lot import Lot, LotStatus
 from app.models.building import Building
@@ -162,7 +162,9 @@ async def get_sales(
     if end_date:
         query = query.filter(Sale.date <= end_date)
     if payment_status:
-        query = query.filter(Sale.payment_status == payment_status)
+        # Convert string to enum for PostgreSQL compatibility
+        payment_status_enum = PaymentStatus(payment_status)
+        query = query.filter(Sale.payment_status == payment_status_enum)
 
     sales = query.order_by(Sale.created_at.desc()).limit(500).all()
 

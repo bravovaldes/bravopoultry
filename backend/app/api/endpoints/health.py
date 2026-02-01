@@ -30,7 +30,9 @@ async def get_health_events(
     query = db.query(HealthEvent).filter(HealthEvent.lot_id == lot_id)
 
     if event_type:
-        query = query.filter(HealthEvent.event_type == event_type)
+        # Convert string to enum for PostgreSQL compatibility
+        event_type_enum = HealthEventType(event_type)
+        query = query.filter(HealthEvent.event_type == event_type_enum)
 
     events = query.order_by(HealthEvent.created_at.desc()).all()
     return [HealthEventResponse.model_validate(e) for e in events]
