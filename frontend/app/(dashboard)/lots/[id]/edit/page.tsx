@@ -157,7 +157,7 @@ export default function EditLotPage() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 space-y-3 sm:space-y-4 lg:space-y-5">
+    <div className="w-full max-w-6xl mx-auto space-y-3 sm:space-y-4 lg:space-y-5">
       {/* Header */}
       <div className="flex items-center gap-3 sm:gap-4">
         <Link

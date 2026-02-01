@@ -75,7 +75,7 @@ export default function NewSitePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-3 sm:px-4 lg:px-0 space-y-4 sm:space-y-5 lg:space-y-6">
+    <div className="max-w-3xl mx-auto space-y-4 sm:space-y-5 lg:space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link

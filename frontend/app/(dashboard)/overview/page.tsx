@@ -60,7 +60,7 @@ export default function OverviewPage() {
   }
 
   return (
-    <div className="w-full px-3 sm:px-4 lg:px-6 space-y-3 sm:space-y-4 lg:space-y-5">
+    <div className="w-full space-y-3 sm:space-y-4 lg:space-y-5">
       {/* Page header */}
       <div>
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Tableau de bord</h1>
