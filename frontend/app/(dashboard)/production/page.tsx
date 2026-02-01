@@ -32,6 +32,7 @@ import {
 } from 'lucide-react'
 import { cn, formatDate } from '@/lib/utils'
 import { DatePickerCompact } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 type FilterPeriod = '7d' | '30d' | '90d' | 'all' | 'custom'
 
@@ -173,189 +174,22 @@ export default function ProductionPage() {
   const activeLayerLots = lots?.filter((lot: any) => lot.status === 'active') || []
   const hasActiveLayerLots = activeLayerLots.length > 0
 
-  // If no layer lots at all, show empty state with preview
-  if (!isLoading && !hasLayerLots) {
-    return (
-      <div className="space-y-4 lg:space-y-3">
-        {/* Header */}
-        <div className="flex items-center justify-between bg-white rounded-lg border p-3">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">Production d'oeufs</h1>
-            <p className="text-sm text-gray-500">Vue globale de la production</p>
-          </div>
-          <Link
-            href="/lots/new?type=layer"
-            className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
-          >
-            <Plus className="w-5 h-5" />
-            <span className="hidden sm:inline">Creer un lot pondeuses</span>
-            <span className="sm:hidden">Creer</span>
-          </Link>
-        </div>
+  // State for "no lots" dialog
+  const [showNoLotsDialog, setShowNoLotsDialog] = useState(false)
 
-        {/* CTA Banner */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-4 sm:p-6 text-white">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <Egg className="w-7 h-7 text-white" />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-lg sm:text-xl font-semibold mb-1">
-                Commencez a suivre votre production
-              </h2>
-              <p className="text-orange-100 text-sm sm:text-base">
-                Creez un lot de type "Pondeuses" pour debloquer le suivi complet : collecte quotidienne,
-                taux de ponte, analyse par phase et graphiques d'evolution.
-              </p>
-            </div>
-            <Link
-              href="/lots/new?type=layer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition flex-shrink-0"
-            >
-              <Plus className="w-5 h-5" />
-              Creer un lot
-            </Link>
-          </div>
-        </div>
+  // Lock body scroll when dialog is open
+  useBodyScrollLock(showNoLotsDialog)
 
-        {/* Preview Stats Cards - Disabled/Preview mode */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-lg px-4 py-2 border flex items-center gap-2">
-              <Eye className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-gray-600 font-medium">Apercu - Creez un lot pour voir vos donnees</span>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 opacity-60">
-            <div className="bg-white rounded-lg border p-3">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-500">Total oeufs</p>
-                <span className="text-xs flex items-center gap-1 text-green-600">
-                  <TrendingUp className="w-3 h-3" />
-                  +5.2%
-                </span>
-              </div>
-              <p className="text-xl lg:text-2xl font-bold text-gray-900">12,450</p>
-            </div>
-            <div className="bg-white rounded-lg border p-3">
-              <p className="text-sm text-gray-500">Taux moyen</p>
-              <p className="text-xl lg:text-2xl font-bold text-green-600">85.3%</p>
-            </div>
-            <div className="bg-white rounded-lg border p-3">
-              <p className="text-sm text-gray-500">Plateaux</p>
-              <p className="text-xl lg:text-2xl font-bold text-gray-900">415</p>
-            </div>
-            <div className="bg-white rounded-lg border p-3">
-              <p className="text-sm text-gray-500">Vendables</p>
-              <p className="text-xl lg:text-2xl font-bold text-green-600">12,180</p>
-            </div>
-            <div className="bg-white rounded-lg border p-3">
-              <p className="text-sm text-gray-500">Casses/Feles</p>
-              <p className="text-xl lg:text-2xl font-bold text-red-600">270</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Preview Chart */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg"></div>
-          <div className="bg-white rounded-lg border p-3 opacity-60">
-            <div className="flex items-center gap-2 mb-3">
-              <BarChart3 className="w-5 h-5 text-gray-400" />
-              <h3 className="font-semibold">Evolution de la production</h3>
-            </div>
-            <div className="h-48 lg:h-56 flex items-end justify-around gap-2 px-4">
-              {/* Fake bar chart visualization */}
-              {[65, 72, 68, 80, 85, 78, 82, 88, 84, 90, 86, 92].map((height, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div
-                    className="w-full bg-gradient-to-t from-orange-400 to-orange-300 rounded-t"
-                    style={{ height: `${height}%` }}
-                  ></div>
-                  <span className="text-[10px] text-gray-400">{i + 1}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-6 mt-3 text-xs text-gray-500">
-              <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 bg-orange-400 rounded"></div>
-                <span>Production journaliere</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 bg-green-400 rounded"></div>
-                <span>Taux de ponte</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Preview Table */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg"></div>
-          <div className="bg-white rounded-lg border opacity-60">
-            <div className="p-3 border-b flex items-center justify-between">
-              <h3 className="font-semibold">Historique detaille</h3>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="text-left p-3 font-medium text-gray-600">Date</th>
-                    <th className="text-left p-3 font-medium text-gray-600">Lot</th>
-                    <th className="text-right p-3 font-medium text-gray-600">Normaux</th>
-                    <th className="text-right p-3 font-medium text-gray-600">Feles</th>
-                    <th className="text-right p-3 font-medium text-gray-600">Total</th>
-                    <th className="text-right p-3 font-medium text-gray-600">Taux</th>
-                    <th className="text-center p-3 font-medium text-gray-600">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {[
-                    { date: '31/01/2026', lot: 'LOT-001', normal: 850, feles: 12, total: 862, taux: 86.2 },
-                    { date: '30/01/2026', lot: 'LOT-001', normal: 842, feles: 8, total: 850, taux: 85.0 },
-                    { date: '29/01/2026', lot: 'LOT-001', normal: 865, feles: 15, total: 880, taux: 88.0 },
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-gray-50">
-                      <td className="p-3 font-medium">{row.date}</td>
-                      <td className="p-3 text-orange-600">{row.lot}</td>
-                      <td className="p-3 text-right">{row.normal}</td>
-                      <td className="p-3 text-right text-red-600">{row.feles}</td>
-                      <td className="p-3 text-right font-medium">{row.total}</td>
-                      <td className="p-3 text-right">
-                        <span className="font-medium text-green-600">{row.taux}%</span>
-                      </td>
-                      <td className="p-3">
-                        <div className="flex items-center justify-center gap-1">
-                          <span className="p-1.5 text-gray-300"><Pencil className="w-4 h-4" /></span>
-                          <span className="p-1.5 text-gray-300"><Eye className="w-4 h-4" /></span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        {/* Tips */}
-        <div className="bg-orange-50 rounded-lg border border-orange-100 p-4">
-          <div className="flex gap-3">
-            <div className="flex-shrink-0">
-              <AlertCircle className="w-5 h-5 text-orange-500" />
-            </div>
-            <div>
-              <h3 className="font-medium text-orange-800 mb-1">Comment commencer ?</h3>
-              <p className="text-sm text-orange-700">
-                1. <Link href="/lots/new?type=layer" className="underline font-medium">Creez un lot pondeuses</Link> en selectionnant le type "Pondeuses"<br />
-                2. Une fois le lot actif, enregistrez la collecte quotidienne d'oeufs<br />
-                3. Suivez vos performances avec les graphiques et analyses automatiques
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+  // Handle add button click - check if there are layer lots first
+  const handleAddClick = () => {
+    if (!hasLayerLots) {
+      setShowNoLotsDialog(true)
+    } else if (hasActiveLayerLots) {
+      setShowAddMenu(!showAddMenu)
+    } else {
+      // Has lots but none active - show dialog too
+      setShowNoLotsDialog(true)
+    }
   }
 
   return (
@@ -369,89 +203,58 @@ export default function ProductionPage() {
 
         {/* Quick Add Button */}
         <div className="relative">
-          {hasActiveLayerLots ? (
-            <>
-              <button
-                onClick={() => setShowAddMenu(!showAddMenu)}
-                className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
-              >
-                <Plus className="w-5 h-5" />
-                Ajouter
-              </button>
+          <button
+            onClick={handleAddClick}
+            className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
+          >
+            <Plus className="w-5 h-5" />
+            Ajouter
+          </button>
 
-              {showAddMenu && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
-                  <div className="p-2 border-b">
-                    <p className="text-xs text-gray-500 font-medium">Choisir un lot actif</p>
-                  </div>
-                  {activeLayerLots.length > 5 && (
-                    <div className="p-2 border-b">
-                      <input
-                        type="text"
-                        placeholder="Rechercher un lot..."
-                        value={lotSearch}
-                        onChange={(e) => setLotSearch(e.target.value)}
-                        className="w-full px-3 py-1.5 border rounded-lg text-sm"
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </div>
-                  )}
-                  <div className="max-h-64 overflow-y-auto">
-                    {activeLayerLots.filter((lot: any) => {
-                      if (!lotSearch) return true
-                      const search = lotSearch.toLowerCase()
-                      return (
-                        lot.code?.toLowerCase().includes(search) ||
-                        lot.name?.toLowerCase().includes(search) ||
-                        lot.building_name?.toLowerCase().includes(search)
-                      )
-                    }).map((lot: any) => (
-                      <button
-                        key={lot.id}
-                        onClick={() => handleQuickAdd(lot.id)}
-                        className="w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center gap-2"
-                      >
-                        <Egg className="w-4 h-4 text-orange-500" />
-                        <div>
-                          <span className="text-sm font-medium">{lot.name || lot.code}</span>
-                          {lot.building_name && <span className="text-xs text-gray-400 ml-1">({lot.building_name})</span>}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
+          {showAddMenu && hasActiveLayerLots && (
+            <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
+              <div className="p-2 border-b">
+                <p className="text-xs text-gray-500 font-medium">Choisir un lot actif</p>
+              </div>
+              {activeLayerLots.length > 5 && (
+                <div className="p-2 border-b">
+                  <input
+                    type="text"
+                    placeholder="Rechercher un lot..."
+                    value={lotSearch}
+                    onChange={(e) => setLotSearch(e.target.value)}
+                    className="w-full px-3 py-1.5 border rounded-lg text-sm"
+                    onClick={(e) => e.stopPropagation()}
+                  />
                 </div>
               )}
-            </>
-          ) : (
-            <Link
-              href="/lots/new?type=layer"
-              className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
-            >
-              <Plus className="w-5 h-5" />
-              Creer un lot
-            </Link>
+              <div className="max-h-64 overflow-y-auto">
+                {activeLayerLots.filter((lot: any) => {
+                  if (!lotSearch) return true
+                  const search = lotSearch.toLowerCase()
+                  return (
+                    lot.code?.toLowerCase().includes(search) ||
+                    lot.name?.toLowerCase().includes(search) ||
+                    lot.building_name?.toLowerCase().includes(search)
+                  )
+                }).map((lot: any) => (
+                  <button
+                    key={lot.id}
+                    onClick={() => handleQuickAdd(lot.id)}
+                    className="w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center gap-2"
+                  >
+                    <Egg className="w-4 h-4 text-orange-500" />
+                    <div>
+                      <span className="text-sm font-medium">{lot.name || lot.code}</span>
+                      {lot.building_name && <span className="text-xs text-gray-400 ml-1">({lot.building_name})</span>}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
-
-      {/* Warning banner when no active lots */}
-      {hasLayerLots && !hasActiveLayerLots && (
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start sm:items-center gap-3">
-          <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5 sm:mt-0" />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm text-amber-800">
-              <strong>Aucun lot pondeuses actif.</strong>{' '}
-              <span className="hidden sm:inline">Vous avez {lots?.length} lot(s) pondeuses mais aucun n'est actif.</span>
-            </p>
-          </div>
-          <Link
-            href="/lots?type=layer"
-            className="flex-shrink-0 px-3 py-1.5 bg-amber-100 text-amber-700 rounded-lg text-sm font-medium hover:bg-amber-200 transition"
-          >
-            Gerer
-          </Link>
-        </div>
-      )}
 
       {/* Filters */}
       <div className="bg-white rounded-lg border p-3">
@@ -791,6 +594,57 @@ export default function ProductionPage() {
           className="fixed inset-0 z-40"
           onClick={() => setShowAddMenu(false)}
         />
+      )}
+
+      {/* Dialog when no layer lots */}
+      {showNoLotsDialog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-6">
+            <div className="flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mx-auto mb-4">
+              <Egg className="w-8 h-8 text-orange-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">
+              {!hasLayerLots ? 'Aucun lot pondeuses' : 'Aucun lot pondeuses actif'}
+            </h3>
+            <p className="text-gray-500 text-center mb-6">
+              {!hasLayerLots ? (
+                <>
+                  Pour enregistrer la production d'oeufs, vous devez d'abord creer un lot de type <strong>"Pondeuses"</strong>.
+                </>
+              ) : (
+                <>
+                  Vous avez {lots?.length} lot(s) pondeuses mais aucun n'est actif.
+                  Activez un lot existant ou creez-en un nouveau pour commencer la saisie.
+                </>
+              )}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setShowNoLotsDialog(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+              >
+                Annuler
+              </button>
+              {!hasLayerLots ? (
+                <Link
+                  href="/lots/new?type=layer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition"
+                >
+                  <Plus className="w-4 h-4" />
+                  Creer un lot pondeuses
+                </Link>
+              ) : (
+                <Link
+                  href="/lots?type=layer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition"
+                >
+                  Gerer mes lots
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
