@@ -34,7 +34,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
         {children}
-        <Toaster richColors position="top-right" />
+        <Toaster
+          richColors
+          position="top-right"
+          duration={5000}
+          toastOptions={{
+            error: {
+              duration: 8000, // Les erreurs restent 8 secondes
+            },
+          }}
+        />
       </ThemeProvider>
     </QueryClientProvider>
   )
