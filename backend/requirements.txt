@@ -3,9 +3,10 @@ fastapi
 uvicorn[standard]
 python-multipart
 
-# Database - SQLite pour le dev
+# Database
 sqlalchemy
-aiosqlite
+aiosqlite  # SQLite async (dev)
+psycopg2-binary  # PostgreSQL (production)
 alembic
 
 # Auth

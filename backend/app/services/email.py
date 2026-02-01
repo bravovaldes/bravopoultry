@@ -110,7 +110,6 @@ class EmailService:
         role: str
     ) -> bool:
         """Send an invitation email to join an organization."""
-        # Build the invitation link (frontend URL)
         frontend_url = settings.FRONTEND_URL.rstrip('/')
         invitation_link = f"{frontend_url}/accept-invitation?token={invitation_token}"
 
@@ -123,62 +122,77 @@ class EmailService:
         }
         role_label = role_labels.get(role, role)
 
-        subject = f"Invitation a rejoindre {organization_name} sur BravoPoultry"
+        subject = f"Invitation a rejoindre {organization_name} - BravoPoultry"
 
         html_content = f"""
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="utf-8">
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background: linear-gradient(135deg, #ea580c, #f97316); padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-                .header h1 {{ color: white; margin: 0; font-size: 24px; }}
-                .content {{ background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; }}
-                .button {{ display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 20px 0; }}
-                .button:hover {{ background: #c2410c; }}
-                .footer {{ text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }}
-                .role-badge {{ display: inline-block; background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; }}
-            </style>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>BravoPoultry</h1>
-                </div>
-                <div class="content">
-                    <h2>Vous etes invite!</h2>
-                    <p>Bonjour,</p>
-                    <p><strong>{inviter_name}</strong> vous invite a rejoindre <strong>{organization_name}</strong> sur BravoPoultry en tant que <span class="role-badge">{role_label}</span>.</p>
-                    <p>BravoPoultry est une plateforme de gestion avicole complete qui vous permet de suivre vos lots, la production, les ventes et bien plus encore.</p>
-                    <p style="text-align: center;">
-                        <a href="{invitation_link}" class="button">Accepter l'invitation</a>
-                    </p>
-                    <p style="color: #6b7280; font-size: 14px;">Ce lien expire dans 7 jours. Si vous n'avez pas demande cette invitation, vous pouvez ignorer cet email.</p>
-                </div>
-                <div class="footer">
-                    <p>&copy; 2024 BravoPoultry. Tous droits reserves.</p>
-                </div>
-            </div>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+                <tr>
+                    <td>
+                        <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">BravoPoultry</p>
+
+                        <h1 style="margin: 0 0 24px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">Vous etes invite a rejoindre une equipe</h1>
+
+                        <p style="margin: 0 0 16px 0;">Bonjour,</p>
+
+                        <p style="margin: 0 0 16px 0;"><strong>{inviter_name}</strong> vous invite a rejoindre <strong>{organization_name}</strong> sur BravoPoultry.</p>
+
+                        <p style="margin: 0 0 24px 0;">Votre role : <strong>{role_label}</strong></p>
+
+                        <table cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+                            <tr>
+                                <td style="background-color: #1a1a1a; border-radius: 6px;">
+                                    <a href="{invitation_link}" style="display: inline-block; padding: 12px 24px; color: #ffffff; text-decoration: none; font-weight: 500;">Accepter l'invitation</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">Ce lien expire dans 7 jours.</p>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">Si vous n'attendiez pas cette invitation, vous pouvez ignorer cet email.</p>
+
+                        <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0;">
+
+                        <p style="margin: 0 0 8px 0; font-size: 12px; color: #999999;">Si le bouton ne fonctionne pas, copiez ce lien:</p>
+                        <p style="margin: 0; font-size: 12px; color: #999999; word-break: break-all;">{invitation_link}</p>
+
+                        <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0;">
+
+                        <p style="margin: 0; font-size: 12px; color: #999999;">&copy; 2026 BravoPoultry</p>
+                    </td>
+                </tr>
+            </table>
         </body>
         </html>
         """
 
         text_content = f"""
-        Invitation a rejoindre {organization_name}
+BravoPoultry
 
-        Bonjour,
+Vous etes invite a rejoindre une equipe
 
-        {inviter_name} vous invite a rejoindre {organization_name} sur BravoPoultry en tant que {role_label}.
+Bonjour,
 
-        Pour accepter l'invitation, cliquez sur le lien suivant:
-        {invitation_link}
+{inviter_name} vous invite a rejoindre {organization_name} sur BravoPoultry.
 
-        Ce lien expire dans 7 jours.
+Votre role : {role_label}
 
-        ---
-        BravoPoultry - Gestion Avicole
+Pour accepter l'invitation, cliquez sur le lien ci-dessous:
+
+{invitation_link}
+
+Ce lien expire dans 7 jours.
+
+Si vous n'attendiez pas cette invitation, vous pouvez ignorer cet email.
+
+---
+© 2026 BravoPoultry
         """
 
         return self.send_email(to_email, subject, html_content, text_content)
@@ -209,69 +223,74 @@ class EmailService:
         <html>
         <head>
             <meta charset="utf-8">
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background: linear-gradient(135deg, #16a34a, #22c55e); padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-                .header h1 {{ color: white; margin: 0; font-size: 24px; }}
-                .content {{ background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; }}
-                .invoice-info {{ background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e5e7eb; }}
-                .amount {{ font-size: 24px; font-weight: bold; color: #16a34a; }}
-                .status {{ display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 14px; }}
-                .status-paid {{ background: #dcfce7; color: #16a34a; }}
-                .status-pending {{ background: #fef3c7; color: #92400e; }}
-                .status-partial {{ background: #dbeafe; color: #1d4ed8; }}
-                .status-overdue {{ background: #fee2e2; color: #dc2626; }}
-                .footer {{ text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }}
-            </style>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>{organization_name}</h1>
-                </div>
-                <div class="content">
-                    <h2>Votre facture</h2>
-                    <p>Bonjour {client_name},</p>
-                    <p>Veuillez trouver ci-joint votre facture <strong>{invoice_number}</strong>.</p>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+                <tr>
+                    <td>
+                        <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">{organization_name}</p>
 
-                    <div class="invoice-info">
-                        <p><strong>Numero de facture:</strong> {invoice_number}</p>
-                        <p><strong>Montant total:</strong> <span class="amount">{total_amount}</span></p>
-                        <p><strong>Statut:</strong> <span class="status status-{payment_status}">{status_label}</span></p>
-                    </div>
+                        <h1 style="margin: 0 0 24px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">Votre facture {invoice_number}</h1>
 
-                    <p>Le document PDF est joint a cet email.</p>
+                        <p style="margin: 0 0 16px 0;">Bonjour {client_name},</p>
 
-                    <p>Pour toute question concernant cette facture, n'hesitez pas a nous contacter.</p>
+                        <p style="margin: 0 0 24px 0;">Veuillez trouver ci-joint votre facture.</p>
 
-                    <p>Cordialement,<br/>L'equipe {organization_name}</p>
-                </div>
-                <div class="footer">
-                    <p>&copy; 2024 {organization_name}. Tous droits reserves.</p>
-                </div>
-            </div>
+                        <table cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0; width: 100%; border: 1px solid #e5e5e5; border-radius: 6px;">
+                            <tr>
+                                <td style="padding: 16px;">
+                                    <p style="margin: 0 0 8px 0; font-size: 14px; color: #666666;">Numero de facture</p>
+                                    <p style="margin: 0; font-weight: 600;">{invoice_number}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 16px; border-top: 1px solid #e5e5e5;">
+                                    <p style="margin: 0 0 8px 0; font-size: 14px; color: #666666;">Montant total</p>
+                                    <p style="margin: 0; font-weight: 600; font-size: 20px;">{total_amount}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 16px; border-top: 1px solid #e5e5e5;">
+                                    <p style="margin: 0 0 8px 0; font-size: 14px; color: #666666;">Statut</p>
+                                    <p style="margin: 0; font-weight: 500;">{status_label}</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">Le document PDF est joint a cet email.</p>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">Pour toute question concernant cette facture, n'hesitez pas a nous contacter.</p>
+
+                        <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0;">
+
+                        <p style="margin: 0; font-size: 12px; color: #999999;">&copy; 2026 {organization_name}</p>
+                    </td>
+                </tr>
+            </table>
         </body>
         </html>
         """
 
         text_content = f"""
-        Facture {invoice_number} - {organization_name}
+{organization_name}
 
-        Bonjour {client_name},
+Votre facture {invoice_number}
 
-        Veuillez trouver ci-joint votre facture {invoice_number}.
+Bonjour {client_name},
 
-        Numero de facture: {invoice_number}
-        Montant total: {total_amount}
-        Statut: {status_label}
+Veuillez trouver ci-joint votre facture.
 
-        Le document PDF est joint a cet email.
+Numero de facture: {invoice_number}
+Montant total: {total_amount}
+Statut: {status_label}
 
-        Pour toute question concernant cette facture, n'hesitez pas a nous contacter.
+Le document PDF est joint a cet email.
 
-        Cordialement,
-        L'equipe {organization_name}
+Pour toute question concernant cette facture, n'hesitez pas a nous contacter.
+
+---
+© 2026 {organization_name}
         """
 
         attachments = [
@@ -301,59 +320,64 @@ class EmailService:
         <html>
         <head>
             <meta charset="utf-8">
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background: linear-gradient(135deg, #ea580c, #f97316); padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-                .header h1 {{ color: white; margin: 0; font-size: 24px; }}
-                .content {{ background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; }}
-                .button {{ display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 20px 0; }}
-                .button:hover {{ background: #c2410c; }}
-                .footer {{ text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }}
-                .code {{ background: #f3f4f6; padding: 15px 25px; border-radius: 8px; font-family: monospace; font-size: 18px; letter-spacing: 2px; display: inline-block; margin: 15px 0; }}
-            </style>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>BravoPoultry</h1>
-                </div>
-                <div class="content">
-                    <h2>Bienvenue sur BravoPoultry!</h2>
-                    <p>Bonjour {user_name},</p>
-                    <p>Merci de vous etre inscrit sur BravoPoultry. Pour activer votre compte et acceder a toutes les fonctionnalites, veuillez verifier votre adresse email en cliquant sur le bouton ci-dessous:</p>
-                    <p style="text-align: center;">
-                        <a href="{verification_link}" class="button">Verifier mon email</a>
-                    </p>
-                    <p style="color: #6b7280; font-size: 14px;">Ou copiez ce lien dans votre navigateur:</p>
-                    <p style="word-break: break-all; color: #6b7280; font-size: 12px;">{verification_link}</p>
-                    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
-                    <p style="color: #6b7280; font-size: 14px;">Ce lien expire dans 24 heures. Si vous n'avez pas cree de compte sur BravoPoultry, vous pouvez ignorer cet email.</p>
-                </div>
-                <div class="footer">
-                    <p>&copy; 2024 BravoPoultry. Tous droits reserves.</p>
-                    <p>La plateforme de gestion avicole la plus complete</p>
-                </div>
-            </div>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+                <tr>
+                    <td>
+                        <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">BravoPoultry</p>
+
+                        <h1 style="margin: 0 0 24px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">Bienvenue sur BravoPoultry</h1>
+
+                        <p style="margin: 0 0 16px 0;">Bonjour {user_name},</p>
+
+                        <p style="margin: 0 0 24px 0;">Merci de vous etre inscrit. Pour activer votre compte, veuillez verifier votre adresse email en cliquant sur le bouton ci-dessous.</p>
+
+                        <table cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+                            <tr>
+                                <td style="background-color: #1a1a1a; border-radius: 6px;">
+                                    <a href="{verification_link}" style="display: inline-block; padding: 12px 24px; color: #ffffff; text-decoration: none; font-weight: 500;">Verifier mon email</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">Ce lien expire dans 24 heures.</p>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">Si vous n'avez pas cree de compte sur BravoPoultry, vous pouvez ignorer cet email.</p>
+
+                        <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0;">
+
+                        <p style="margin: 0 0 8px 0; font-size: 12px; color: #999999;">Si le bouton ne fonctionne pas, copiez ce lien:</p>
+                        <p style="margin: 0; font-size: 12px; color: #999999; word-break: break-all;">{verification_link}</p>
+
+                        <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0;">
+
+                        <p style="margin: 0; font-size: 12px; color: #999999;">&copy; 2026 BravoPoultry</p>
+                    </td>
+                </tr>
+            </table>
         </body>
         </html>
         """
 
         text_content = f"""
-        Bienvenue sur BravoPoultry!
+BravoPoultry
 
-        Bonjour {user_name},
+Bienvenue sur BravoPoultry
 
-        Merci de vous etre inscrit sur BravoPoultry. Pour activer votre compte, veuillez verifier votre adresse email en cliquant sur le lien suivant:
+Bonjour {user_name},
 
-        {verification_link}
+Merci de vous etre inscrit. Pour activer votre compte, veuillez verifier votre adresse email en cliquant sur le lien suivant:
 
-        Ce lien expire dans 24 heures.
+{verification_link}
 
-        Si vous n'avez pas cree de compte sur BravoPoultry, vous pouvez ignorer cet email.
+Ce lien expire dans 24 heures.
 
-        ---
-        BravoPoultry - La plateforme de gestion avicole la plus complete
+Si vous n'avez pas cree de compte sur BravoPoultry, vous pouvez ignorer cet email.
+
+---
+© 2026 BravoPoultry
         """
 
         return self.send_email(to_email, subject, html_content, text_content)

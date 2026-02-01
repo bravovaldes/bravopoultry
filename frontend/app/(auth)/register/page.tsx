@@ -434,7 +434,9 @@ export default function RegisterPage() {
 
             <p className="text-xs text-gray-500 text-center">
               En creant un compte, vous acceptez nos{' '}
-              <Link href="/terms" className="text-orange-600 hover:underline">conditions d'utilisation</Link>
+              <Link href="/terms" className="text-orange-600 hover:underline">Conditions d'utilisation</Link>
+              {' '}et notre{' '}
+              <Link href="/privacy" className="text-orange-600 hover:underline">Politique de confidentialite</Link>
             </p>
           </form>
 

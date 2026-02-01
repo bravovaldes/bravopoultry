@@ -540,6 +540,45 @@ function SecuritySettings({ onSave }: { onSave: () => void }) {
           </div>
         </div>
       </div>
+
+      {/* Legal */}
+      <div className="bg-white rounded-xl border">
+        <div className="p-6 border-b">
+          <h2 className="text-lg font-semibold">Informations legales</h2>
+          <p className="text-sm text-gray-500">Conditions et confidentialite</p>
+        </div>
+
+        <div className="p-6 space-y-3">
+          <a
+            href="/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+          >
+            <div>
+              <p className="font-medium text-gray-900">Conditions d'utilisation</p>
+              <p className="text-sm text-gray-500">Regles d'utilisation de la plateforme</p>
+            </div>
+            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+          <a
+            href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+          >
+            <div>
+              <p className="font-medium text-gray-900">Politique de confidentialite</p>
+              <p className="text-sm text-gray-500">Comment nous protegeons vos donnees</p>
+            </div>
+            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
   )
 }
