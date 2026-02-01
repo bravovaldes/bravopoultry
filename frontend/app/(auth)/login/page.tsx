@@ -97,7 +97,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left side - Features & Branding (hidden on mobile) */}
       <div className="hidden lg:flex lg:w-1/2 bg-orange-50 p-12 flex-col justify-between">
         <div>
@@ -161,8 +161,8 @@ export default function LoginPage() {
       </div>
 
       {/* Right side - Form */}
-      <div className="flex-1 flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex items-center justify-center bg-white min-h-screen lg:min-h-0 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-3 mb-6 lg:hidden">
               <Image
