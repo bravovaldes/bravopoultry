@@ -22,6 +22,7 @@ import { toast } from 'sonner'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 interface Lot {
   id: string
@@ -70,6 +71,9 @@ export default function BuildingDetailPage() {
   const queryClient = useQueryClient()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [lotToDelete, setLotToDelete] = useState<string | null>(null)
+
+  // Lock body scroll when modal is open
+  useBodyScrollLock(showDeleteConfirm)
 
   const buildingId = params.id as string
 

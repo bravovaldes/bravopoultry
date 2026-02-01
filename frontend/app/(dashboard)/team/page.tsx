@@ -27,6 +27,7 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import { cn, formatDate } from '@/lib/utils'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 const ROLES = [
   { value: 'owner', label: 'Proprietaire', color: 'bg-purple-100 text-purple-700', icon: Crown },
@@ -43,6 +44,9 @@ export default function TeamPage() {
   const [selectedUser, setSelectedUser] = useState<any>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedRole, setSelectedRole] = useState<string>('all')
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddModal || showEditModal)
 
   // Fetch team members
   const { data: users, isLoading } = useQuery({

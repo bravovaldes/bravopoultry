@@ -25,6 +25,7 @@ import {
   PackagePlus,
 } from 'lucide-react'
 import { cn, formatNumber } from '@/lib/utils'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   LineChart,
   Line,
@@ -85,6 +86,9 @@ export default function MonitoringPage() {
   const [showRestockModal, setShowRestockModal] = useState(false)
   const [showLightProgramModal, setShowLightProgramModal] = useState(false)
   const [lotSearch, setLotSearch] = useState('')
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddFeedModal || showRestockModal || showLightProgramModal)
 
   // Fetch sites
   const { data: sites } = useQuery({

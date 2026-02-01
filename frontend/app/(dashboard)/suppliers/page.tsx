@@ -23,6 +23,7 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import { cn, formatCurrency } from '@/lib/utils'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 const SUPPLIER_TYPES = [
   { value: 'feed', label: 'Aliment', icon: Wheat, color: 'bg-amber-100 text-amber-700' },
@@ -39,6 +40,9 @@ export default function SuppliersPage() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingSupplier, setEditingSupplier] = useState<any>(null)
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddModal || showEditModal)
 
   // Fetch suppliers
   const { data: suppliers, isLoading } = useQuery({

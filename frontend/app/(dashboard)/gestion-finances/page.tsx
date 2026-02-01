@@ -35,6 +35,7 @@ import {
 } from 'lucide-react'
 import { cn, formatCurrency, formatCurrencyCompact, formatDate, safeNumber, roundDecimal } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   BarChart,
   Bar,
@@ -98,6 +99,9 @@ export default function GestionFinancesPage() {
   const [showAddTransactionModal, setShowAddTransactionModal] = useState(false)
   const [showAddSupplierModal, setShowAddSupplierModal] = useState(false)
   const [showAllTransactions, setShowAllTransactions] = useState(false)
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddExpenseModal || showAddTransactionModal || showAddSupplierModal)
 
   const { startDate, endDate } = getDateRangeFromPeriod(period)
 

@@ -28,6 +28,7 @@ import {
 } from 'lucide-react'
 import { cn, formatDate, formatCurrency } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 type ReportType = 'production' | 'financial' | 'inventory' | 'lot' | 'site'
 
@@ -121,6 +122,9 @@ export default function ReportsPage() {
   const [selectedReport, setSelectedReport] = useState<ReportConfig | null>(null)
   const [showPreview, setShowPreview] = useState(false)
   const [previewData, setPreviewData] = useState<any>(null)
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showGenerateModal || showPreview)
 
   // Fetch sites
   const { data: sites } = useQuery({

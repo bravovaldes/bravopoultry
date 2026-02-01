@@ -31,6 +31,7 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import { cn, formatNumber, formatDate } from '@/lib/utils'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import type { LucideIcon } from 'lucide-react'
 import {
   BarChart,
@@ -67,6 +68,9 @@ export default function StockPage() {
   const [filterType, setFilterType] = useState('all')
   const [filterLocation, setFilterLocation] = useState('all')
   const [filterSite, setFilterSite] = useState('all')
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showRestockModal || showAlertModal)
 
   // Fetch sites
   const { data: sites = [] } = useQuery({

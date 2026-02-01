@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 const ORDER_STATUS = [
   { value: 'pending', label: 'En attente', icon: Clock, color: 'bg-yellow-100 text-yellow-700' },
@@ -118,6 +119,9 @@ export default function PurchasesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [showAddModal, setShowAddModal] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
+
+  // Lock body scroll when modal is open
+  useBodyScrollLock(showAddModal)
 
   // Fetch suppliers for dropdown
   const { data: suppliers } = useQuery({

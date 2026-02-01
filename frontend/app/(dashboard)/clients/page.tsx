@@ -23,6 +23,7 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import { cn, formatDate, formatCurrency } from '@/lib/utils'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 const CLIENT_TYPES = [
   { value: 'individual', label: 'Particulier', color: 'bg-blue-100 text-blue-700' },
@@ -41,6 +42,9 @@ export default function ClientsPage() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [selectedClient, setSelectedClient] = useState<any>(null)
   const [editingClient, setEditingClient] = useState<any>(null)
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddModal || showDetailModal || showEditModal)
 
   // Fetch clients
   const { data: clients, isLoading } = useQuery({

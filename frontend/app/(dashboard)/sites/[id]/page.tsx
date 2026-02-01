@@ -18,6 +18,7 @@ import {
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 interface Building {
   id: string
@@ -55,6 +56,9 @@ export default function SiteDetailPage() {
   const { user } = useAuthStore()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [buildingToDelete, setBuildingToDelete] = useState<string | null>(null)
+
+  // Lock body scroll when modal is open
+  useBodyScrollLock(showDeleteConfirm)
 
   const siteId = params.id as string
 

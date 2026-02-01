@@ -28,6 +28,7 @@ import {
   Loader2,
 } from 'lucide-react'
 import { cn, formatCurrency, formatDate, safeNumber, roundDecimal, multiply } from '@/lib/utils'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   BarChart,
   Bar,
@@ -83,6 +84,9 @@ export default function CommercialPage() {
   const [showAddClientModal, setShowAddClientModal] = useState(false)
   const [selectedClient, setSelectedClient] = useState<any>(null)
   const [selectedClientIdForSale, setSelectedClientIdForSale] = useState<string>('')
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddSaleModal || showAddClientModal)
 
   const { startDate, endDate } = getDateRangeFromPeriod(period)
 

@@ -20,6 +20,7 @@ import {
 import { cn, formatDate, getTodayInTimezone } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
 import { useTimezone } from '@/lib/store'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   LineChart,
   Line,
@@ -42,6 +43,9 @@ export default function EnvironmentPage() {
   const [selectedBuildingId, setSelectedBuildingId] = useState<string>('all')
   const [showAddModal, setShowAddModal] = useState(false)
   const [showLightModal, setShowLightModal] = useState(false)
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddModal || showLightModal)
 
   // Fetch sites
   const { data: sites } = useQuery({

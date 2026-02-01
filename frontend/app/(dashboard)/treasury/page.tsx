@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { cn, formatCurrency, formatDate, safeNumber, multiply } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   LineChart,
   Line,
@@ -92,6 +93,9 @@ export default function TreasuryPage() {
   const [selectedAccount, setSelectedAccount] = useState('all')
   const [showAddModal, setShowAddModal] = useState(false)
   const [currentMonth, setCurrentMonth] = useState(new Date())
+
+  // Lock body scroll when modal is open
+  useBodyScrollLock(showAddModal)
 
   // Get date range for current month
   const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString().split('T')[0]

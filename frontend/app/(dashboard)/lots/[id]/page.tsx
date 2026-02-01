@@ -40,6 +40,7 @@ import { toast } from 'sonner'
 import { useState } from 'react'
 import { cn, formatDate } from '@/lib/utils'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 interface LotStats {
   total_mortality: number
@@ -112,6 +113,9 @@ export default function BandeDetailPage() {
   const [distributeExpenses, setDistributeExpenses] = useState(true)
   const [splitSiteFilter, setSplitSiteFilter] = useState<string>('')
   const [splitBuildingSearch, setSplitBuildingSearch] = useState<string>('')
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showDeleteConfirm || showCloseConfirm || showSplitModal)
 
   const lotId = params.id as string
 

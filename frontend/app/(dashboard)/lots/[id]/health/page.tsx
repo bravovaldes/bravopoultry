@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { cn, formatDate } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   HEALTH_EVENT_TYPES,
   ADMINISTRATION_ROUTES,
@@ -29,6 +30,9 @@ export default function HealthPage() {
   const [activeTab, setActiveTab] = useState<TabType>('calendar')
   const [showForm, setShowForm] = useState(false)
   const [formType, setFormType] = useState<string>('')
+
+  // Lock body scroll when form modal is open
+  useBodyScrollLock(showForm)
 
   const { data: lot, isLoading: lotLoading } = useQuery({
     queryKey: ['lot', lotId],

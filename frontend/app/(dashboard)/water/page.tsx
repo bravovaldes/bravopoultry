@@ -18,6 +18,7 @@ import {
 import { cn, formatDate, getTodayInTimezone } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
 import { useTimezone } from '@/lib/store'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   LineChart,
   Line,
@@ -41,6 +42,9 @@ export default function WaterPage() {
   const [selectedSiteId, setSelectedSiteId] = useState<string>('all')
   const [selectedLotId, setSelectedLotId] = useState<string>('all')
   const [showAddModal, setShowAddModal] = useState(false)
+
+  // Lock body scroll when modal is open
+  useBodyScrollLock(showAddModal)
 
   // Fetch sites
   const { data: sites } = useQuery({

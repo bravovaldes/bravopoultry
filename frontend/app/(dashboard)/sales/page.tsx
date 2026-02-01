@@ -26,6 +26,7 @@ import {
 import { openInvoiceWindow, createSaleInvoiceData } from '@/lib/invoice-generator'
 import { cn, formatDate, formatCurrency, formatCurrencyCompact, safeNumber, roundDecimal, multiply } from '@/lib/utils'
 import { DatePicker, DatePickerCompact } from '@/components/ui/date-picker'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 import {
   LineChart,
   Line,
@@ -82,6 +83,9 @@ export default function SalesPage() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingSale, setEditingSale] = useState<any>(null)
+
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showAddModal || showEditModal)
 
   // Fetch sites
   const { data: sites } = useQuery({
