@@ -47,26 +47,38 @@ def update_lot_stats(db: Session, lot_id: UUID) -> None:
     if not stats:
         stats = LotStats(lot_id=lot_id)
         db.add(stats)
+        db.flush()
 
-    # Mortality stats
+    # Mortality stats - recalculate current_quantity from initial - total mortality
     mortality_sum = db.query(func.coalesce(func.sum(Mortality.quantity), 0)).filter(
         Mortality.lot_id == lot_id
     ).scalar()
-    stats.total_mortality = mortality_sum
+    stats.total_mortality = int(mortality_sum)
+
+    # Recalculate current_quantity based on mortality
+    lot.current_quantity = lot.initial_quantity - int(mortality_sum)
+    if lot.current_quantity < 0:
+        lot.current_quantity = 0
+
     if lot.initial_quantity and lot.initial_quantity > 0:
-        stats.mortality_rate = (mortality_sum / lot.initial_quantity) * 100
+        stats.mortality_rate = (float(mortality_sum) / float(lot.initial_quantity)) * 100
+    else:
+        stats.mortality_rate = 0
 
     # Egg stats (for layers)
-    if lot.type and lot.type.value == "layer":
+    lot_type_str = lot.type.value if lot.type else None
+    if lot_type_str == "layer":
         egg_totals = db.query(
             func.coalesce(func.sum(EggProduction.total_eggs), 0),
             func.coalesce(func.avg(EggProduction.laying_rate), 0),
             func.coalesce(func.max(EggProduction.laying_rate), 0)  # Peak laying rate
         ).filter(EggProduction.lot_id == lot_id).first()
 
-        stats.total_eggs = egg_totals[0] if egg_totals else 0
-        stats.average_laying_rate = egg_totals[1] if egg_totals else 0
-        stats.peak_laying_rate = egg_totals[2] if egg_totals else 0
+        stats.total_eggs = int(egg_totals[0]) if egg_totals else 0
+        stats.average_laying_rate = float(egg_totals[1]) if egg_totals else 0
+        stats.peak_laying_rate = float(egg_totals[2]) if egg_totals else 0
+
+        logger.info(f"[STATS] Lot {lot.code}: total_eggs={stats.total_eggs}, avg_rate={stats.average_laying_rate}, peak={stats.peak_laying_rate}")
 
     # Weight stats (for broilers)
     latest_weight = db.query(WeightRecord).filter(
@@ -80,10 +92,10 @@ def update_lot_stats(db: Session, lot_id: UUID) -> None:
     feed_sum = db.query(func.coalesce(func.sum(FeedConsumption.quantity_kg), 0)).filter(
         FeedConsumption.lot_id == lot_id
     ).scalar()
-    stats.total_feed_kg = feed_sum
+    stats.total_feed_kg = float(feed_sum)
 
     # Calculate FCR for broilers
-    if lot.type and lot.type.value == "broiler" and stats.current_weight_g and lot.current_quantity:
+    if lot_type_str == "broiler" and stats.current_weight_g and lot.current_quantity:
         total_weight_kg = (float(stats.current_weight_g) / 1000) * lot.current_quantity
         if total_weight_kg > 0 and feed_sum > 0:
             stats.feed_conversion_ratio = float(feed_sum) / total_weight_kg
@@ -96,11 +108,15 @@ def update_lot_stats(db: Session, lot_id: UUID) -> None:
         Expense.lot_id == lot_id
     ).scalar()
 
-    stats.total_sales = sales_sum
-    stats.total_expenses = expenses_sum
-    stats.gross_margin = sales_sum - expenses_sum
+    stats.total_sales = float(sales_sum)
+    stats.total_expenses = float(expenses_sum)
+    stats.gross_margin = float(sales_sum) - float(expenses_sum)
 
     db.commit()
+
+    # Refresh the stats object to ensure we have the latest data
+    db.refresh(stats)
+    db.refresh(lot)
 
 
 @router.get("", response_model=List[LotSummary])
@@ -232,7 +248,12 @@ async def get_lot(
     db: Session = Depends(get_db)
 ):
     """Get a specific lot with stats."""
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
+    from sqlalchemy.orm import joinedload
+
+    # Use joinedload to eagerly load stats in one query
+    lot = db.query(Lot).options(joinedload(Lot.stats)).filter(
+        Lot.id == lot_id, Lot.status != LotStatus.DELETED
+    ).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -241,6 +262,11 @@ async def get_lot(
         site = lot.building.site
         if str(site.organization_id) != str(current_user.organization_id):
             raise HTTPException(status_code=403, detail="Not authorized")
+
+    # Force refresh to ensure we have the latest data
+    db.refresh(lot)
+    if lot.stats:
+        db.refresh(lot.stats)
 
     response = LotResponse.model_validate(lot)
     response.age_days = lot.age_days
@@ -619,8 +645,28 @@ async def update_daily_entry(
             )
             db.add(weight)
 
-    # Note: Mortality is not updated here - we don't modify past mortality records
-    # as it would mess up the current_quantity tracking
+    # Update mortality - now safe because update_lot_stats recalculates current_quantity
+    if entry.mortality_count is not None:
+        existing_mortality = db.query(Mortality).filter(
+            Mortality.lot_id == lot_id,
+            Mortality.date == entry.date
+        ).first()
+
+        if existing_mortality:
+            # Update existing mortality record
+            existing_mortality.quantity = entry.mortality_count
+            if entry.mortality_cause:
+                existing_mortality.cause = entry.mortality_cause
+        elif entry.mortality_count > 0:
+            # Create new mortality record only if count > 0
+            mortality = Mortality(
+                lot_id=lot_id,
+                date=entry.date,
+                quantity=entry.mortality_count,
+                cause=entry.mortality_cause or "Non specifie",
+                recorded_by=current_user.id
+            )
+            db.add(mortality)
 
     db.commit()
     update_lot_stats(db, lot_id)

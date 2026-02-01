@@ -98,7 +98,7 @@ export default function DailyEntryPage() {
     }
 
     if (existingEntry?.exists) {
-      const { eggs, feed, water, weight } = existingEntry.data
+      const { eggs, feed, water, weight, mortality } = existingEntry.data
       setFormData(prev => ({
         ...prev,
         eggs_normal: eggs?.eggs_normal?.toString() || '',
@@ -111,7 +111,9 @@ export default function DailyEntryPage() {
         water_liters: water?.liters ? String(roundDecimal(safeNumber(water.liters), 2)) : '',
         average_weight_g: weight?.average_weight_g ? String(roundDecimal(safeNumber(weight.average_weight_g), 2)) : '',
         sample_size: weight?.sample_size?.toString() || '',
-        // Note: don't load mortality - it's cumulative
+        // Load mortality for editing - backend now supports mortality updates
+        mortality_count: mortality?.count?.toString() || '',
+        mortality_cause: mortality?.cause || 'unknown',
       }))
       setIsEditMode(true)
       dataLoadedRef.current = true  // Mark as loaded
