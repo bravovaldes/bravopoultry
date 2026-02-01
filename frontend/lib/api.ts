@@ -29,13 +29,19 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
+      // Token expired or invalid - but NOT on login page (login returns 401 for bad credentials)
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('token')
-        sessionStorage.removeItem('token')
-        localStorage.removeItem('auth-storage')
-        sessionStorage.removeItem('auth-storage')
-        window.location.href = '/login'
+        const isLoginPage = window.location.pathname === '/login'
+        const isAuthEndpoint = error.config?.url?.includes('/auth/login')
+
+        // Only redirect if not already on login page and not a login attempt
+        if (!isLoginPage && !isAuthEndpoint) {
+          localStorage.removeItem('token')
+          sessionStorage.removeItem('token')
+          localStorage.removeItem('auth-storage')
+          sessionStorage.removeItem('auth-storage')
+          window.location.href = '/login'
+        }
       }
     }
     return Promise.reject(error)
