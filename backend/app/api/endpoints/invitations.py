@@ -21,7 +21,7 @@ from app.services.email import email_service
 router = APIRouter()
 
 
-@router.post("/", response_model=InvitationResponse)
+@router.post("", response_model=InvitationResponse)
 async def create_invitation(
     invitation_data: InvitationCreate,
     current_user: User = Depends(get_current_user),
@@ -121,7 +121,7 @@ async def create_invitation(
     )
 
 
-@router.get("/", response_model=List[InvitationResponse])
+@router.get("", response_model=List[InvitationResponse])
 async def get_invitations(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)

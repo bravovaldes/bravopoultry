@@ -103,7 +103,7 @@ def update_lot_stats(db: Session, lot_id: UUID) -> None:
     db.commit()
 
 
-@router.get("/", response_model=List[LotSummary])
+@router.get("", response_model=List[LotSummary])
 async def get_lots(
     site_id: Optional[UUID] = None,
     building_id: Optional[UUID] = None,
@@ -170,7 +170,7 @@ async def get_lots(
     return result
 
 
-@router.post("/", response_model=LotResponse)
+@router.post("", response_model=LotResponse)
 async def create_lot(
     lot_data: LotCreate,
     current_user: User = Depends(get_current_user),

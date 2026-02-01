@@ -119,7 +119,7 @@ async def get_eggs_stock(
     return result
 
 
-@router.get("/", response_model=List[SaleResponse])
+@router.get("", response_model=List[SaleResponse])
 async def get_sales(
     lot_id: Optional[UUID] = None,
     site_id: Optional[UUID] = None,
@@ -189,7 +189,7 @@ async def get_sales(
     return result
 
 
-@router.post("/", response_model=SaleResponse)
+@router.post("", response_model=SaleResponse)
 async def create_sale(
     data: SaleCreate,
     current_user: User = Depends(get_current_user),

@@ -91,7 +91,7 @@ def build_building_response(
     return data
 
 
-@router.get("/", response_model=List[BuildingResponse])
+@router.get("", response_model=List[BuildingResponse])
 async def get_buildings(
     site_id: UUID = None,
     current_user: User = Depends(get_current_user),
@@ -134,7 +134,7 @@ async def get_buildings(
     ]
 
 
-@router.post("/", response_model=BuildingResponse)
+@router.post("", response_model=BuildingResponse)
 async def create_building(
     building_data: BuildingCreate,
     current_user: User = Depends(get_current_user),

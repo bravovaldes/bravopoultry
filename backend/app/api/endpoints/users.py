@@ -11,7 +11,7 @@ from app.schemas.user import UserResponse, UserUpdate, PasswordChange
 router = APIRouter()
 
 
-@router.get("/", response_model=List[UserResponse])
+@router.get("", response_model=List[UserResponse])
 async def get_users(
     skip: int = 0,
     limit: int = 100,

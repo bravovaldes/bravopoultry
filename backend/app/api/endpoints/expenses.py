@@ -16,7 +16,7 @@ from app.core.permissions import Permission, has_permission
 router = APIRouter()
 
 
-@router.get("/", response_model=List[ExpenseResponse])
+@router.get("", response_model=List[ExpenseResponse])
 async def get_expenses(
     lot_id: Optional[UUID] = None,
     site_id: Optional[UUID] = None,
@@ -78,7 +78,7 @@ async def get_expenses(
     return result
 
 
-@router.post("/", response_model=ExpenseResponse)
+@router.post("", response_model=ExpenseResponse)
 async def create_expense(
     data: ExpenseCreate,
     current_user: User = Depends(get_current_user),

@@ -23,7 +23,7 @@ async def get_current_organization(
     return OrganizationResponse.model_validate(org)
 
 
-@router.post("/", response_model=OrganizationResponse)
+@router.post("", response_model=OrganizationResponse)
 async def create_organization(
     org_data: OrganizationCreate,
     current_user: User = Depends(get_current_user),

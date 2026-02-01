@@ -14,7 +14,7 @@ from app.schemas.site import SiteCreate, SiteUpdate, SiteResponse, SiteWithStats
 router = APIRouter()
 
 
-@router.get("/", response_model=List[SiteResponse])
+@router.get("", response_model=List[SiteResponse])
 async def get_sites(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -84,7 +84,7 @@ async def get_sites(
     return result
 
 
-@router.post("/", response_model=SiteResponse)
+@router.post("", response_model=SiteResponse)
 async def create_site(
     site_data: SiteCreate,
     current_user: User = Depends(get_current_user),
