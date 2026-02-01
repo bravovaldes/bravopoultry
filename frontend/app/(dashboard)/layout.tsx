@@ -24,7 +24,6 @@ import {
   Brain,
   BookOpen,
   Bird,
-  Headset,
   Mail,
   Phone,
 } from 'lucide-react'

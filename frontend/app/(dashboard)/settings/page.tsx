@@ -17,7 +17,7 @@ import {
   CheckCircle,
   AlertCircle,
   Globe,
-  Headset,
+  Headphones,
   Mail,
   Phone,
 } from 'lucide-react'
@@ -588,7 +588,7 @@ function SecuritySettings({ onSave }: { onSave: () => void }) {
         <div className="p-6 border-b">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-orange-100 rounded-lg">
-              <Headset className="w-5 h-5 text-orange-600" />
+              <Headphones className="w-5 h-5 text-orange-600" />
             </div>
             <div>
               <h2 className="text-lg font-semibold">Service a la clientele</h2>
