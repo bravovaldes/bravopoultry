@@ -357,14 +357,19 @@ async def get_stock_stats(
 
     # Get consumption in last 7 days with SQL aggregation
     seven_days_ago = date.today() - timedelta(days=7)
-    consumption_sum = db.query(
-        func.coalesce(func.sum(FeedConsumption.quantity_kg), 0)
+
+    # Get both sum and count of distinct days with data
+    consumption_stats = db.query(
+        func.coalesce(func.sum(FeedConsumption.quantity_kg), 0).label('total'),
+        func.count(func.distinct(FeedConsumption.date)).label('days_count')
     ).filter(
         FeedConsumption.date >= seven_days_ago
-    ).scalar()
+    ).first()
 
-    total_consumption_7d = Decimal(str(consumption_sum or 0))
-    avg_daily_consumption = total_consumption_7d / Decimal(7) if total_consumption_7d else Decimal(0)
+    total_consumption_7d = Decimal(str(consumption_stats.total or 0))
+    # Use actual number of days with data (minimum 1 to avoid division by zero)
+    actual_days = max(1, consumption_stats.days_count or 1)
+    avg_daily_consumption = total_consumption_7d / Decimal(actual_days) if total_consumption_7d else Decimal(0)
 
     # Days of autonomy
     days_autonomy = total_quantity / avg_daily_consumption if avg_daily_consumption > 0 else Decimal(0)
