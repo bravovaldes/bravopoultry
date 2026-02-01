@@ -27,6 +27,7 @@ import {
   Bird,
 } from 'lucide-react'
 import { useState } from 'react'
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
 // Navigation simplifiee - 10 items au lieu de 22
 const navGroups = [
@@ -77,6 +78,9 @@ export default function DashboardLayout({
   const pathname = usePathname()
   const { user, token, logout, _hasHydrated } = useAuthStore()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  // Lock body scroll when mobile sidebar is open
+  useBodyScrollLock(sidebarOpen)
 
   useEffect(() => {
     // Only check auth after hydration is complete

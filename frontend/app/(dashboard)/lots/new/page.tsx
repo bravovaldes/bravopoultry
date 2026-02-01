@@ -39,7 +39,9 @@ export default function NewLotPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const buildingIdFromUrl = searchParams.get('building_id')
-  const [selectedType, setSelectedType] = useState<'broiler' | 'layer'>('broiler')
+  const typeFromUrl = searchParams.get('type') as 'broiler' | 'layer' | null
+  const defaultType = typeFromUrl === 'broiler' ? 'broiler' : 'layer' // Default to 'layer'
+  const [selectedType, setSelectedType] = useState<'broiler' | 'layer'>(defaultType)
   const [success, setSuccess] = useState(false)
 
   const { data: buildings = [] } = useQuery({
@@ -82,7 +84,7 @@ export default function NewLotPage() {
   } = useForm<LotForm>({
     resolver: zodResolver(lotSchema),
     defaultValues: {
-      type: 'broiler',
+      type: defaultType,
       age_at_placement: 1,
       placement_date: new Date().toISOString().split('T')[0],
       building_id: buildingIdFromUrl || '',
