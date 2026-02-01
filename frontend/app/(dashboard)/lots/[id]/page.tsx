@@ -38,7 +38,7 @@ import {
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { useState } from 'react'
-import { cn, formatDate } from '@/lib/utils'
+import { cn, formatDate, formatDateShort } from '@/lib/utils'
 import { HelpTooltip } from '@/components/ui/help-tooltip'
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
 
@@ -1162,10 +1162,7 @@ export default function BandeDetailPage() {
                     {historyData.history.map((entry: HistoryEntry) => (
                       <tr key={entry.date} className="hover:bg-gray-50">
                         <td className="p-3 font-medium">
-                          {new Date(entry.date).toLocaleDateString('fr-FR', {
-                            day: 'numeric',
-                            month: 'short'
-                          })}
+                          {formatDateShort(entry.date)}
                         </td>
                         {isLayer && (
                           <>
