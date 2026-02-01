@@ -242,7 +242,7 @@ export default function BandeDetailPage() {
       try {
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'lot_is_active') {
-          toast.error(`Ce lot est encore actif avec ${errorData.current_quantity || 0} oiseaux. Clôturez-le d'abord.`)
+          toast.error(`Impossible de supprimer ce lot. Il est encore actif avec ${errorData.current_quantity || 0} oiseaux en élevage. Veuillez d'abord clôturer le lot avant de le supprimer.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)

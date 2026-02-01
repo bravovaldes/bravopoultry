@@ -88,7 +88,7 @@ export default function SiteDetailPage() {
         // FastAPI wraps errors in 'detail' field
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'site_has_active_lots') {
-          toast.error(`Ce site contient ${errorData.total_active_lots || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+          toast.error(`Impossible de supprimer ce site. Vous avez ${errorData.total_active_lots || 0} lot(s) actif(s) en cours. Veuillez d'abord clôturer ou déplacer tous les lots actifs avant de supprimer le site.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)
@@ -115,7 +115,7 @@ export default function SiteDetailPage() {
         // FastAPI wraps errors in 'detail' field
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'building_has_active_lots') {
-          toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+          toast.error(`Impossible de supprimer ce bâtiment. Il contient ${errorData.active_lots?.length || 0} lot(s) actif(s) en cours d'élevage. Veuillez d'abord clôturer ou déplacer ces lots.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)
