@@ -328,7 +328,7 @@ export function DatePickerCompact({
             locale={fr}
             showOutsideDays
             defaultMonth={selectedDate || today}
-            disabled={(date) => maxDate && date > maxDate}
+            disabled={(date: Date) => Boolean(maxDate && date > maxDate)}
             modifiersStyles={{
               today: { fontWeight: 'bold', color: '#ea580c' },
             }}

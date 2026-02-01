@@ -121,7 +121,7 @@ export function roundDecimal(value: number, decimals = 2): number {
  * Sum an array of values with precision handling
  */
 export function sumValues(values: (string | number | null | undefined)[]): number {
-  const sum = values.reduce((acc, val) => acc + safeNumber(val), 0)
+  const sum = values.reduce((acc: number, val) => acc + safeNumber(val), 0)
   return roundDecimal(sum, 2)
 }
 

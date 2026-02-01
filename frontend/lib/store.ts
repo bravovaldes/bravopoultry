@@ -27,31 +27,33 @@ interface AuthState {
 // Custom storage that switches between localStorage and sessionStorage
 const createAuthStorage = () => {
   return {
-    getItem: (name: string): string | null => {
+    getItem: (name: string) => {
       if (typeof window === 'undefined') return null
       // Check localStorage first, then sessionStorage
-      return localStorage.getItem(name) || sessionStorage.getItem(name)
-    },
-    setItem: (name: string, value: string): void => {
-      if (typeof window === 'undefined') return
+      const str = localStorage.getItem(name) || sessionStorage.getItem(name)
+      if (!str) return null
       try {
-        const parsed = JSON.parse(value)
-        const rememberMe = parsed?.state?.rememberMe ?? true
-
-        if (rememberMe) {
-          // Clear sessionStorage and use localStorage
-          sessionStorage.removeItem(name)
-          localStorage.setItem(name, value)
-        } else {
-          // Clear localStorage and use sessionStorage
-          localStorage.removeItem(name)
-          sessionStorage.setItem(name, value)
-        }
+        return JSON.parse(str)
       } catch {
-        localStorage.setItem(name, value)
+        return null
       }
     },
-    removeItem: (name: string): void => {
+    setItem: (name: string, value: { state: AuthState }) => {
+      if (typeof window === 'undefined') return
+      const stringValue = JSON.stringify(value)
+      const rememberMe = value?.state?.rememberMe ?? true
+
+      if (rememberMe) {
+        // Clear sessionStorage and use localStorage
+        sessionStorage.removeItem(name)
+        localStorage.setItem(name, stringValue)
+      } else {
+        // Clear localStorage and use sessionStorage
+        localStorage.removeItem(name)
+        sessionStorage.setItem(name, stringValue)
+      }
+    },
+    removeItem: (name: string) => {
       if (typeof window === 'undefined') return
       localStorage.removeItem(name)
       sessionStorage.removeItem(name)
