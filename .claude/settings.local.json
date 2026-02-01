@@ -58,7 +58,10 @@
       "WebFetch(domain:render.com)",
       "Bash(git fetch:*)",
       "Bash(wc:*)",
-      "Bash(type:*)"
+      "Bash(type:*)",
+      "Bash(dir:*)",
+      "Bash(npm install:*)",
+      "Bash(node scripts/generate-icons.js:*)"
     ]
   }
 }
