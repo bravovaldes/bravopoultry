@@ -17,6 +17,9 @@ import {
   CheckCircle,
   AlertCircle,
   Globe,
+  Headset,
+  Mail,
+  Phone,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -577,6 +580,57 @@ function SecuritySettings({ onSave }: { onSave: () => void }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
+        </div>
+      </div>
+
+      {/* Service a la clientele */}
+      <div className="bg-white rounded-xl border">
+        <div className="p-6 border-b">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-orange-100 rounded-lg">
+              <Headset className="w-5 h-5 text-orange-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold">Service a la clientele</h2>
+              <p className="text-sm text-gray-500">Besoin d'aide ou d'une solution personnalisee ?</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-4">
+          <p className="text-sm text-gray-600">
+            Notre equipe est disponible pour vous aider en cas de probleme ou pour discuter de solutions sur mesure pour votre exploitation.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a
+              href="mailto:contact@bravopoultry.com"
+              className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition group"
+            >
+              <div className="p-2 bg-gray-200 rounded-lg group-hover:bg-orange-100 transition">
+                <Mail className="w-5 h-5 text-gray-600 group-hover:text-orange-600" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Email</p>
+                <p className="text-sm text-gray-500">contact@bravopoultry.com</p>
+              </div>
+            </a>
+
+            <a
+              href="https://wa.me/14184901849"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-4 bg-green-50 rounded-lg hover:bg-green-100 transition group"
+            >
+              <div className="p-2 bg-green-200 rounded-lg group-hover:bg-green-300 transition">
+                <Phone className="w-5 h-5 text-green-600" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">WhatsApp</p>
+                <p className="text-sm text-green-600">+1 418-490-1849</p>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
