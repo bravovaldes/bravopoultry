@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { api } from '@/lib/api'
-import { ArrowLeft, Bird, Egg, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Bird, Egg, AlertCircle, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
@@ -213,17 +213,30 @@ export default function NewLotPage() {
             {/* Bâtiment - spans 2 cols on mobile, 2 on large */}
             <div className="col-span-2 lg:col-span-2">
               <label className="block text-xs font-medium text-gray-700 mb-1">Bâtiment *</label>
-              <select
-                {...register('building_id')}
-                className="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500"
-              >
-                <option value="">Sélectionnez un bâtiment</option>
-                {buildings.map((building: any) => (
-                  <option key={building.id} value={building.id}>
-                    {building.name} ({building.capacity || '?'} places)
-                  </option>
-                ))}
-              </select>
+              {buildings.length === 0 ? (
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p className="text-sm text-amber-800 mb-2">Aucun bâtiment disponible</p>
+                  <Link
+                    href="/sites"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
+                  >
+                    <Plus className="w-3 h-3" />
+                    Créer un site et bâtiment
+                  </Link>
+                </div>
+              ) : (
+                <select
+                  {...register('building_id')}
+                  className="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500"
+                >
+                  <option value="">Sélectionnez un bâtiment</option>
+                  {buildings.map((building: any) => (
+                    <option key={building.id} value={building.id}>
+                      {building.name} ({building.capacity || '?'} places)
+                    </option>
+                  ))}
+                </select>
+              )}
               {errors.building_id && (
                 <p className="text-red-500 text-xs mt-1">{errors.building_id.message}</p>
               )}

@@ -164,7 +164,7 @@ export default function BandeDetailPage() {
   const { data: sites } = useQuery({
     queryKey: ['sites'],
     queryFn: async () => {
-      const response = await api.get('/sites/')
+      const response = await api.get('/sites')
       return response.data
     },
     enabled: showSplitModal
@@ -174,7 +174,7 @@ export default function BandeDetailPage() {
   const { data: buildings } = useQuery({
     queryKey: ['buildings'],
     queryFn: async () => {
-      const response = await api.get('/buildings/')
+      const response = await api.get('/buildings')
       return response.data
     },
     enabled: showSplitModal
@@ -1329,60 +1329,60 @@ export default function BandeDetailPage() {
 
       {/* Split Lot Modal */}
       {showSplitModal && lot && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-lg w-full mx-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <Split className="w-5 h-5 text-purple-600" />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-xl p-4 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-purple-100 rounded-lg">
+                  <Split className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                   Scinder le lot
                 </h3>
               </div>
               <button
                 onClick={() => setShowSplitModal(false)}
-                className="p-1 hover:bg-gray-100 rounded-lg transition"
+                className="p-1.5 hover:bg-gray-100 rounded-lg transition"
               >
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
 
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
               Transférer une partie des oiseaux vers un nouveau lot dans un autre bâtiment.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Current lot info + inherited fields */}
-              <div className="p-3 bg-gray-50 rounded-lg text-sm space-y-2">
+              <div className="p-2.5 sm:p-3 bg-gray-50 rounded-lg text-xs sm:text-sm space-y-2">
                 <p className="font-medium text-gray-700 flex items-center gap-2">
-                  <Info className="w-4 h-4 text-blue-500" />
-                  Lot source: {lot.code}
+                  <Info className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 flex-shrink-0" />
+                  <span className="truncate">Lot source: {lot.code}</span>
                 </p>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs pl-6">
+                <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 text-xs pl-5 sm:pl-6">
                   <p className="text-gray-500">Effectif actuel:</p>
-                  <p className="font-medium text-gray-800">{(lot.current_quantity || 0).toLocaleString()} oiseaux</p>
+                  <p className="font-medium text-gray-800">{(lot.current_quantity || 0).toLocaleString()}</p>
 
                   <p className="text-gray-500">Type:</p>
-                  <p className="font-medium text-gray-800">{lot.type === 'broiler' ? 'Poulet de chair' : 'Pondeuse'}</p>
+                  <p className="font-medium text-gray-800">{lot.type === 'broiler' ? 'Chair' : 'Pondeuse'}</p>
 
                   <p className="text-gray-500">Souche:</p>
-                  <p className="font-medium text-gray-800">{lot.breed || 'Non spécifiée'}</p>
+                  <p className="font-medium text-gray-800 truncate">{lot.breed || 'Non spécifiée'}</p>
 
                   <p className="text-gray-500">Âge:</p>
                   <p className="font-medium text-gray-800">J{lot.age_days} ({lot.age_weeks} sem)</p>
 
-                  <p className="text-gray-500">Date mise en place:</p>
+                  <p className="text-gray-500">Mise en place:</p>
                   <p className="font-medium text-gray-800">{formatDate(lot.placement_date)}</p>
                 </div>
-                <p className="text-xs text-blue-600 italic pl-6 pt-1">
-                  Ces informations seront héritées par le nouveau lot
+                <p className="text-xs text-blue-600 italic pl-5 sm:pl-6 pt-1">
+                  Ces infos seront héritées par le nouveau lot
                 </p>
               </div>
 
               {/* Quantity to split */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   Nombre d'oiseaux à transférer
                 </label>
                 <input
@@ -1391,82 +1391,110 @@ export default function BandeDetailPage() {
                   onChange={(e) => setSplitQuantity(Math.min(Number(e.target.value) || 0, (lot.current_quantity || 1) - 1))}
                   min={1}
                   max={(lot.current_quantity || 1) - 1}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  Restera dans le lot original: {((lot.current_quantity || 0) - splitQuantity).toLocaleString()} oiseaux
+                  Restera: {((lot.current_quantity || 0) - splitQuantity).toLocaleString()} oiseaux
                   ({(((lot.current_quantity || 0) - splitQuantity) / (lot.current_quantity || 1) * 100).toFixed(0)}%)
                 </p>
               </div>
 
               {/* Site filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <MapPin className="w-4 h-4 inline mr-1" />
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1" />
                   Filtrer par site
                 </label>
-                <select
-                  value={splitSiteFilter}
-                  onChange={(e) => {
-                    setSplitSiteFilter(e.target.value)
-                    setSplitBuildingId('') // Reset building selection when site changes
-                  }}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                >
-                  <option value="">Tous les sites</option>
-                  {sites?.map((site: any) => (
-                    <option key={site.id} value={site.id}>
-                      {site.name}
-                    </option>
-                  ))}
-                </select>
+                {(!sites || sites.length === 0) ? (
+                  <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p className="text-xs text-amber-800 mb-1.5">Aucun site disponible</p>
+                    <Link
+                      href="/sites/new"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
+                    >
+                      <Plus className="w-3 h-3" />
+                      Créer un site
+                    </Link>
+                  </div>
+                ) : (
+                  <select
+                    value={splitSiteFilter}
+                    onChange={(e) => {
+                      setSplitSiteFilter(e.target.value)
+                      setSplitBuildingId('') // Reset building selection when site changes
+                    }}
+                    className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="">Tous les sites</option>
+                    {sites?.map((site: any) => (
+                      <option key={site.id} value={site.id}>
+                        {site.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
 
               {/* Target building */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <Building2 className="w-4 h-4 inline mr-1" />
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                  <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1" />
                   Bâtiment de destination
                 </label>
 
-                {/* Search input if more than 5 buildings */}
-                {(buildings?.length || 0) > 5 && (
-                  <div className="relative mb-2">
-                    <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="text"
-                      value={splitBuildingSearch}
-                      onChange={(e) => setSplitBuildingSearch(e.target.value)}
-                      placeholder="Rechercher un bâtiment..."
-                      className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                  </div>
-                )}
-
-                <select
-                  value={splitBuildingId}
-                  onChange={(e) => setSplitBuildingId(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  size={filteredBuildings.length > 5 ? 5 : 1}
-                >
-                  <option value="">Sélectionner un bâtiment</option>
-                  {filteredBuildings.map((building: any) => (
-                    <option
-                      key={building.id}
-                      value={building.id}
+                {(!buildings || buildings.length === 0) ? (
+                  <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p className="text-xs text-amber-800 mb-1.5">Aucun bâtiment disponible</p>
+                    <Link
+                      href="/sites"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
                     >
-                      {building.name} {building.site?.name ? `(${building.site.name})` : ''} {building.id === lot.building_id ? '• actuel' : ''}
-                    </option>
-                  ))}
-                </select>
-                {splitBuildingSearch && filteredBuildings.length === 0 && (
-                  <p className="text-xs text-orange-500 mt-1">Aucun bâtiment trouvé pour "{splitBuildingSearch}"</p>
+                      <Plus className="w-3 h-3" />
+                      Créer un bâtiment
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    {/* Search input if more than 5 buildings */}
+                    {(buildings?.length || 0) > 5 && (
+                      <div className="relative mb-2">
+                        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="text"
+                          value={splitBuildingSearch}
+                          onChange={(e) => setSplitBuildingSearch(e.target.value)}
+                          placeholder="Rechercher..."
+                          className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                      </div>
+                    )}
+
+                    <select
+                      value={splitBuildingId}
+                      onChange={(e) => setSplitBuildingId(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      size={filteredBuildings.length > 5 ? 5 : 1}
+                    >
+                      <option value="">Sélectionner un bâtiment</option>
+                      {filteredBuildings.map((building: any) => (
+                        <option
+                          key={building.id}
+                          value={building.id}
+                        >
+                          {building.name} {building.site?.name ? `(${building.site.name})` : ''} {building.id === lot.building_id ? '• actuel' : ''}
+                        </option>
+                      ))}
+                    </select>
+                    {splitBuildingSearch && filteredBuildings.length === 0 && (
+                      <p className="text-xs text-orange-500 mt-1">Aucun bâtiment trouvé</p>
+                    )}
+                  </>
                 )}
               </div>
 
               {/* New lot name (optional) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   Nom du nouveau lot (optionnel)
                 </label>
                 <input
@@ -1474,32 +1502,32 @@ export default function BandeDetailPage() {
                   value={splitLotName}
                   onChange={(e) => setSplitLotName(e.target.value)}
                   placeholder={`${lot.name || lot.code} - Split`}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
 
               {/* Distribute expenses checkbox */}
-              <div className="flex items-start gap-3 p-3 bg-amber-50 rounded-lg">
+              <div className="flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 bg-amber-50 rounded-lg">
                 <input
                   type="checkbox"
                   id="distributeExpenses"
                   checked={distributeExpenses}
                   onChange={(e) => setDistributeExpenses(e.target.checked)}
-                  className="mt-1 w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                  className="mt-0.5 w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
                 />
-                <label htmlFor="distributeExpenses" className="text-sm">
+                <label htmlFor="distributeExpenses" className="text-xs sm:text-sm">
                   <span className="font-medium text-amber-800">Répartir les dépenses</span>
                   <p className="text-amber-600 text-xs mt-0.5">
-                    Les dépenses passées seront réparties proportionnellement ({((splitQuantity / (lot.current_quantity || 1)) * 100).toFixed(0)}% vers le nouveau lot)
+                    Répartition proportionnelle ({((splitQuantity / (lot.current_quantity || 1)) * 100).toFixed(0)}% vers le nouveau lot)
                   </p>
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
               <button
                 onClick={() => setShowSplitModal(false)}
-                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
+                className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50 transition"
               >
                 Annuler
               </button>
@@ -1511,7 +1539,7 @@ export default function BandeDetailPage() {
                   distribute_expenses: distributeExpenses
                 })}
                 disabled={splitLot.isPending || !splitBuildingId || splitQuantity <= 0 || splitQuantity >= (lot.current_quantity || 0)}
-                className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 text-sm bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {splitLot.isPending ? 'Création...' : 'Scinder le lot'}
               </button>
