@@ -770,6 +770,34 @@ async def delete_lot(
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
+    # CRITICAL: Block deletion of active lots - must close them first
+    if lot.status == LotStatus.ACTIVE:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "lot_is_active",
+                "message": f"Ce lot est encore actif avec {lot.current_quantity or 0} oiseaux. Vous devez d'abord le clôturer avant de pouvoir le supprimer.",
+                "lot_code": lot.code,
+                "lot_name": lot.name,
+                "current_quantity": lot.current_quantity,
+                "status": "active",
+                "recommendation": "Clôturez d'abord le lot en utilisant le bouton 'Clôturer' ou changez son statut en 'completed'.",
+                "alternatives": [
+                    {
+                        "action": "Clôturer le lot",
+                        "description": "Marque le lot comme terminé. Les données sont conservées pour l'historique et les rapports.",
+                        "endpoint": f"POST /api/v1/lots/{lot_id}/close"
+                    },
+                    {
+                        "action": "Modifier le statut",
+                        "description": "Changez manuellement le statut du lot.",
+                        "endpoint": f"PATCH /api/v1/lots/{lot_id}",
+                        "body": {"status": "completed"}
+                    }
+                ]
+            }
+        )
+
     # Verify authorization through building -> site -> organization
     building = db.query(Building).filter(Building.id == lot.building_id, Building.is_active == True).first()
     if building:

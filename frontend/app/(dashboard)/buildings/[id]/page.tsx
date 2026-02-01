@@ -72,9 +72,10 @@ export default function BuildingDetailPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleteConfirmInput, setDeleteConfirmInput] = useState('')
   const [lotToDelete, setLotToDelete] = useState<string | null>(null)
+  const [lotDeleteConfirmInput, setLotDeleteConfirmInput] = useState('')
 
   // Lock body scroll when modal is open
-  useBodyScrollLock(showDeleteConfirm)
+  useBodyScrollLock(showDeleteConfirm || !!lotToDelete)
 
   const buildingId = params.id as string
 
@@ -92,33 +93,51 @@ export default function BuildingDetailPage() {
       await api.delete(`/buildings/${buildingId}`)
     },
     onSuccess: () => {
-      toast.success('Batiment supprime')
+      toast.success('Bâtiment supprimé')
       setShowDeleteConfirm(false)
       setDeleteConfirmInput('')
       router.push(building?.site ? `/sites/${building.site.id}` : '/sites')
     },
     onError: (error: any) => {
-      const errorData = error.response?.data
-      if (errorData?.error === 'building_has_active_lots') {
-        toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
-      } else {
-        toast.error(errorData?.message || errorData?.detail || 'Erreur lors de la suppression')
+      try {
+        // FastAPI wraps errors in 'detail' field
+        const errorData = error.response?.data?.detail
+        if (typeof errorData === 'object' && errorData?.error === 'building_has_active_lots') {
+          toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+        } else {
+          const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
+          toast.error(message)
+        }
+      } catch {
+        toast.error('Erreur lors de la suppression')
       }
     }
   })
 
   const deleteLot = useMutation({
     mutationFn: async (lotId: string) => {
-      await api.delete(`/lots/${lotId}`)
+      // Use force=true to delete lots with historical data (not active lots - those are always blocked)
+      await api.delete(`/lots/${lotId}?force=true`)
     },
     onSuccess: () => {
-      toast.success('Bande supprimee')
+      toast.success('Bande supprimée')
       queryClient.invalidateQueries({ queryKey: ['building', buildingId] })
+      queryClient.invalidateQueries({ queryKey: ['lots'] })
       setLotToDelete(null)
+      setLotDeleteConfirmInput('')
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || 'Erreur')
-      setLotToDelete(null)
+      try {
+        const errorData = error.response?.data?.detail
+        if (typeof errorData === 'object' && errorData?.error === 'lot_is_active') {
+          toast.error(`Ce lot est encore actif avec ${errorData.current_quantity || 0} oiseaux. Clôturez-le d'abord.`)
+        } else {
+          const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
+          toast.error(message)
+        }
+      } catch {
+        toast.error('Erreur lors de la suppression')
+      }
     }
   })
 
@@ -185,6 +204,11 @@ export default function BuildingDetailPage() {
   const allLots = building.lots || []
   const activeLots = allLots.filter(l => l.status === 'active')
   const totalBirds = building.current_birds || 0
+
+  // Get the lot data for deletion modal
+  const lotToDeleteData = lotToDelete
+    ? allLots.find(l => l.id === lotToDelete)
+    : null
 
   return (
     <div className="space-y-6">
@@ -501,26 +525,51 @@ export default function BuildingDetailPage() {
       )}
 
       {/* Modal suppression lot */}
-      {lotToDelete && (
+      {lotToDelete && lotToDeleteData && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Supprimer cette bande ?
             </h3>
-            <p className="text-gray-500 mb-6">
-              Toutes les donnees de production seront perdues.
+            <p className="text-gray-500 mb-4">
+              Toutes les données de production, mortalité et alimentation seront perdues. Cette action est irréversible.
+            </p>
+            {lotToDeleteData.status === 'active' && (
+              <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                <p className="text-sm text-orange-800 font-medium">
+                  ⚠️ Attention: Cette bande est encore active avec {lotToDeleteData.current_quantity?.toLocaleString() || 0} oiseaux!
+                </p>
+              </div>
+            )}
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">
+                Pour confirmer, tapez le code de la bande: <span className="font-mono font-bold">{lotToDeleteData.code || lotToDeleteData.name || lotToDeleteData.id}</span>
+              </p>
+            </div>
+            <input
+              type="text"
+              value={lotDeleteConfirmInput}
+              onChange={(e) => setLotDeleteConfirmInput(e.target.value)}
+              placeholder="Entrez le code de la bande"
+              className="w-full px-3 py-2 border rounded-lg mb-4 font-mono text-sm"
+            />
+            <p className="text-xs text-gray-500 mb-4">
+              Si c'est une erreur, vous pouvez <Link href={`/lots/${lotToDelete}`} className="text-orange-500 hover:underline font-medium">consulter ou modifier la bande</Link> à la place.
             </p>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => setLotToDelete(null)}
+                onClick={() => {
+                  setLotToDelete(null)
+                  setLotDeleteConfirmInput('')
+                }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
               >
                 Annuler
               </button>
               <button
                 onClick={() => deleteLot.mutate(lotToDelete)}
-                disabled={deleteLot.isPending}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50"
+                disabled={deleteLot.isPending || lotDeleteConfirmInput !== (lotToDeleteData.code || lotToDeleteData.name || lotToDeleteData.id)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {deleteLot.isPending ? 'Suppression...' : 'Supprimer'}
               </button>

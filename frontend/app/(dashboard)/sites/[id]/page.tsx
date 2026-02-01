@@ -84,11 +84,17 @@ export default function SiteDetailPage() {
       router.push('/sites')
     },
     onError: (error: any) => {
-      const errorData = error.response?.data
-      if (errorData?.error === 'site_has_active_lots') {
-        toast.error(`Ce site contient ${errorData.total_active_lots} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
-      } else {
-        toast.error(errorData?.message || errorData?.detail || 'Erreur lors de la suppression')
+      try {
+        // FastAPI wraps errors in 'detail' field
+        const errorData = error.response?.data?.detail
+        if (typeof errorData === 'object' && errorData?.error === 'site_has_active_lots') {
+          toast.error(`Ce site contient ${errorData.total_active_lots || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+        } else {
+          const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
+          toast.error(message)
+        }
+      } catch {
+        toast.error('Erreur lors de la suppression')
       }
     }
   })
@@ -105,11 +111,17 @@ export default function SiteDetailPage() {
       setBuildingDeleteConfirmInput('')
     },
     onError: (error: any) => {
-      const errorData = error.response?.data
-      if (errorData?.error === 'building_has_active_lots') {
-        toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
-      } else {
-        toast.error(errorData?.message || errorData?.detail || 'Erreur lors de la suppression')
+      try {
+        // FastAPI wraps errors in 'detail' field
+        const errorData = error.response?.data?.detail
+        if (typeof errorData === 'object' && errorData?.error === 'building_has_active_lots') {
+          toast.error(`Ce bâtiment contient ${errorData.active_lots?.length || 0} lot(s) actif(s). Terminez ou déplacez-les d'abord.`)
+        } else {
+          const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
+          toast.error(message)
+        }
+      } catch {
+        toast.error('Erreur lors de la suppression')
       }
     }
   })

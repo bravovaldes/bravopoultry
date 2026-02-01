@@ -231,14 +231,25 @@ export default function BandeDetailPage() {
 
   const deleteLot = useMutation({
     mutationFn: async () => {
-      await api.delete(`/lots/${lotId}`)
+      // Use force=true to delete lots with historical data (not active lots - those are always blocked)
+      await api.delete(`/lots/${lotId}?force=true`)
     },
     onSuccess: () => {
-      toast.success('Bande supprimee')
+      toast.success('Bande supprimée')
       router.push('/lots')
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.detail || 'Erreur')
+      try {
+        const errorData = error.response?.data?.detail
+        if (typeof errorData === 'object' && errorData?.error === 'lot_is_active') {
+          toast.error(`Ce lot est encore actif avec ${errorData.current_quantity || 0} oiseaux. Clôturez-le d'abord.`)
+        } else {
+          const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
+          toast.error(message)
+        }
+      } catch {
+        toast.error('Erreur lors de la suppression')
+      }
     }
   })
 
