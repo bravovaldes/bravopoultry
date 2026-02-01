@@ -255,7 +255,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page content - with top padding for fixed header */}
-        <main className="pt-20 sm:pt-16 px-3 py-4 sm:px-4 lg:p-6 lg:pt-20">{children}</main>
+        <main className="pt-24 sm:pt-20 px-3 py-4 sm:px-4 lg:p-6 lg:pt-24">{children}</main>
       </div>
     </div>
   )
