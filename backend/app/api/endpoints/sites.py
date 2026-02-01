@@ -234,10 +234,22 @@ async def update_site(
 @router.delete("/{site_id}")
 async def delete_site(
     site_id: UUID,
+    force: bool = False,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Soft delete a site."""
+    """
+    Supprime un site (soft delete).
+
+    Si le site contient des batiments avec des lots actifs, la suppression est bloquee.
+    Vous devez d'abord terminer ou deplacer les lots, puis supprimer les batiments.
+
+    Args:
+        force: Si True, supprime meme avec des batiments/lots termines.
+               Les lots ACTIFS bloquent toujours la suppression.
+    """
+    from app.models.lot import Lot, LotStatus
+
     site = db.query(Site).filter(Site.id == site_id).first()
     if not site:
         raise HTTPException(status_code=404, detail="Site not found")
@@ -245,10 +257,105 @@ async def delete_site(
     if str(site.organization_id) != str(current_user.organization_id):
         raise HTTPException(status_code=403, detail="Not authorized")
 
+    # Check for active buildings
+    active_buildings = db.query(Building).filter(
+        Building.site_id == site_id,
+        Building.is_active == True
+    ).all()
+
+    # Check for active lots in these buildings
+    building_ids = [b.id for b in active_buildings]
+    active_lots = []
+    other_lots = []
+
+    if building_ids:
+        lots = db.query(Lot).filter(
+            Lot.building_id.in_(building_ids),
+            Lot.status != LotStatus.DELETED
+        ).all()
+        active_lots = [l for l in lots if l.status == LotStatus.ACTIVE]
+        other_lots = [l for l in lots if l.status != LotStatus.ACTIVE]
+
+    # Block if there are active lots
+    if active_lots:
+        # Group lots by building for clearer display
+        lots_by_building = {}
+        for lot in active_lots:
+            building = next((b for b in active_buildings if b.id == lot.building_id), None)
+            building_name = building.name if building else "Inconnu"
+            if building_name not in lots_by_building:
+                lots_by_building[building_name] = []
+            lots_by_building[building_name].append({
+                "id": str(lot.id),
+                "code": lot.code,
+                "current_quantity": lot.current_quantity
+            })
+
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "site_has_active_lots",
+                "message": f"Ce site contient {len(active_lots)} lot(s) actif(s) dans {len(active_buildings)} batiment(s). Vous devez d'abord les terminer ou les deplacer.",
+                "active_lots_by_building": lots_by_building,
+                "total_active_lots": len(active_lots),
+                "total_active_buildings": len(active_buildings),
+                "actions_requises": [
+                    "1. Terminer tous les lots actifs (PATCH /api/v1/lots/{id} avec status='completed')",
+                    "2. Ou deplacer les lots vers un autre site/batiment",
+                    "3. Puis supprimer les batiments si necessaire",
+                    "4. Enfin supprimer le site"
+                ]
+            }
+        )
+
+    # Warn if there are buildings or non-active lots
+    if (active_buildings or other_lots) and not force:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "site_has_data",
+                "message": f"Ce site contient {len(active_buildings)} batiment(s) et {len(other_lots)} lot(s) non-actif(s). Tout sera masque si vous supprimez le site.",
+                "buildings": [
+                    {"id": str(b.id), "name": b.name}
+                    for b in active_buildings
+                ],
+                "lots_count": len(other_lots),
+                "recommendation": "Verifiez que ces donnees n'ont plus besoin d'etre consultees.",
+                "alternatives": [
+                    {
+                        "action": "Supprimer les batiments un par un",
+                        "description": "Permet de garder le site et reorganiser",
+                        "endpoint": "DELETE /api/v1/buildings/{id}"
+                    },
+                    {
+                        "action": "Modifier le site",
+                        "description": "Renommer ou mettre a jour les informations",
+                        "endpoint": f"PATCH /api/v1/sites/{site_id}"
+                    },
+                    {
+                        "action": "Confirmer la suppression",
+                        "description": "Supprimer le site et masquer tous les batiments/lots",
+                        "endpoint": f"DELETE /api/v1/sites/{site_id}?force=true"
+                    }
+                ],
+                "force_delete": "Ajoutez ?force=true pour confirmer la suppression"
+            }
+        )
+
+    # Soft delete site and all its buildings
     site.is_active = False
+
+    # Also soft delete all active buildings in this site
+    for building in active_buildings:
+        building.is_active = False
+
     db.commit()
 
-    return {"message": "Site deleted successfully"}
+    message = "Site supprime avec succes"
+    if active_buildings:
+        message += f" ({len(active_buildings)} batiment(s) et {len(other_lots)} lot(s) associes seront masques)"
+
+    return {"message": message, "deleted_site": site.name}
 
 
 # Site Members

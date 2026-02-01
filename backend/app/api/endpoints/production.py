@@ -37,8 +37,11 @@ async def get_egg_productions(
     """Get egg production records. If lot_id is not provided, returns all lots."""
     query = db.query(EggProduction).options(joinedload(EggProduction.lot))
 
-    # Filter out records without lot_id (building-mode records)
-    query = query.filter(EggProduction.lot_id.isnot(None))
+    # Filter out records without lot_id (building-mode records) and exclude deleted lots
+    query = query.join(Lot).filter(
+        EggProduction.lot_id.isnot(None),
+        Lot.status != LotStatus.DELETED
+    )
 
     if lot_id:
         query = query.filter(EggProduction.lot_id == lot_id)
@@ -97,8 +100,11 @@ async def get_weight_records(
     """Get weight records. If lot_id is not provided, returns all lots."""
     query = db.query(WeightRecord).options(joinedload(WeightRecord.lot))
 
-    # Filter out records without lot_id (building-mode records)
-    query = query.filter(WeightRecord.lot_id.isnot(None))
+    # Filter out records without lot_id (building-mode records) and exclude deleted lots
+    query = query.join(Lot).filter(
+        WeightRecord.lot_id.isnot(None),
+        Lot.status != LotStatus.DELETED
+    )
 
     if lot_id:
         query = query.filter(WeightRecord.lot_id == lot_id)
@@ -148,6 +154,11 @@ async def get_mortalities(
     db: Session = Depends(get_db)
 ):
     """Get mortality records for a lot."""
+    # Verify lot exists and isn't deleted
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
+    if not lot:
+        raise HTTPException(status_code=404, detail="Lot not found")
+
     records = db.query(Mortality).filter(
         Mortality.lot_id == lot_id
     ).order_by(Mortality.created_at.desc()).all()

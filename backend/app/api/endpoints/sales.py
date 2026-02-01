@@ -142,7 +142,8 @@ async def get_sales(
     if site_id:
         # Include sales with this site_id OR sales linked to lots in this site
         lot_ids_in_site = db.query(Lot.id).join(Building).filter(
-            Building.site_id == site_id
+            Building.site_id == site_id,
+            Building.is_active == True
         ).all()
         lot_ids_in_site = [l[0] for l in lot_ids_in_site]
 

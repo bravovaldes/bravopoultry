@@ -230,21 +230,21 @@ async def get_dashboard_overview(
                 "id": str(site.id),
                 "name": site.name,
                 "city": site.city,
-                "buildings_count": len(site.buildings),
-                "active_lots": sum(1 for b in site.buildings for l in b.lots if l.status == LotStatus.ACTIVE),
-                "broiler_lots": sum(1 for b in site.buildings for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.BROILER),
-                "layer_lots": sum(1 for b in site.buildings for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.LAYER),
+                "buildings_count": sum(1 for b in site.buildings if b.is_active),
+                "active_lots": sum(1 for b in site.buildings if b.is_active for l in b.lots if l.status == LotStatus.ACTIVE),
+                "broiler_lots": sum(1 for b in site.buildings if b.is_active for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.BROILER),
+                "layer_lots": sum(1 for b in site.buildings if b.is_active for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.LAYER),
                 "total_birds": sum(
                     l.current_quantity or 0
-                    for b in site.buildings for l in b.lots if l.status == LotStatus.ACTIVE
+                    for b in site.buildings if b.is_active for l in b.lots if l.status == LotStatus.ACTIVE
                 ),
                 "broiler_birds": sum(
                     l.current_quantity or 0
-                    for b in site.buildings for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.BROILER
+                    for b in site.buildings if b.is_active for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.BROILER
                 ),
                 "layer_birds": sum(
                     l.current_quantity or 0
-                    for b in site.buildings for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.LAYER
+                    for b in site.buildings if b.is_active for l in b.lots if l.status == LotStatus.ACTIVE and l.type == LotType.LAYER
                 )
             }
             for site in sites

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -38,6 +38,7 @@ const breeds = {
 export default function NewLotPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const queryClient = useQueryClient()
   const buildingIdFromUrl = searchParams.get('building_id')
   const typeFromUrl = searchParams.get('type') as 'broiler' | 'layer' | null
   const defaultType = typeFromUrl === 'broiler' ? 'broiler' : 'layer' // Default to 'layer'
@@ -63,6 +64,10 @@ export default function NewLotPage() {
       toast.success('Lot créé avec succès!')
       setSuccess(true)
       setError('')
+      // Invalider le cache pour rafraîchir les listes
+      queryClient.invalidateQueries({ queryKey: ['lots'] })
+      queryClient.invalidateQueries({ queryKey: ['buildings'] })
+      queryClient.invalidateQueries({ queryKey: ['sites'] })
       setTimeout(() => {
         router.push(`/lots/${data.id}`)
       }, 1000)

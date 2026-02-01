@@ -82,6 +82,11 @@ async def get_feed_consumptions(
     db: Session = Depends(get_db)
 ):
     """Get feed consumption records."""
+    # Verify lot exists and isn't deleted
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
+    if not lot:
+        raise HTTPException(status_code=404, detail="Lot not found")
+
     query = db.query(FeedConsumption).filter(FeedConsumption.lot_id == lot_id)
 
     if start_date:
@@ -130,6 +135,11 @@ async def get_water_consumptions(
     db: Session = Depends(get_db)
 ):
     """Get water consumption records."""
+    # Verify lot exists and isn't deleted
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
+    if not lot:
+        raise HTTPException(status_code=404, detail="Lot not found")
+
     records = db.query(WaterConsumption).filter(
         WaterConsumption.lot_id == lot_id
     ).order_by(WaterConsumption.created_at.desc()).all()

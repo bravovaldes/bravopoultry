@@ -233,7 +233,7 @@ export default function DashboardLayout({
       <div className="lg:pl-64">
         {/* Top header - Fixed */}
         <header className="fixed top-0 right-0 left-0 lg:left-64 z-30 bg-white border-b">
-          <div className="flex items-center justify-between h-16 px-4">
+          <div className="flex items-center justify-between h-16 px-4 mt-2 sm:mt-0">
             <button
               className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
               onClick={() => setSidebarOpen(true)}
@@ -255,7 +255,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page content - with top padding for fixed header */}
-        <main className="pt-16 px-3 py-4 sm:px-4 lg:p-6 lg:pt-20">{children}</main>
+        <main className="pt-20 sm:pt-16 px-3 py-4 sm:px-4 lg:p-6 lg:pt-20">{children}</main>
       </div>
     </div>
   )

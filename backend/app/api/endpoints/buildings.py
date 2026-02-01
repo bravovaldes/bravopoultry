@@ -69,7 +69,7 @@ def build_building_response(
     if building.site:
         data.site = SiteBasic(id=building.site.id, name=building.site.name)
 
-    # Ajouter les lots si demandé
+    # Ajouter les lots si demandé (exclure les lots supprimés)
     if include_lots:
         data.lots = [
             LotBasic(
@@ -86,6 +86,7 @@ def build_building_response(
                 age_weeks=lot.age_weeks,
             )
             for lot in building.lots
+            if lot.status != LotStatus.DELETED
         ]
 
     return data
@@ -241,10 +242,20 @@ async def create_section(
 @router.delete("/{building_id}")
 async def delete_building(
     building_id: UUID,
+    force: bool = False,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Supprime un batiment."""
+    """
+    Supprime un batiment (soft delete).
+
+    Si le batiment contient des lots actifs, la suppression est bloquee.
+    Vous devez d'abord terminer ou deplacer les lots.
+
+    Args:
+        force: Si True, supprime meme avec des lots termines/en preparation.
+               Les lots ACTIFS bloquent toujours la suppression.
+    """
     building = db.query(Building).filter(Building.id == building_id, Building.is_active == True).first()
     if not building:
         raise HTTPException(status_code=404, detail="Batiment non trouve")
@@ -253,8 +264,66 @@ async def delete_building(
     if not site or str(site.organization_id) != str(current_user.organization_id):
         raise HTTPException(status_code=403, detail="Acces non autorise")
 
+    # Check for lots in this building
+    lots_in_building = db.query(Lot).filter(
+        Lot.building_id == building_id,
+        Lot.status != LotStatus.DELETED
+    ).all()
+
+    # Count lots by status
+    active_lots = [l for l in lots_in_building if l.status == LotStatus.ACTIVE]
+    other_lots = [l for l in lots_in_building if l.status != LotStatus.ACTIVE]
+
+    # Block if there are active lots
+    if active_lots:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "building_has_active_lots",
+                "message": f"Ce batiment contient {len(active_lots)} lot(s) actif(s). Vous devez d'abord les terminer ou les deplacer.",
+                "active_lots": [
+                    {
+                        "id": str(lot.id),
+                        "code": lot.code,
+                        "name": lot.name,
+                        "current_quantity": lot.current_quantity,
+                        "age_days": lot.age_days
+                    }
+                    for lot in active_lots
+                ],
+                "actions_requises": [
+                    "Terminer les lots (PATCH /api/v1/lots/{id} avec status='completed')",
+                    "Ou deplacer les lots vers un autre batiment (PATCH /api/v1/lots/{id} avec building_id=...)"
+                ]
+            }
+        )
+
+    # Warn if there are other lots (completed, preparation, suspended)
+    if other_lots and not force:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "building_has_lots",
+                "message": f"Ce batiment contient {len(other_lots)} lot(s) non-actif(s). Ces lots seront masques si vous supprimez le batiment.",
+                "lots": [
+                    {
+                        "id": str(lot.id),
+                        "code": lot.code,
+                        "status": lot.status.value if lot.status else "unknown"
+                    }
+                    for lot in other_lots
+                ],
+                "recommendation": "Verifiez que ces lots n'ont plus besoin d'etre consultes.",
+                "force_delete": "Ajoutez ?force=true pour confirmer la suppression"
+            }
+        )
+
     # Soft delete
     building.is_active = False
     db.commit()
 
-    return {"message": "Batiment supprime"}
+    message = "Batiment supprime avec succes"
+    if other_lots:
+        message += f" ({len(other_lots)} lot(s) associe(s) seront masques)"
+
+    return {"message": message, "deleted_building": building.name}

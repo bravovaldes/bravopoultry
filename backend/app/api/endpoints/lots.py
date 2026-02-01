@@ -117,8 +117,13 @@ async def get_lots(
     from sqlalchemy.orm import outerjoin
 
     # Utiliser outerjoin pour inclure les lots sans bâtiment
+    # Filter by active sites and buildings only
     query = db.query(Lot).outerjoin(Building).outerjoin(Site).filter(
-        (Site.organization_id == current_user.organization_id) | (Lot.building_id.is_(None))
+        (
+            (Site.organization_id == current_user.organization_id) &
+            (Site.is_active == True) &
+            (Building.is_active == True)
+        ) | (Lot.building_id.is_(None))
     )
 
     # Exclude deleted lots by default
@@ -732,10 +737,31 @@ async def close_lot(
 @router.delete("/{lot_id}")
 async def delete_lot(
     lot_id: UUID,
+    force: bool = False,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Soft delete a lot."""
+    """
+    Soft delete a lot.
+
+    IMPORTANT: La suppression est reservee aux corrections d'erreurs.
+    Si le lot a des donnees de production/ventes, utilisez plutot "Terminer" (status=completed).
+
+    - Terminer (COMPLETED): Le lot reste visible dans l'historique, les donnees sont conservees
+      pour les rapports et analyses. Recommande pour les lots qui ont eu une activite reelle.
+
+    - Supprimer (DELETED): Le lot disparait completement de l'application, exclu de tous les
+      calculs et rapports. A utiliser uniquement pour corriger des erreurs de saisie.
+
+    Args:
+        force: Si True, supprime meme si le lot contient des donnees. Sinon, retourne un
+               avertissement avec les donnees trouvees.
+    """
+    from app.models.production import EggProduction, WeightRecord, Mortality
+    from app.models.feed import FeedConsumption, WaterConsumption
+    from app.models.health import HealthEvent
+    from app.models.finance import Sale, Expense
+
     # Permission check: only owner and manager can delete lots
     if not has_permission(current_user, Permission.DELETE_LOT):
         raise HTTPException(status_code=403, detail="Acces refuse. Seuls les proprietaires et gestionnaires peuvent supprimer les lots.")
@@ -751,10 +777,83 @@ async def delete_lot(
         if site and str(site.organization_id) != str(current_user.organization_id):
             raise HTTPException(status_code=403, detail="Not authorized")
 
-    lot.status = "deleted"
+    # Check if lot has any associated data
+    data_counts = {
+        "ventes": db.query(Sale).filter(Sale.lot_id == lot_id).count(),
+        "depenses": db.query(Expense).filter(Expense.lot_id == lot_id).count(),
+        "production_oeufs": db.query(EggProduction).filter(EggProduction.lot_id == lot_id).count(),
+        "pesees": db.query(WeightRecord).filter(WeightRecord.lot_id == lot_id).count(),
+        "mortalites": db.query(Mortality).filter(Mortality.lot_id == lot_id).count(),
+        "consommation_aliment": db.query(FeedConsumption).filter(FeedConsumption.lot_id == lot_id).count(),
+        "consommation_eau": db.query(WaterConsumption).filter(WaterConsumption.lot_id == lot_id).count(),
+        "evenements_sante": db.query(HealthEvent).filter(HealthEvent.lot_id == lot_id).count(),
+    }
+
+    has_data = any(count > 0 for count in data_counts.values())
+    total_records = sum(data_counts.values())
+
+    # If lot has data and force is not set, return warning
+    if has_data and not force:
+        non_empty = {k: v for k, v in data_counts.items() if v > 0}
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "lot_has_data",
+                "message": f"Ce lot contient {total_records} enregistrement(s). La suppression effacera definitivement ces donnees des rapports et calculs financiers.",
+                "data_found": non_empty,
+                "recommendation": "Avant de supprimer, considerez ces alternatives:",
+                "alternatives": [
+                    {
+                        "action": "Modifier le lot",
+                        "description": "Si vous avez fait une erreur de saisie (nom, quantite, date...), modifiez simplement les informations du lot.",
+                        "endpoint": f"PATCH /api/v1/lots/{lot_id}",
+                        "quand_utiliser": "Erreur dans les informations du lot"
+                    },
+                    {
+                        "action": "Terminer le lot",
+                        "description": "Marque le lot comme termine. Il reste visible dans l'historique et les rapports.",
+                        "endpoint": f"PATCH /api/v1/lots/{lot_id} avec status='completed'",
+                        "quand_utiliser": "Le lot a reellement existe et est termine (vendu, reforme...)"
+                    },
+                    {
+                        "action": "Supprimer le lot",
+                        "description": "Efface le lot de tous les rapports et calculs. Reserve aux erreurs de creation.",
+                        "endpoint": f"DELETE /api/v1/lots/{lot_id}?force=true",
+                        "quand_utiliser": "Le lot n'aurait jamais du etre cree (doublon, test, erreur complete)"
+                    }
+                ],
+                "implications": {
+                    "modifier": [
+                        "Corrige les erreurs sans perdre l'historique",
+                        "Les donnees associees restent intactes",
+                        "Aucun impact sur les rapports"
+                    ],
+                    "terminer": [
+                        "Le lot reste visible dans l'historique",
+                        "Les donnees sont conservees pour les rapports",
+                        "Les ventes et depenses restent dans les calculs financiers",
+                        "Vous pouvez consulter les performances du lot"
+                    ],
+                    "supprimer": [
+                        "Le lot disparait completement",
+                        "Les donnees ne seront plus visibles",
+                        "Exclu de tous les calculs et rapports",
+                        "Action irreversible"
+                    ]
+                },
+                "force_delete": "Ajoutez ?force=true pour confirmer la suppression"
+            }
+        )
+
+    # Proceed with soft delete
+    lot.status = LotStatus.DELETED
     db.commit()
 
-    return {"message": "Lot deleted successfully"}
+    message = "Lot supprime avec succes"
+    if has_data:
+        message += f" ({total_records} enregistrement(s) associes seront exclus des rapports)"
+
+    return {"message": message, "deleted_lot_code": lot.code}
 
 
 @router.get("/{lot_id}/financial-summary")

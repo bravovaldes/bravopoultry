@@ -27,6 +27,11 @@ async def get_health_events(
     db: Session = Depends(get_db)
 ):
     """Get health events for a lot."""
+    # Verify lot exists and isn't deleted
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
+    if not lot:
+        raise HTTPException(status_code=404, detail="Lot not found")
+
     query = db.query(HealthEvent).filter(HealthEvent.lot_id == lot_id)
 
     if event_type:
@@ -270,6 +275,11 @@ async def get_lot_vaccination_schedules(
     db: Session = Depends(get_db)
 ):
     """Get vaccination schedules for a specific lot."""
+    # Verify lot exists and isn't deleted
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
+    if not lot:
+        raise HTTPException(status_code=404, detail="Lot not found")
+
     schedules = db.query(VaccinationSchedule).filter(
         VaccinationSchedule.lot_id == lot_id
     ).order_by(VaccinationSchedule.day_from).all()

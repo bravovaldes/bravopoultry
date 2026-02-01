@@ -13,7 +13,7 @@ from datetime import date
 from typing import List, Optional, Dict, Any
 from uuid import UUID
 
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.models.building import Building
 from app.models.site import Site
 from app.models.finance import Sale, Expense, PaymentStatus
@@ -50,7 +50,9 @@ class FinancialService:
                 ),
                 0
             )
-        ).outerjoin(Building).outerjoin(Site)
+        ).outerjoin(Building).outerjoin(Site).filter(
+            Lot.status != LotStatus.DELETED  # Exclude deleted lots
+        )
 
         # Apply filters
         if lot_id:
@@ -89,7 +91,9 @@ class FinancialService:
             func.coalesce(func.sum(Lot.chick_price_unit * Lot.initial_quantity), 0).label('chicks'),
             func.coalesce(func.sum(Lot.transport_cost), 0).label('transport'),
             func.coalesce(func.sum(Lot.other_initial_costs), 0).label('other')
-        ).outerjoin(Building).outerjoin(Site)
+        ).outerjoin(Building).outerjoin(Site).filter(
+            Lot.status != LotStatus.DELETED  # Exclude deleted lots
+        )
 
         if site_ids:
             if include_lots_without_building:
@@ -370,7 +374,11 @@ class FinancialService:
                 ),
                 0
             )
-        ).join(Building).filter(Building.site_id == site_id)
+        ).join(Building).filter(
+            Building.site_id == site_id,
+            Building.is_active == True,
+            Lot.status != LotStatus.DELETED  # Exclude deleted lots
+        )
 
         if start_date:
             lot_costs_query = lot_costs_query.filter(func.date(Lot.created_at) >= start_date)

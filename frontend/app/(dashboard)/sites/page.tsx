@@ -41,51 +41,51 @@ export default function SitesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Sites</h1>
-          <p className="text-gray-500 mt-1">Gerez vos sites de production</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Sites</h1>
+          <p className="text-sm text-gray-500 mt-1">Gerez vos sites de production</p>
         </div>
         <Link
           href="/sites/new"
-          className="inline-flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition"
+          className="inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition text-sm sm:text-base"
         >
-          <Plus className="w-5 h-5" />
-          Nouveau Site
+          <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span>Nouveau Site</span>
         </Link>
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-xl border p-4">
+      <div className="bg-white rounded-xl border p-3 sm:p-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Rechercher un site..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            className="w-full pl-9 sm:pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm"
           />
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border p-4">
-          <p className="text-sm text-gray-500">Total Sites</p>
-          <p className="text-2xl font-bold text-gray-900">{sites.length}</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-gray-500">Total Sites</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900">{sites.length}</p>
         </div>
-        <div className="bg-white rounded-xl border p-4">
-          <p className="text-sm text-gray-500">Batiments</p>
-          <p className="text-2xl font-bold text-gray-900">{totalBuildings}</p>
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-gray-500">Batiments</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900">{totalBuildings}</p>
         </div>
-        <div className="bg-white rounded-xl border p-4">
-          <p className="text-sm text-gray-500">Lots Actifs</p>
-          <p className="text-2xl font-bold text-gray-900">{totalActiveLots}</p>
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-gray-500">Lots Actifs</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900">{totalActiveLots}</p>
         </div>
-        <div className="bg-white rounded-xl border p-4">
-          <p className="text-sm text-gray-500">Total Oiseaux</p>
-          <p className="text-2xl font-bold text-gray-900">{totalBirds.toLocaleString()}</p>
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-gray-500">Total Oiseaux</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900">{totalBirds.toLocaleString()}</p>
         </div>
       </div>
 
@@ -96,9 +96,9 @@ export default function SitesPage() {
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-orange-500 mx-auto"></div>
           </div>
         ) : filteredSites.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
-            <MapPin className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-            <p>Aucun site trouve</p>
+          <div className="p-6 sm:p-8 text-center text-gray-500">
+            <MapPin className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-gray-300" />
+            <p className="text-sm sm:text-base">Aucun site trouve</p>
             <Link
               href="/sites/new"
               className="text-orange-500 hover:text-orange-600 text-sm font-medium"
@@ -112,14 +112,14 @@ export default function SitesPage() {
               <Link
                 key={site.id}
                 href={`/sites/${site.id}`}
-                className="flex items-center gap-4 p-4 hover:bg-gray-50 transition"
+                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:bg-gray-50 transition"
               >
-                <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-orange-600" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-gray-900">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="font-medium text-gray-900 text-sm sm:text-base">
                       {site.name}
                     </h3>
                     {site.code && (
@@ -128,19 +128,19 @@ export default function SitesPage() {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+                  <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1 text-xs sm:text-sm text-gray-500">
                     {site.city && <span>{site.city}</span>}
                     <span className="flex items-center gap-1">
-                      <Building2 className="w-4 h-4" />
+                      <Building2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       {site.buildings_count || 0} batiments
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Bird className="w-4 h-4" />
+                    <span className="hidden xs:flex items-center gap-1">
+                      <Bird className="w-3 h-3 sm:w-4 sm:h-4" />
                       {(site.total_birds || 0).toLocaleString()} oiseaux
                     </span>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex-shrink-0 hidden sm:block">
                   <p className="text-sm font-medium text-gray-900">
                     {site.active_lots_count || 0} lots actifs
                   </p>
@@ -148,7 +148,7 @@ export default function SitesPage() {
                     Capacite: {site.total_capacity?.toLocaleString() || '-'}
                   </p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
+                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
               </Link>
             ))}
           </div>

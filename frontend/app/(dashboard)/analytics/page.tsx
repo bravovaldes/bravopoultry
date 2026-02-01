@@ -237,9 +237,9 @@ export default function AnalyticsPage() {
 
       // Fallback: add lot field costs directly from selectedLot (only if in period)
       if (selectedLot && isLotInPeriod(selectedLot)) {
-        const chickCost = (selectedLot.chick_price_unit || 0) * (selectedLot.initial_quantity || 0)
-        const transportCost = selectedLot.transport_cost || 0
-        const otherCosts = selectedLot.other_initial_costs || 0
+        const chickCost = (parseFloat(selectedLot.chick_price_unit) || 0) * (selectedLot.initial_quantity || 0)
+        const transportCost = parseFloat(selectedLot.transport_cost) || 0
+        const otherCosts = parseFloat(selectedLot.other_initial_costs) || 0
         const lotFieldsTotal = chickCost + transportCost + otherCosts
         if (lotFieldsTotal > 0) {
           return total + lotFieldsTotal
@@ -360,15 +360,15 @@ export default function AnalyticsPage() {
 
       // Add lot field costs directly (only if lot is in period)
       if (selectedLot && isLotInPeriod(selectedLot)) {
-        const chickCost = (selectedLot.chick_price_unit || 0) * (selectedLot.initial_quantity || 0)
+        const chickCost = (parseFloat(selectedLot.chick_price_unit) || 0) * (selectedLot.initial_quantity || 0)
         if (chickCost > 0) {
           categories['poussins'] = (categories['poussins'] || 0) + chickCost
         }
         if (selectedLot.transport_cost) {
-          categories['transport'] = (categories['transport'] || 0) + selectedLot.transport_cost
+          categories['transport'] = (categories['transport'] || 0) + (parseFloat(selectedLot.transport_cost) || 0)
         }
         if (selectedLot.other_initial_costs) {
-          categories['autres'] = (categories['autres'] || 0) + selectedLot.other_initial_costs
+          categories['autres'] = (categories['autres'] || 0) + (parseFloat(selectedLot.other_initial_costs) || 0)
         }
       }
       return categories
@@ -386,15 +386,15 @@ export default function AnalyticsPage() {
         // Only add costs for lots created within the selected period
         if (!isLotInPeriod(lot)) return
 
-        const chickCost = (lot.chick_price_unit || 0) * (lot.initial_quantity || 0)
+        const chickCost = (parseFloat(lot.chick_price_unit) || 0) * (lot.initial_quantity || 0)
         if (chickCost > 0) {
           categories['poussins'] = (categories['poussins'] || 0) + chickCost
         }
         if (lot.transport_cost) {
-          categories['transport'] = (categories['transport'] || 0) + lot.transport_cost
+          categories['transport'] = (categories['transport'] || 0) + (parseFloat(lot.transport_cost) || 0)
         }
         if (lot.other_initial_costs) {
-          categories['autres'] = (categories['autres'] || 0) + lot.other_initial_costs
+          categories['autres'] = (categories['autres'] || 0) + (parseFloat(lot.other_initial_costs) || 0)
         }
       })
     }

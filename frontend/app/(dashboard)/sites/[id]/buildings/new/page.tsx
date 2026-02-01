@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { ArrowLeft, Building2, Save, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
@@ -13,6 +13,7 @@ import { HelpTooltip } from '@/components/ui/help-tooltip'
 export default function NewBuildingPage() {
   const params = useParams()
   const router = useRouter()
+  const queryClient = useQueryClient()
   const siteId = params.id as string
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -74,6 +75,10 @@ export default function NewBuildingPage() {
       toast.success('Batiment cree!')
       setSuccess(true)
       setError('')
+      // Invalider le cache pour rafraîchir les listes
+      queryClient.invalidateQueries({ queryKey: ['site', siteId] })
+      queryClient.invalidateQueries({ queryKey: ['sites'] })
+      queryClient.invalidateQueries({ queryKey: ['buildings'] })
       setTimeout(() => {
         router.push(`/buildings/${data.id}`)
       }, 1000)
