@@ -60,7 +60,7 @@ export default function OverviewPage() {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 space-y-4 lg:space-y-5">
+    <div className="w-full px-3 sm:px-4 lg:px-6 space-y-3 sm:space-y-4 lg:space-y-5">
       {/* Page header */}
       <div>
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Tableau de bord</h1>
@@ -68,7 +68,7 @@ export default function OverviewPage() {
       </div>
 
       {/* Stats grid - 6 KPIs on large screens */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
         <StatCard
           title="Bandes"
           value={summary.active_lots || 0}

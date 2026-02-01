@@ -96,6 +96,20 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Fix focus style - remove default browser outline, keep only custom ring */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+}
+
+/* Ensure smooth scroll to focused elements on mobile */
+input,
+select,
+textarea {
+  scroll-margin-top: 120px;
+}
+
 /* Success screen animations */
 @keyframes scale-in {
   from {

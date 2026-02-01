@@ -75,7 +75,7 @@ export default function NewSitePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto px-3 sm:px-4 lg:px-0 space-y-4 sm:space-y-5 lg:space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link
@@ -119,14 +119,14 @@ export default function NewSitePage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Basic Info Card */}
         <div className="bg-white rounded-xl border overflow-hidden">
-          <div className="bg-orange-50 px-5 py-3 border-b">
+          <div className="bg-orange-50 px-4 sm:px-5 py-3 border-b">
             <h2 className="font-semibold text-gray-900 flex items-center gap-2">
               <Building2 className="w-4 h-4 text-orange-500" />
               Informations generales
             </h2>
           </div>
 
-          <div className="p-5 space-y-4">
+          <div className="p-4 sm:p-5 space-y-4">
             <div>
               <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1.5">
                 <Tag className="w-3.5 h-3.5 text-gray-400" />
@@ -137,13 +137,17 @@ export default function NewSitePage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
                 placeholder="Ex: Ferme Douala Nord"
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-gray-50 focus:bg-white transition-colors"
                 required
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1.5">
                   <FileText className="w-3.5 h-3.5 text-gray-400" />
@@ -182,14 +186,14 @@ export default function NewSitePage() {
 
         {/* Location Card */}
         <div className="bg-white rounded-xl border overflow-hidden">
-          <div className="bg-blue-50 px-5 py-3 border-b">
+          <div className="bg-blue-50 px-4 sm:px-5 py-3 border-b">
             <h2 className="font-semibold text-gray-900 flex items-center gap-2">
               <MapPin className="w-4 h-4 text-blue-500" />
               Localisation
             </h2>
           </div>
 
-          <div className="p-5 space-y-4">
+          <div className="p-4 sm:p-5 space-y-4">
             <div>
               <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1.5">
                 <Map className="w-3.5 h-3.5 text-gray-400" />
@@ -205,7 +209,7 @@ export default function NewSitePage() {
               />
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1.5 block">
                   Ville
@@ -295,14 +299,14 @@ export default function NewSitePage() {
 
         {/* Notes Card */}
         <div className="bg-white rounded-xl border overflow-hidden">
-          <div className="bg-gray-50 px-5 py-3 border-b">
+          <div className="bg-gray-50 px-4 sm:px-5 py-3 border-b">
             <h2 className="font-semibold text-gray-900 flex items-center gap-2">
               <FileText className="w-4 h-4 text-gray-500" />
               Notes supplementaires
             </h2>
           </div>
 
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <textarea
               name="notes"
               value={formData.notes}
@@ -324,21 +328,21 @@ export default function NewSitePage() {
 
         {/* Actions */}
         <div className="bg-white rounded-xl border p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-gray-500">
+          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <p className="text-xs text-gray-500 text-center sm:text-left">
               <span className="text-red-500">*</span> Champs obligatoires
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-3">
               <Link
                 href="/sites"
-                className="px-5 py-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-600"
+                className="px-5 py-2.5 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-600"
               >
                 Annuler
               </Link>
               <button
                 type="submit"
                 disabled={createSite.isPending}
-                className="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-orange-600 transition shadow-sm disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-orange-600 transition shadow-sm disabled:opacity-50"
               >
                 {createSite.isPending ? (
                   <>

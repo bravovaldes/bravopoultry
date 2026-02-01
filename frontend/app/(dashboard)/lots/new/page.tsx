@@ -110,7 +110,7 @@ export default function NewLotPage() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 space-y-4 sm:space-y-5">
+    <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 space-y-3 sm:space-y-4 lg:space-y-5">
       {/* Header */}
       <div className="flex items-center gap-3 sm:gap-4">
         <Link
@@ -191,6 +191,10 @@ export default function NewLotPage() {
               <input
                 type="text"
                 {...register('name')}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
                 className="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500"
                 placeholder="Ex: Pondeuses Mars 2025, Batch A, etc."
               />
@@ -236,6 +240,7 @@ export default function NewLotPage() {
               <input
                 type="text"
                 {...register('supplier')}
+                autoComplete="off"
                 className="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500"
                 placeholder="Couvoir"
               />
