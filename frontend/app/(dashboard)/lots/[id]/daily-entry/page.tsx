@@ -81,9 +81,10 @@ export default function DailyEntryPage() {
       return response.data
     },
     enabled: !!lotId && !!formData.date,
-    // Prevent auto-refetch which causes form values to be overwritten
     refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes - data won't refetch automatically
+    // IMPORTANT: Always fetch fresh data when mounting to get latest values
+    refetchOnMount: 'always',
+    staleTime: 0, // Data is immediately stale - always refetch
   })
 
   // Load existing data when found - only once per date to avoid overwriting user edits
