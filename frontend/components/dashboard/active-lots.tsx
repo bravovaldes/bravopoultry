@@ -53,15 +53,15 @@ export function ActiveLots({ sites, lotFilter = 'all' }: ActiveLotsProps) {
       <div className="text-center py-6 text-gray-500">
         <Bird className="w-10 h-10 mx-auto mb-2 text-gray-300" />
         <p className="text-sm">
-          {lotFilter === 'broiler' ? 'Aucun lot de chair actif' :
-           lotFilter === 'layer' ? 'Aucun lot de pondeuses actif' :
-           'Aucun site configuré'}
+          {lotFilter === 'broiler' ? 'Aucune bande de chair active' :
+           lotFilter === 'layer' ? 'Aucune bande de pondeuses active' :
+           'Aucun site configure'}
         </p>
         <Link
           href="/lots"
           className="text-blue-500 hover:text-blue-600 text-sm font-medium"
         >
-          Voir les lots
+          Voir les bandes
         </Link>
       </div>
     )
@@ -107,7 +107,7 @@ export function ActiveLots({ sites, lotFilter = 'all' }: ActiveLotsProps) {
                   </span>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">lots</p>
+                  <p className="text-xs text-gray-500">bandes</p>
                 </div>
               </div>
             </div>

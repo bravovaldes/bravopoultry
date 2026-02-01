@@ -33,9 +33,9 @@ export function LotSelector({
   lots = [],
   value,
   onChange,
-  placeholder = 'Selectionner un lot',
+  placeholder = 'Selectionner une bande',
   showAll = true,
-  allLabel = 'Tous les lots',
+  allLabel = 'Toutes les bandes',
   maxVisible = 5,
   className,
   lotType = 'all',
@@ -121,7 +121,7 @@ export function LotSelector({
                   <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Rechercher un lot..."
+                    placeholder="Rechercher une bande..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full pl-8 pr-8 py-1.5 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
@@ -214,7 +214,7 @@ export function LotSelector({
                 </>
               ) : (
                 <div className="px-3 py-4 text-center text-gray-500 text-sm">
-                  {search ? `Aucun lot pour "${search}"` : 'Aucun lot disponible'}
+                  {search ? `Aucune bande pour "${search}"` : 'Aucune bande disponible'}
                 </div>
               )}
             </div>

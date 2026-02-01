@@ -116,14 +116,14 @@ export default function OverviewPage() {
         />
         <StatCard
           title="Dépenses"
-          value={`${Math.abs(month.expenses || 0) >= 1000000 ? ((month.expenses || 0) / 1000000).toFixed(1) + 'M' : ((month.expenses || 0) / 1000).toFixed(0) + 'K'} F`}
+          value={`${Math.abs(month.expenses || 0) >= 1000000 ? ((month.expenses || 0) / 1000000).toFixed(1) + 'M' : ((month.expenses || 0) / 1000).toFixed(0) + 'K'} XAF`}
           subtitle="30 jours"
           icon={TrendingUp}
           color="gray"
         />
         <StatCard
           title="Bénéfice"
-          value={`${margin >= 0 ? '+' : ''}${Math.abs(margin) >= 1000000 ? (margin / 1000000).toFixed(1) + 'M' : (margin / 1000).toFixed(0) + 'K'} F`}
+          value={`${margin >= 0 ? '+' : ''}${Math.abs(margin) >= 1000000 ? (margin / 1000000).toFixed(1) + 'M' : (margin / 1000).toFixed(0) + 'K'} XAF`}
           subtitle="30 jours"
           icon={Wallet}
           color={margin >= 0 ? 'green' : 'red'}

@@ -40,12 +40,12 @@ export function BroilerDashboard({ broilerSummary }: BroilerDashboardProps) {
     return (
       <div className="text-center py-8 text-gray-500">
         <Scale className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-        <p>Aucun lot de chair actif</p>
+        <p>Aucune bande de chair active</p>
         <Link
           href="/lots/create"
           className="text-blue-500 hover:text-blue-600 text-sm font-medium"
         >
-          Creer un lot
+          Creer une bande
         </Link>
       </div>
     )
@@ -212,7 +212,7 @@ export function BroilerDashboard({ broilerSummary }: BroilerDashboardProps) {
             {(lot.sales_amount || 0) > 0 && (
               <div className="mt-2 text-right">
                 <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                  {(lot.sales_amount || 0).toLocaleString()} FCFA vendus
+                  {(lot.sales_amount || 0).toLocaleString()} XAF vendus
                 </span>
               </div>
             )}

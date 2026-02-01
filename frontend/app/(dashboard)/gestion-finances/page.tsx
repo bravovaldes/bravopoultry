@@ -520,7 +520,7 @@ export default function GestionFinancesPage() {
                     <th className="px-4 py-3">Date</th>
                     <th className="px-4 py-3">Description</th>
                     <th className="px-4 py-3">Categorie</th>
-                    <th className="px-4 py-3">Lot</th>
+                    <th className="px-4 py-3">Bande</th>
                     <th className="px-4 py-3 text-right">Montant</th>
                   </tr>
                 </thead>
@@ -883,7 +883,7 @@ function AddExpenseModal({ suppliers, lots, onClose, onSuccess }: { suppliers: a
                 value={formData.amount}
                 onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                 className="w-full px-3 py-2 border rounded-lg text-sm"
-                placeholder="FCFA"
+                placeholder="XAF"
                 required
               />
             </div>
@@ -919,7 +919,7 @@ function AddExpenseModal({ suppliers, lots, onClose, onSuccess }: { suppliers: a
             <label className="block text-sm font-medium mb-1">
               <span className="flex items-center gap-1">
                 <Bird className="w-4 h-4 text-orange-500" />
-                Lier a un lot
+                Lier a une bande
               </span>
             </label>
             {lots.length > 5 && (
@@ -929,7 +929,7 @@ function AddExpenseModal({ suppliers, lots, onClose, onSuccess }: { suppliers: a
                   type="text"
                   value={lotSearch}
                   onChange={(e) => setLotSearch(e.target.value)}
-                  placeholder="Rechercher un lot..."
+                  placeholder="Rechercher une bande..."
                   className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm"
                 />
               </div>
@@ -940,7 +940,7 @@ function AddExpenseModal({ suppliers, lots, onClose, onSuccess }: { suppliers: a
               className="w-full px-3 py-2 border rounded-lg text-sm"
               size={lots.length > 5 ? Math.min(filteredLots.length + 1, 5) : 1}
             >
-              <option value="">-- Aucun lot --</option>
+              <option value="">-- Aucune bande --</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
                   {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''} · {lot.current_quantity?.toLocaleString()} oiseaux
@@ -948,7 +948,7 @@ function AddExpenseModal({ suppliers, lots, onClose, onSuccess }: { suppliers: a
               ))}
             </select>
             {lotSearch && filteredLots.length === 0 && (
-              <p className="text-xs text-orange-500 mt-1">Aucun lot pour "{lotSearch}"</p>
+              <p className="text-xs text-orange-500 mt-1">Aucune bande pour "{lotSearch}"</p>
             )}
           </div>
           <div>
@@ -1149,7 +1149,7 @@ function AddTransactionModal({ accounts, lots, onClose, onSuccess }: { accounts:
                 value={formData.unit_price}
                 onChange={(e) => setFormData({ ...formData, unit_price: e.target.value })}
                 className="w-full px-3 py-2 border rounded-lg"
-                placeholder="FCFA"
+                placeholder="XAF"
                 required
               />
             </div>
@@ -1163,7 +1163,7 @@ function AddTransactionModal({ accounts, lots, onClose, onSuccess }: { accounts:
             <label className="block text-sm font-medium mb-1">
               <span className="flex items-center gap-1">
                 <Bird className="w-4 h-4 text-orange-500" />
-                Lier a un lot
+                Lier a une bande
               </span>
             </label>
             {lots.length > 5 && (
@@ -1173,7 +1173,7 @@ function AddTransactionModal({ accounts, lots, onClose, onSuccess }: { accounts:
                   type="text"
                   value={lotSearch}
                   onChange={(e) => setLotSearch(e.target.value)}
-                  placeholder="Rechercher un lot..."
+                  placeholder="Rechercher une bande..."
                   className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm"
                 />
               </div>
@@ -1184,7 +1184,7 @@ function AddTransactionModal({ accounts, lots, onClose, onSuccess }: { accounts:
               className="w-full px-3 py-2 border rounded-lg"
               size={lots.length > 5 ? Math.min(filteredLots.length + 1, 6) : 1}
             >
-              <option value="">-- Aucun lot (vente generale) --</option>
+              <option value="">-- Aucune bande (vente generale) --</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
                   {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} · {lot.type === 'layer' ? 'Pondeuses' : 'Chair'} · {lot.current_quantity?.toLocaleString()} {lot.building_name ? `· ${lot.building_name}` : ''}
@@ -1192,9 +1192,9 @@ function AddTransactionModal({ accounts, lots, onClose, onSuccess }: { accounts:
               ))}
             </select>
             {lotSearch && filteredLots.length === 0 && (
-              <p className="text-xs text-orange-500 mt-1">Aucun lot trouve pour "{lotSearch}"</p>
+              <p className="text-xs text-orange-500 mt-1">Aucune bande trouvee pour "{lotSearch}"</p>
             )}
-            <p className="text-xs text-gray-500 mt-1">Liez cette vente a un lot pour calculer la rentabilite</p>
+            <p className="text-xs text-gray-500 mt-1">Liez cette vente a une bande pour calculer la rentabilite</p>
           </div>
           {/* Client Selection */}
           <div>

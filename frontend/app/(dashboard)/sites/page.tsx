@@ -80,7 +80,7 @@ export default function SitesPage() {
           <p className="text-xl sm:text-2xl font-bold text-gray-900">{totalBuildings}</p>
         </div>
         <div className="bg-white rounded-xl border p-3 sm:p-4">
-          <p className="text-xs sm:text-sm text-gray-500">Lots Actifs</p>
+          <p className="text-xs sm:text-sm text-gray-500">Bandes Actives</p>
           <p className="text-xl sm:text-2xl font-bold text-gray-900">{totalActiveLots}</p>
         </div>
         <div className="bg-white rounded-xl border p-3 sm:p-4">
@@ -142,7 +142,7 @@ export default function SitesPage() {
                 </div>
                 <div className="text-right flex-shrink-0 hidden sm:block">
                   <p className="text-sm font-medium text-gray-900">
-                    {site.active_lots_count || 0} lots actifs
+                    {site.active_lots_count || 0} bandes actives
                   </p>
                   <p className="text-xs text-gray-500">
                     Capacite: {site.total_capacity?.toLocaleString() || '-'}

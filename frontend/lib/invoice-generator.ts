@@ -56,7 +56,7 @@ export function formatCurrencyXAF(amount: number): string {
     style: 'decimal',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount) + ' FCFA'
+  }).format(amount) + ' XAF'
 }
 
 export function generateInvoiceHTML(data: InvoiceData): string {

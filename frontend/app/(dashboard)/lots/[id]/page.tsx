@@ -214,7 +214,7 @@ export default function BandeDetailPage() {
       return response.data
     },
     onSuccess: (data) => {
-      toast.success(`Lot scindé avec succès. Nouveau lot: ${data.new_lot_code}`)
+      toast.success(`Bande scindee avec succes. Nouvelle bande: ${data.new_lot_code}`)
       setShowSplitModal(false)
       setSplitQuantity(0)
       setSplitBuildingId('')
@@ -242,7 +242,7 @@ export default function BandeDetailPage() {
       try {
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'lot_is_active') {
-          toast.error(`Impossible de supprimer ce lot. Il est encore actif avec ${errorData.current_quantity || 0} oiseaux en élevage. Veuillez d'abord clôturer le lot avant de le supprimer.`)
+          toast.error(`Impossible de supprimer cette bande. Elle est encore active avec ${errorData.current_quantity || 0} oiseaux en elevage. Veuillez d'abord cloturer la bande avant de la supprimer.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)
@@ -857,7 +857,7 @@ export default function BandeDetailPage() {
             )}>
               <p className="text-sm sm:text-lg md:text-xl font-bold">
                 {(financialSummary?.summary?.gross_profit || 0) >= 0 ? '+' : ''}
-                {(financialSummary?.summary?.gross_profit || 0).toLocaleString()} F
+                {(financialSummary?.summary?.gross_profit || 0).toLocaleString()} XAF
               </p>
               <p className="text-[10px] sm:text-xs text-gray-500">Profit</p>
             </div>
@@ -891,7 +891,7 @@ export default function BandeDetailPage() {
                   <p className="text-xs text-gray-500">Dépenses</p>
                 </div>
                 <p className="text-base font-bold text-red-600">
-                  {(financialSummary.summary?.total_expenses || 0).toLocaleString()} F
+                  {(financialSummary.summary?.total_expenses || 0).toLocaleString()} XAF
                 </p>
               </div>
               <div className="p-2.5 bg-green-50 rounded-lg">
@@ -900,7 +900,7 @@ export default function BandeDetailPage() {
                   <p className="text-xs text-gray-500">Revenus</p>
                 </div>
                 <p className="text-base font-bold text-green-600">
-                  {(financialSummary.summary?.total_revenue || 0).toLocaleString()} F
+                  {(financialSummary.summary?.total_revenue || 0).toLocaleString()} XAF
                 </p>
               </div>
               <div className="p-2.5 bg-emerald-50 rounded-lg">
@@ -912,7 +912,7 @@ export default function BandeDetailPage() {
                   'text-base font-bold',
                   (financialSummary.summary?.gross_profit || 0) >= 0 ? 'text-emerald-600' : 'text-red-600'
                 )}>
-                  {(financialSummary.summary?.gross_profit || 0).toLocaleString()} F
+                  {(financialSummary.summary?.gross_profit || 0).toLocaleString()} XAF
                 </p>
               </div>
               <div className="p-2.5 bg-purple-50 rounded-lg">
@@ -933,7 +933,7 @@ export default function BandeDetailPage() {
                   'text-base font-bold',
                   (financialSummary.per_unit?.profit_per_bird || 0) >= 0 ? 'text-blue-600' : 'text-red-600'
                 )}>
-                  {(financialSummary.per_unit?.profit_per_bird || 0).toLocaleString()} F
+                  {(financialSummary.per_unit?.profit_per_bird || 0).toLocaleString()} XAF
                 </p>
               </div>
               <div className="p-2.5 bg-amber-50 rounded-lg">
@@ -977,7 +977,7 @@ export default function BandeDetailPage() {
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-1">
                             <span className="text-sm text-gray-700">{label}</span>
-                            <span className="text-sm font-medium">{data.total.toLocaleString()} F</span>
+                            <span className="text-sm font-medium">{data.total.toLocaleString()} XAF</span>
                           </div>
                           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                             <div
@@ -1025,7 +1025,7 @@ export default function BandeDetailPage() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Revenus est.</p>
-                      <p className="font-bold text-green-600">{Math.round(calculatedRevenue).toLocaleString()} F</p>
+                      <p className="font-bold text-green-600">{Math.round(calculatedRevenue).toLocaleString()} XAF</p>
                     </div>
                   </div>
                 </div>
@@ -1076,7 +1076,7 @@ export default function BandeDetailPage() {
                         </div>
                         <div className="text-right">
                           <p className="text-sm font-bold text-green-600">
-                            +{(sale.total_amount || 0).toLocaleString()} F
+                            +{(sale.total_amount || 0).toLocaleString()} XAF
                           </p>
                           <span className={cn(
                             'text-xs px-1.5 py-0.5 rounded',
@@ -1103,7 +1103,7 @@ export default function BandeDetailPage() {
             {(!financialSummary.sales || financialSummary.sales.length === 0) && (
               <div className="text-center py-4 text-gray-500">
                 <ShoppingCart className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p>Aucune vente enregistree pour ce lot</p>
+                <p>Aucune vente enregistree pour cette bande</p>
                 <Link
                   href="/commercial"
                   className="text-orange-500 hover:underline text-sm mt-1 inline-block"
@@ -1337,7 +1337,7 @@ export default function BandeDetailPage() {
                   <Split className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
                 </div>
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                  Scinder le lot
+                  Scinder la bande
                 </h3>
               </div>
               <button
@@ -1349,7 +1349,7 @@ export default function BandeDetailPage() {
             </div>
 
             <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-              Transférer une partie des oiseaux vers un nouveau lot dans un autre bâtiment.
+              Transferer une partie des oiseaux vers une nouvelle bande dans un autre batiment.
             </p>
 
             <div className="space-y-3 sm:space-y-4">
@@ -1357,7 +1357,7 @@ export default function BandeDetailPage() {
               <div className="p-2.5 sm:p-3 bg-gray-50 rounded-lg text-xs sm:text-sm space-y-2">
                 <p className="font-medium text-gray-700 flex items-center gap-2">
                   <Info className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 flex-shrink-0" />
-                  <span className="truncate">Lot source: {lot.code}</span>
+                  <span className="truncate">Bande source: {lot.code}</span>
                 </p>
                 <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 text-xs pl-5 sm:pl-6">
                   <p className="text-gray-500">Effectif actuel:</p>
@@ -1376,7 +1376,7 @@ export default function BandeDetailPage() {
                   <p className="font-medium text-gray-800">{formatDate(lot.placement_date)}</p>
                 </div>
                 <p className="text-xs text-blue-600 italic pl-5 sm:pl-6 pt-1">
-                  Ces infos seront héritées par le nouveau lot
+                  Ces infos seront heritees par la nouvelle bande
                 </p>
               </div>
 
@@ -1401,20 +1401,22 @@ export default function BandeDetailPage() {
 
               {/* Site filter */}
               <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1" />
-                  Filtrer par site
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs sm:text-sm font-medium text-gray-700 flex items-center">
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" />
+                    Filtrer par site
+                  </label>
+                  <Link
+                    href="/sites/new"
+                    className="inline-flex items-center gap-1 text-xs text-purple-600 hover:text-purple-700 font-medium"
+                  >
+                    <Plus className="w-3 h-3" />
+                    Créer un site
+                  </Link>
+                </div>
                 {(!sites || sites.length === 0) ? (
                   <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
-                    <p className="text-xs text-amber-800 mb-1.5">Aucun site disponible</p>
-                    <Link
-                      href="/sites/new"
-                      className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
-                    >
-                      <Plus className="w-3 h-3" />
-                      Créer un site
-                    </Link>
+                    <p className="text-xs text-amber-800">Aucun site disponible. Créez d'abord un site.</p>
                   </div>
                 ) : (
                   <select
@@ -1437,21 +1439,23 @@ export default function BandeDetailPage() {
 
               {/* Target building */}
               <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1" />
-                  Bâtiment de destination
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs sm:text-sm font-medium text-gray-700 flex items-center">
+                    <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" />
+                    Bâtiment de destination
+                  </label>
+                  <Link
+                    href="/sites"
+                    className="inline-flex items-center gap-1 text-xs text-purple-600 hover:text-purple-700 font-medium"
+                  >
+                    <Plus className="w-3 h-3" />
+                    Créer un bâtiment
+                  </Link>
+                </div>
 
                 {(!buildings || buildings.length === 0) ? (
                   <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
-                    <p className="text-xs text-amber-800 mb-1.5">Aucun bâtiment disponible</p>
-                    <Link
-                      href="/sites"
-                      className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
-                    >
-                      <Plus className="w-3 h-3" />
-                      Créer un bâtiment
-                    </Link>
+                    <p className="text-xs text-amber-800">Aucun bâtiment disponible. Créez d'abord un bâtiment.</p>
                   </div>
                 ) : (
                   <>
@@ -1495,7 +1499,7 @@ export default function BandeDetailPage() {
               {/* New lot name (optional) */}
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  Nom du nouveau lot (optionnel)
+                  Nom de la nouvelle bande (optionnel)
                 </label>
                 <input
                   type="text"
@@ -1518,7 +1522,7 @@ export default function BandeDetailPage() {
                 <label htmlFor="distributeExpenses" className="text-xs sm:text-sm">
                   <span className="font-medium text-amber-800">Répartir les dépenses</span>
                   <p className="text-amber-600 text-xs mt-0.5">
-                    Répartition proportionnelle ({((splitQuantity / (lot.current_quantity || 1)) * 100).toFixed(0)}% vers le nouveau lot)
+                    Repartition proportionnelle ({((splitQuantity / (lot.current_quantity || 1)) * 100).toFixed(0)}% vers la nouvelle bande)
                   </p>
                 </label>
               </div>
@@ -1541,7 +1545,7 @@ export default function BandeDetailPage() {
                 disabled={splitLot.isPending || !splitBuildingId || splitQuantity <= 0 || splitQuantity >= (lot.current_quantity || 0)}
                 className="px-4 py-2 text-sm bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {splitLot.isPending ? 'Création...' : 'Scinder le lot'}
+                {splitLot.isPending ? 'Creation...' : 'Scinder la bande'}
               </button>
             </div>
           </div>

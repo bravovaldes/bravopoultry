@@ -1109,11 +1109,11 @@ function AddSaleModal({ clients, onClose, onSuccess, initialClientId = '' }: { c
           {isBirdSale && (
             <>
               <div>
-                <label className="block text-sm font-medium mb-1">Lot source (optionnel)</label>
+                <label className="block text-sm font-medium mb-1">Bande source (optionnel)</label>
                 {activeLots && activeLots.length > 5 && (
                   <input
                     type="text"
-                    placeholder="Rechercher un lot..."
+                    placeholder="Rechercher une bande..."
                     value={lotSearch}
                     onChange={(e) => setLotSearch(e.target.value)}
                     className="w-full px-3 py-2 border rounded-lg mb-2 text-sm"
@@ -1125,21 +1125,21 @@ function AddSaleModal({ clients, onClose, onSuccess, initialClientId = '' }: { c
                   className="w-full px-3 py-2 border rounded-lg"
                   size={filteredLots?.length > 5 ? 4 : 1}
                 >
-                  <option value="">Selectionner un lot</option>
+                  <option value="">Selectionner une bande</option>
                   {filteredLots?.map((lot: any) => (
                     <option key={lot.id} value={lot.id}>
-                      {lot.name || lot.code || `Lot ${lot.id?.slice(0, 8)}`}{lot.name && lot.code ? ` (${lot.code})` : ''} · {lot.site_name} / {lot.building_name} · {lot.available_birds} {formData.product_type === 'culled_hens' ? 'poules' : 'poulets'}
+                      {lot.name || lot.code || `Bande ${lot.id?.slice(0, 8)}`}{lot.name && lot.code ? ` (${lot.code})` : ''} · {lot.site_name} / {lot.building_name} · {lot.available_birds} {formData.product_type === 'culled_hens' ? 'poules' : 'poulets'}
                     </option>
                   ))}
                 </select>
                 {(!filteredLots || filteredLots.length === 0) && activeLots && activeLots.length > 0 && lotSearch && (
                   <p className="text-sm text-gray-500 mt-1">
-                    Aucun lot ne correspond a "{lotSearch}"
+                    Aucune bande ne correspond a "{lotSearch}"
                   </p>
                 )}
                 {(!activeLots || activeLots.length === 0) && (
                   <p className="text-sm text-amber-600 mt-1">
-                    Aucun lot {formData.product_type === 'culled_hens' ? 'de pondeuses' : 'de poulets de chair'} actif trouve
+                    Aucune bande {formData.product_type === 'culled_hens' ? 'de pondeuses' : 'de poulets de chair'} active trouvee
                   </p>
                 )}
               </div>
@@ -1228,7 +1228,7 @@ function AddSaleModal({ clients, onClose, onSuccess, initialClientId = '' }: { c
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Prix unitaire (FCFA)</label>
+                <label className="block text-sm font-medium mb-1">Prix unitaire (XAF)</label>
                 <input
                   type="number"
                   value={formData.unit_price}
@@ -1663,7 +1663,7 @@ function AddClientModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Limite de credit (FCFA)</label>
+            <label className="block text-sm font-medium mb-1">Limite de credit (XAF)</label>
             <input
               type="number"
               value={formData.credit_limit}
@@ -1818,7 +1818,7 @@ function EditClientModal({ client, onClose, onSuccess }: { client: any; onClose:
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Limite de credit (FCFA)</label>
+            <label className="block text-sm font-medium mb-1">Limite de credit (XAF)</label>
             <input
               type="number"
               value={formData.credit_limit}

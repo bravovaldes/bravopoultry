@@ -57,7 +57,7 @@ const ADVANCED_FEATURES = [
     id: 'weather-impact',
     icon: Cloud,
     title: 'Impact meteo → Production',
-    description: 'Correlation automatique entre les previsions meteo et l\'impact sur vos lots. Recommandations proactives.',
+    description: 'Correlation automatique entre les previsions meteo et l\'impact sur vos bandes. Recommandations proactives.',
     highlight: 'Meteo + IA',
   },
   {
@@ -102,7 +102,7 @@ const COMING_SOON_FEATURES = [
     id: 'growth-forecast',
     icon: Scale,
     title: 'Prevision de croissance',
-    description: 'Courbes de croissance predites avec alertes si le lot devie de la trajectoire optimale.',
+    description: 'Courbes de croissance predites avec alertes si la bande devie de la trajectoire optimale.',
   },
   {
     id: 'feed-optimization',
@@ -126,7 +126,7 @@ const COMING_SOON_FEATURES = [
     id: 'health-score',
     icon: Target,
     title: 'Score de sante global',
-    description: 'Un score unique combinant tous les indicateurs de sante de vos lots.',
+    description: 'Un score unique combinant tous les indicateurs de sante de vos bandes.',
   },
 ]
 
@@ -134,46 +134,46 @@ export default function PredictionsPage() {
   const [activeTab, setActiveTab] = useState<'advanced' | 'coming-soon'>('advanced')
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Brain className="w-7 h-7 text-orange-600" />
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <Brain className="w-6 h-6 sm:w-7 sm:h-7 text-orange-600" />
           Predictions IA
         </h1>
-        <p className="text-gray-500">Intelligence artificielle pour optimiser votre elevage</p>
+        <p className="text-sm sm:text-base text-gray-500">Intelligence artificielle pour optimiser votre elevage</p>
       </div>
 
       {/* Main Banner */}
-      <div className="bg-orange-50 border border-orange-200 rounded-xl p-6">
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-orange-100 rounded-xl">
-            <Sparkles className="w-6 h-6 text-orange-600" />
+      <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+          <div className="p-2.5 sm:p-3 bg-orange-100 rounded-xl">
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <h2 className="text-lg font-semibold text-gray-900">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900">
                 Solutions IA en developpement
               </h2>
               <span className="text-xs px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full font-medium">
                 Bientot
               </span>
             </div>
-            <p className="text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600">
               Nous developpons des solutions d'intelligence artificielle pour transformer votre elevage.
               Ces fonctionnalites utiliseront VOS donnees pour des predictions personnalisees et precises.
             </p>
-            <div className="flex flex-wrap gap-4 mt-4">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <BarChart3 className="w-4 h-4 text-orange-500" />
+            <div className="flex flex-wrap gap-3 sm:gap-4 mt-3 sm:mt-4">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500" />
                 <span>Base sur vos donnees</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <TrendingUp className="w-4 h-4 text-orange-500" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500" />
                 <span>Amelioration continue</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Rocket className="w-4 h-4 text-orange-500" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                <Rocket className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500" />
                 <span>Technologies de pointe</span>
               </div>
             </div>
@@ -182,62 +182,62 @@ export default function PredictionsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 p-1 bg-gray-100 rounded-lg w-fit">
+      <div className="flex items-center gap-1 sm:gap-2 p-1 bg-gray-100 rounded-lg w-full sm:w-fit overflow-x-auto">
         <button
           onClick={() => setActiveTab('advanced')}
           className={cn(
-            "px-4 py-2 rounded-lg text-sm font-medium transition",
+            "flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition whitespace-nowrap",
             activeTab === 'advanced'
               ? "bg-white shadow text-orange-600"
               : "text-gray-600 hover:text-gray-900"
           )}
         >
-          <Zap className="w-4 h-4 inline mr-2" />
+          <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1.5 sm:mr-2" />
           Solutions avancees
         </button>
         <button
           onClick={() => setActiveTab('coming-soon')}
           className={cn(
-            "px-4 py-2 rounded-lg text-sm font-medium transition",
+            "flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition whitespace-nowrap",
             activeTab === 'coming-soon'
               ? "bg-white shadow text-orange-600"
               : "text-gray-600 hover:text-gray-900"
           )}
         >
-          <Clock className="w-4 h-4 inline mr-2" />
+          <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1.5 sm:mr-2" />
           Bientot disponible
         </button>
       </div>
 
       {/* Advanced Features */}
       {activeTab === 'advanced' && (
-        <div className="space-y-6">
-          <div className="bg-white border rounded-xl p-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Lock className="w-5 h-5 text-gray-600" />
+        <div className="space-y-4 sm:space-y-6">
+          <div className="bg-white border rounded-xl p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-start gap-2.5 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-gray-100 rounded-lg">
+                  <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Solutions sur mesure</p>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm sm:text-base font-medium text-gray-900">Solutions sur mesure</p>
+                  <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                     Ces fonctionnalites necessitent une implementation personnalisee. Contactez-nous pour en discuter.
                   </p>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <a
                   href="mailto:contact@bravopoultry.com"
-                  className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition"
+                  className="flex items-center justify-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-200 transition"
                 >
                   <Mail className="w-4 h-4" />
-                  contact@bravopoultry.com
+                  <span className="truncate">contact@bravopoultry.com</span>
                 </a>
                 <a
                   href="https://wa.me/14184901849"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition"
+                  className="flex items-center justify-center gap-2 px-3 py-2 bg-green-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-green-700 transition"
                 >
                   <Phone className="w-4 h-4" />
                   +1 418-490-1849
@@ -246,24 +246,24 @@ export default function PredictionsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             {ADVANCED_FEATURES.map((feature) => {
               const Icon = feature.icon
               return (
                 <div
                   key={feature.id}
-                  className="bg-white rounded-xl border p-5 hover:border-orange-200 hover:shadow-sm transition"
+                  className="bg-white rounded-xl border p-4 sm:p-5 hover:border-orange-200 hover:shadow-sm transition"
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="p-2.5 bg-gray-100 rounded-xl">
-                      <Icon className="w-5 h-5 text-gray-700" />
+                  <div className="flex items-start justify-between mb-2 sm:mb-3">
+                    <div className="p-2 sm:p-2.5 bg-gray-100 rounded-xl">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                     </div>
-                    <span className="text-xs px-2.5 py-1 bg-orange-50 text-orange-600 rounded-full font-medium">
+                    <span className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-orange-50 text-orange-600 rounded-full font-medium">
                       {feature.highlight}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">{feature.title}</h3>
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{feature.description}</p>
                 </div>
               )
             })}
@@ -274,15 +274,15 @@ export default function PredictionsPage() {
 
       {/* Coming Soon Features */}
       {activeTab === 'coming-soon' && (
-        <div className="space-y-6">
-          <div className="bg-white border rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-gray-100 rounded-lg">
-                <Clock className="w-5 h-5 text-gray-600" />
+        <div className="space-y-4 sm:space-y-6">
+          <div className="bg-white border rounded-xl p-3 sm:p-4">
+            <div className="flex items-start gap-2.5 sm:gap-3">
+              <div className="p-1.5 sm:p-2 bg-gray-100 rounded-lg">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">En cours de developpement</p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm sm:text-base font-medium text-gray-900">En cours de developpement</p>
+                <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                   Ces fonctionnalites seront automatiquement activees pour votre compte.
                   Elles utiliseront vos donnees existantes pour generer des predictions personnalisees.
                 </p>
@@ -290,27 +290,27 @@ export default function PredictionsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {COMING_SOON_FEATURES.map((feature) => {
               const Icon = feature.icon
               return (
                 <div
                   key={feature.id}
-                  className="bg-white rounded-xl border p-5 hover:border-orange-200 hover:shadow-sm transition"
+                  className="bg-white rounded-xl border p-4 sm:p-5 hover:border-orange-200 hover:shadow-sm transition"
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="p-2.5 bg-gray-100 rounded-xl">
-                      <Icon className="w-5 h-5 text-gray-700" />
+                  <div className="flex items-start justify-between mb-2 sm:mb-3">
+                    <div className="p-2 sm:p-2.5 bg-gray-100 rounded-xl">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                     </div>
-                    <span className="text-xs px-2.5 py-1 bg-amber-50 text-amber-600 rounded-full font-medium">
+                    <span className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-amber-50 text-amber-600 rounded-full font-medium">
                       En dev
                     </span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">{feature.title}</h3>
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{feature.description}</p>
 
-                  <div className="mt-4 pt-3 border-t flex items-center gap-2 text-xs text-gray-500">
-                    <BarChart3 className="w-3.5 h-3.5" />
+                  <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-gray-500">
+                    <BarChart3 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     <span>Utilise vos donnees</span>
                   </div>
                 </div>
@@ -319,12 +319,12 @@ export default function PredictionsPage() {
           </div>
 
           {/* Note */}
-          <div className="bg-gray-50 border rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <Brain className="w-5 h-5 text-gray-500 mt-0.5" />
+          <div className="bg-gray-50 border rounded-xl p-3 sm:p-4">
+            <div className="flex items-start gap-2.5 sm:gap-3">
+              <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="font-medium text-gray-700">Comment ca fonctionne ?</p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm sm:text-base font-medium text-gray-700">Comment ca fonctionne ?</p>
+                <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                   Plus vous enregistrez de donnees dans BravoPoultry, plus les predictions seront precises.
                   Nos algorithmes analysent continuellement vos donnees pour identifier des patterns
                   et generer des recommandations personnalisees.

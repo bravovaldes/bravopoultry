@@ -51,41 +51,41 @@ const TUTORIALS = [
     id: 'tuto-lots',
     category: 'tutorials',
     icon: ClipboardList,
-    title: 'Gerer vos lots',
-    subtitle: 'Creation et suivi des lots',
+    title: 'Gerer vos bandes',
+    subtitle: 'Creation et suivi des bandes',
     content: {
-      description: 'Apprenez a creer et gerer vos lots de volailles dans BravoPoultry. Un lot represente un groupe d\'oiseaux arrives en meme temps.',
+      description: 'Apprenez a creer et gerer vos bandes de volailles dans BravoPoultry. Une bande represente un groupe d\'oiseaux arrives en meme temps.',
       steps: [
         {
-          title: 'Creer un nouveau lot',
+          title: 'Creer une nouvelle bande',
           instructions: [
-            'Allez dans "Lots" depuis le menu',
-            'Cliquez sur "+ Nouveau lot"',
+            'Allez dans "Bandes" depuis le menu',
+            'Cliquez sur "+ Nouvelle bande"',
             'Remplissez: nom, type (chair/pondeuse), quantite initiale',
             'Selectionnez le batiment et la date de placement',
             'Indiquez l\'age a l\'arrivee (0 pour poussins d\'un jour)',
           ],
         },
         {
-          title: 'Suivre un lot actif',
+          title: 'Suivre une bande active',
           instructions: [
-            'Cliquez sur un lot pour voir ses details',
+            'Cliquez sur une bande pour voir ses details',
             'Consultez les KPIs: age, effectif, mortalite, poids moyen',
             'Enregistrez les evenements quotidiens',
             'Suivez la courbe de croissance',
           ],
         },
         {
-          title: 'Cloturer un lot',
+          title: 'Cloturer une bande',
           instructions: [
-            'Utilisez "Cloturer le lot" quand la bande est vendue',
+            'Utilisez "Cloturer la bande" quand la bande est vendue',
             'Entrez les donnees finales de vente',
-            'Le lot passe en historique avec toutes ses statistiques',
+            'La bande passe en historique avec toutes ses statistiques',
           ],
         },
       ],
       tips: [
-        'Utilisez des codes de lot significatifs (ex: B1-2024-01)',
+        'Utilisez des codes de bande significatifs (ex: B1-2024-01)',
         'Enregistrez les donnees quotidiennement pour un meilleur suivi',
         'Consultez l\'historique pour comparer vos performances',
       ],
@@ -103,7 +103,7 @@ const TUTORIALS = [
         {
           title: 'Enregistrement quotidien',
           instructions: [
-            'Selectionnez le lot concerne',
+            'Selectionnez la bande concernee',
             'Cliquez sur "Enregistrer mortalite"',
             'Entrez le nombre de morts du jour',
             'Selectionnez la cause si connue',
@@ -113,7 +113,7 @@ const TUTORIALS = [
         {
           title: 'Analyser les tendances',
           instructions: [
-            'Consultez le graphique de mortalite dans les details du lot',
+            'Consultez le graphique de mortalite dans les details de la bande',
             'Comparez avec les standards de la souche',
             'Identifiez les pics anormaux',
           ],
@@ -152,7 +152,7 @@ const TUTORIALS = [
           title: 'Interpreter les resultats',
           instructions: [
             'Comparez avec la courbe standard de la souche',
-            'Verifiez l\'homogeneite du lot (CV < 10%)',
+            'Verifiez l\'homogeneite de la bande (CV < 10%)',
             'Analysez l\'ecart avec l\'objectif',
           ],
         },
@@ -171,7 +171,7 @@ const TUTORIALS = [
     title: 'Gestion de l\'alimentation',
     subtitle: 'Stock et consommation',
     content: {
-      description: 'Suivez vos stocks d\'aliments et la consommation de vos lots pour optimiser vos achats et detecter les anomalies.',
+      description: 'Suivez vos stocks d\'aliments et la consommation de vos bandes pour optimiser vos achats et detecter les anomalies.',
       steps: [
         {
           title: 'Enregistrer une livraison',
@@ -185,7 +185,7 @@ const TUTORIALS = [
         {
           title: 'Enregistrer la consommation',
           instructions: [
-            'Selectionnez le lot',
+            'Selectionnez la bande',
             'Entrez la quantite distribuee du jour',
             'L\'indice de consommation est calcule automatiquement',
           ],
@@ -205,7 +205,7 @@ const TUTORIALS = [
     title: 'Suivi sanitaire',
     subtitle: 'Vaccins et traitements',
     content: {
-      description: 'Gerez le calendrier vaccinal et enregistrez les traitements pour assurer la tracabilite sanitaire de vos lots.',
+      description: 'Gerez le calendrier vaccinal et enregistrez les traitements pour assurer la tracabilite sanitaire de vos bandes.',
       steps: [
         {
           title: 'Planifier les vaccinations',
@@ -245,7 +245,7 @@ const TUTORIALS = [
           title: 'Enregistrer une vente',
           instructions: [
             'Allez dans "Commerce" > "+ Nouvelle vente"',
-            'Selectionnez le lot et le client',
+            'Selectionnez la bande et le client',
             'Entrez: quantite, prix unitaire, poids total',
             'Choisissez: paye ou credit',
           ],
@@ -273,14 +273,14 @@ const TUTORIALS = [
     title: 'Gestion financiere',
     subtitle: 'Depenses et rentabilite',
     content: {
-      description: 'Suivez toutes vos depenses et calculez la rentabilite reelle de chaque lot.',
+      description: 'Suivez toutes vos depenses et calculez la rentabilite reelle de chaque bande.',
       steps: [
         {
           title: 'Enregistrer une depense',
           instructions: [
             'Allez dans "Finances" > "+ Depense"',
             'Selectionnez la categorie: aliment, sante, energie, main d\'oeuvre...',
-            'Associez au lot concerne si applicable',
+            'Associez a la bande concernee si applicable',
             'Entrez le montant et joignez la facture si disponible',
           ],
         },
@@ -289,7 +289,7 @@ const TUTORIALS = [
           instructions: [
             'Consultez le tableau de bord financier',
             'Analysez le cout par kg produit',
-            'Comparez la rentabilite entre lots',
+            'Comparez la rentabilite entre bandes',
           ],
         },
       ],
@@ -323,7 +323,7 @@ const TUTORIALS = [
             'Mortalite anormale: depasse le seuil defini',
             'Stock aliment bas: anticipez les commandes',
             'Vaccinations dues: rappels automatiques',
-            'Fin de lot proche: planifiez la vente',
+            'Fin de bande proche: planifiez la vente',
           ],
         },
       ],
@@ -352,9 +352,9 @@ const TUTORIALS = [
           ],
         },
         {
-          title: 'Generer un rapport de lot',
+          title: 'Generer un rapport de bande',
           instructions: [
-            'Ouvrez un lot (actif ou cloture)',
+            'Ouvrez une bande (active ou cloturee)',
             'Cliquez sur "Rapport complet"',
             'Exportez en PDF ou Excel',
           ],
@@ -362,7 +362,7 @@ const TUTORIALS = [
       ],
       tips: [
         'Analysez vos donnees historiques pour identifier les tendances',
-        'Comparez vos performances entre lots de meme souche',
+        'Comparez vos performances entre bandes de meme souche',
         'Utilisez les graphiques pour communiquer avec votre equipe',
       ],
     },
@@ -390,7 +390,7 @@ const TUTORIALS = [
           instructions: [
             'Dans le site, cliquez sur "+ Batiment"',
             'Definissez: nom, capacite, type d\'equipement',
-            'Vous pouvez maintenant y placer des lots',
+            'Vous pouvez maintenant y placer des bandes',
           ],
         },
       ],
@@ -487,7 +487,7 @@ const VIDEOS = [
     thumbnail: '/thumbnails/app-intro.jpg',
     youtubeId: 'PLACEHOLDER',
     description: 'Presentation generale de l\'application BravoPoultry et de ses fonctionnalites principales.',
-    topics: ['Navigation', 'Tableau de bord', 'Creation lot', 'Enregistrements'],
+    topics: ['Navigation', 'Tableau de bord', 'Creation bande', 'Enregistrements'],
   },
   {
     id: 'video-app-advanced',

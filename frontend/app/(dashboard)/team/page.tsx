@@ -419,7 +419,7 @@ export default function TeamPage() {
               </div>
               <p className="text-xs text-gray-500 line-clamp-2">
                 {role.value === 'owner' && "Acces complet, gestion equipe"}
-                {role.value === 'manager' && "Gestion lots, ventes, depenses"}
+                {role.value === 'manager' && "Gestion bandes, ventes, depenses"}
                 {role.value === 'technician' && "Saisie quotidienne"}
                 {role.value === 'viewer' && "Consultation uniquement"}
               </p>

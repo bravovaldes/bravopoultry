@@ -68,16 +68,16 @@ export function FinancialChart() {
           <div className="space-y-1 text-sm">
             <div className="flex justify-between gap-4">
               <span className="text-green-600">Ventes:</span>
-              <span className="font-bold">{ventes.toLocaleString()} F</span>
+              <span className="font-bold">{ventes.toLocaleString()} XAF</span>
             </div>
             <div className="flex justify-between gap-4">
               <span className="text-red-600">Depenses:</span>
-              <span className="font-bold">{depenses.toLocaleString()} F</span>
+              <span className="font-bold">{depenses.toLocaleString()} XAF</span>
             </div>
             <div className="border-t pt-1 mt-1 flex justify-between gap-4">
               <span className={marge >= 0 ? 'text-green-700' : 'text-red-700'}>Marge:</span>
               <span className={`font-bold ${marge >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                {marge >= 0 ? '+' : ''}{marge.toLocaleString()} F
+                {marge >= 0 ? '+' : ''}{marge.toLocaleString()} XAF
               </span>
             </div>
           </div>
@@ -99,11 +99,11 @@ export function FinancialChart() {
       <div className="grid grid-cols-3 gap-2 text-center">
         <div className="bg-green-50 rounded-lg p-2">
           <p className="text-xs text-gray-500">Total ventes</p>
-          <p className="text-sm font-bold text-green-600">{formatYAxis(totalSales)} F</p>
+          <p className="text-sm font-bold text-green-600">{formatYAxis(totalSales)} XAF</p>
         </div>
         <div className="bg-red-50 rounded-lg p-2">
           <p className="text-xs text-gray-500">Total depenses</p>
-          <p className="text-sm font-bold text-red-600">{formatYAxis(totalExpenses)} F</p>
+          <p className="text-sm font-bold text-red-600">{formatYAxis(totalExpenses)} XAF</p>
         </div>
         <div className={`rounded-lg p-2 ${totalMargin >= 0 ? 'bg-blue-50' : 'bg-orange-50'}`}>
           <p className="text-xs text-gray-500">Marge</p>
@@ -114,7 +114,7 @@ export function FinancialChart() {
               <TrendingDown className="w-3 h-3 text-orange-600" />
             )}
             <p className={`text-sm font-bold ${totalMargin >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>
-              {totalMargin >= 0 ? '+' : ''}{formatYAxis(totalMargin)} F
+              {totalMargin >= 0 ? '+' : ''}{formatYAxis(totalMargin)} XAF
             </p>
           </div>
         </div>

@@ -54,7 +54,7 @@ export default function TermsOfUsePage() {
               eleveurs de :
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-              <li>Gerer leurs lots de volailles (pondeuses, poulets de chair)</li>
+              <li>Gerer leurs bandes de volailles (pondeuses, poulets de chair)</li>
               <li>Suivre la production, l'alimentation et la sante</li>
               <li>Gerer les ventes et les finances</li>
               <li>Analyser les performances de leur exploitation</li>
@@ -113,7 +113,7 @@ export default function TermsOfUsePage() {
               <li><strong>Plans Payants :</strong> fonctionnalites avancees selon l'abonnement choisi</li>
             </ul>
             <p className="text-gray-600 mt-4">
-              Les prix sont indiques en FCFA (ou devise locale) et peuvent etre modifies avec un
+              Les prix sont indiques en XAF (ou devise locale) et peuvent etre modifies avec un
               preavis de 30 jours. Les abonnements sont renouvelables automatiquement sauf annulation.
             </p>
           </section>

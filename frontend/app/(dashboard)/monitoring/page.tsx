@@ -259,7 +259,7 @@ export default function MonitoringPage() {
             {lots?.length > 5 && (
               <input
                 type="text"
-                placeholder="Rechercher lot..."
+                placeholder="Rechercher bande..."
                 value={lotSearch}
                 onChange={(e) => setLotSearch(e.target.value)}
                 className="px-3 py-2 border rounded-lg text-sm w-32"
@@ -271,7 +271,7 @@ export default function MonitoringPage() {
               className="px-3 py-2 border rounded-lg text-sm bg-white"
               size={filteredLots.length > 5 ? 3 : 1}
             >
-              <option value="all">Tous les lots</option>
+              <option value="all">Toutes les bandes</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
                   {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}

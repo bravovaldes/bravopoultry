@@ -144,20 +144,20 @@ export default function LotsPage() {
       {/* Header */}
       <div className="flex items-center justify-between gap-3 bg-white rounded-lg border p-3">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">Mes Lots</h1>
-          <p className="text-sm text-gray-500">Acces rapide a tous vos lots</p>
+          <h1 className="text-xl font-bold text-gray-900">Mes Bandes</h1>
+          <p className="text-sm text-gray-500">Acces rapide a toutes vos bandes</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="text-right hidden sm:block">
             <p className="text-2xl font-bold text-gray-900">{stats.active}</p>
-            <p className="text-xs text-gray-500">lots actifs</p>
+            <p className="text-xs text-gray-500">bandes actives</p>
           </div>
           <Link
             href="/lots/new"
             className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-medium"
           >
             <Plus className="w-5 h-5" />
-            <span className="hidden sm:inline">Nouveau Lot</span>
+            <span className="hidden sm:inline">Nouvelle Bande</span>
           </Link>
         </div>
       </div>
@@ -177,7 +177,7 @@ export default function LotsPage() {
           <p className="text-xl lg:text-2xl font-bold text-blue-600">{stats.broilers}</p>
         </div>
         <div className="bg-white rounded-lg border p-3">
-          <p className="text-sm text-gray-500">Lots termines</p>
+          <p className="text-sm text-gray-500">Bandes terminees</p>
           <p className="text-xl lg:text-2xl font-bold text-gray-400">{stats.total - stats.active}</p>
         </div>
       </div>
@@ -294,7 +294,7 @@ export default function LotsPage() {
         ) : filteredLots.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             <Bird className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-            <p className="font-medium">Aucun lot trouve</p>
+            <p className="font-medium">Aucune bande trouvee</p>
             {hasActiveFilters ? (
               <button
                 onClick={clearFilters}
@@ -308,7 +308,7 @@ export default function LotsPage() {
                 className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm font-medium mt-2"
               >
                 <Plus className="w-4 h-4" />
-                Creer votre premier lot
+                Creer votre premiere bande
               </Link>
             )}
           </div>
@@ -387,7 +387,7 @@ export default function LotsPage() {
         {/* Results count */}
         {filteredLots.length > 0 && (
           <div className="p-3 border-t bg-gray-50 text-center text-sm text-gray-500">
-            {filteredLots.length} lot{filteredLots.length > 1 ? 's' : ''} affiche{filteredLots.length > 1 ? 's' : ''}
+            {filteredLots.length} bande{filteredLots.length > 1 ? 's' : ''} affichee{filteredLots.length > 1 ? 's' : ''}
             {hasActiveFilters && ` sur ${lots.length} total`}
           </div>
         )}

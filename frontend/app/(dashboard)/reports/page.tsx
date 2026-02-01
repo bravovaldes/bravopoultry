@@ -68,8 +68,8 @@ const REPORT_TYPES: ReportConfig[] = [
   },
   {
     id: 'lot-performance',
-    name: 'Performance par lot',
-    description: 'Analyse detaillee d\'un lot: mortalite, IC, rentabilite',
+    name: 'Performance par bande',
+    description: 'Analyse detaillee d\'une bande: mortalite, IC, rentabilite',
     icon: Bird,
     type: 'lot',
     color: 'bg-purple-100 text-purple-600',
@@ -77,7 +77,7 @@ const REPORT_TYPES: ReportConfig[] = [
   {
     id: 'site-summary',
     name: 'Resume par site',
-    description: 'Vue d\'ensemble d\'un site: lots, production, finances',
+    description: 'Vue d\'ensemble d\'un site: bandes, production, finances',
     icon: Building2,
     type: 'site',
     color: 'bg-indigo-100 text-indigo-600',
@@ -85,7 +85,7 @@ const REPORT_TYPES: ReportConfig[] = [
   {
     id: 'mortality-report',
     name: 'Rapport de mortalite',
-    description: 'Analyse des mortalites par cause et par lot',
+    description: 'Analyse des mortalites par cause et par bande',
     icon: Skull,
     type: 'production',
     color: 'bg-red-100 text-red-600',
@@ -148,7 +148,7 @@ export default function ReportsPage() {
   const recentReports = [
     { id: 1, name: 'Rapport production - Janvier 2026', date: '2026-01-28', type: 'production', status: 'completed' },
     { id: 2, name: 'Resume financier - Semaine 4', date: '2026-01-27', type: 'financial', status: 'completed' },
-    { id: 3, name: 'Performance lot LP-2025-001', date: '2026-01-25', type: 'lot', status: 'completed' },
+    { id: 3, name: 'Performance bande LP-2025-001', date: '2026-01-25', type: 'lot', status: 'completed' },
   ]
 
   const filteredReports = selectedType === 'all'
@@ -212,7 +212,7 @@ export default function ReportsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">{lots?.filter((l: any) => l.status === 'active').length || 0}</p>
-              <p className="text-sm text-gray-500">Lots actifs</p>
+              <p className="text-sm text-gray-500">Bandes actives</p>
             </div>
           </div>
         </div>
@@ -224,7 +224,7 @@ export default function ReportsPage() {
           { value: 'all', label: 'Tous' },
           { value: 'production', label: 'Production' },
           { value: 'financial', label: 'Financier' },
-          { value: 'lot', label: 'Lots' },
+          { value: 'lot', label: 'Bandes' },
           { value: 'site', label: 'Sites' },
         ].map((type) => (
           <button
@@ -487,14 +487,14 @@ function GenerateReportModal({
           {/* Lot Selection */}
           {needsLotSelection && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Lot *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Bande *</label>
               <select
                 value={formData.lotId}
                 onChange={(e) => setFormData({ ...formData, lotId: e.target.value })}
                 className="w-full px-3 py-2 border rounded-lg text-sm"
                 required
               >
-                <option value="all">Selectionner un lot</option>
+                <option value="all">Selectionner une bande</option>
                 {lots?.map((lot: any) => (
                   <option key={lot.id} value={lot.id}>
                     {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''} - {lot.type === 'layer' ? 'Pondeuse' : 'Chair'}
@@ -731,7 +731,7 @@ function ReportPreviewModal({
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="text-left p-3 font-medium">Date</th>
-                      <th className="text-left p-3 font-medium">Lot</th>
+                      <th className="text-left p-3 font-medium">Bande</th>
                       <th className="text-right p-3 font-medium">Total oeufs</th>
                       <th className="text-right p-3 font-medium">Taux ponte</th>
                     </tr>
@@ -839,7 +839,7 @@ function ReportPreviewModal({
             <div className="space-y-4">
               <h3 className="font-semibold flex items-center gap-2">
                 <Bird className="w-5 h-5 text-purple-600" />
-                Performance du lot {data.performance.lot?.code}
+                Performance de la bande {data.performance.lot?.code}
               </h3>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -631,7 +631,7 @@ function AddSaleModal({ onClose, sites, lots, onSuccess }: {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Lot (optionnel)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Bande (optionnel)</label>
               <select
                 value={formData.lot_id}
                 onChange={(e) => setFormData({ ...formData, lot_id: e.target.value })}
@@ -885,7 +885,7 @@ function EditSaleModal({ sale, onClose, sites, lots, onSuccess }: {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Lot (optionnel)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Bande (optionnel)</label>
               <select
                 value={formData.lot_id}
                 onChange={(e) => setFormData({ ...formData, lot_id: e.target.value })}

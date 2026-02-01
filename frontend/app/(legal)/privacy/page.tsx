@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
               <li><strong>Informations d'identification :</strong> nom, prenom, adresse email, numero de telephone</li>
               <li><strong>Informations d'exploitation :</strong> nom de l'exploitation, adresse, donnees de production</li>
-              <li><strong>Donnees de production :</strong> informations sur vos lots, production d'oeufs, mortalite, alimentation</li>
+              <li><strong>Donnees de production :</strong> informations sur vos bandes, production d'oeufs, mortalite, alimentation</li>
               <li><strong>Donnees financieres :</strong> ventes, depenses, factures (sans informations bancaires)</li>
               <li><strong>Donnees techniques :</strong> adresse IP, type de navigateur, pages visitees</li>
             </ul>

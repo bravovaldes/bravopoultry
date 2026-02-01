@@ -273,7 +273,7 @@ export default function AnalyticsPage() {
     return total
   }
 
-  // Default egg price per tray (30 eggs) in FCFA - can be adjusted
+  // Default egg price per tray (30 eggs) in XAF - can be adjusted
   const DEFAULT_EGG_TRAY_PRICE = 2500
 
   // Calculate total sales
@@ -512,9 +512,9 @@ export default function AnalyticsPage() {
           filename = 'rapport_financier'
           data = financialTrend.map((d: any) => ({
             'Date': d.date,
-            'Ventes (FCFA)': d.ventes,
-            'Depenses (FCFA)': d.depenses,
-            'Marge (FCFA)': d.marge,
+            'Ventes (XAF)': d.ventes,
+            'Depenses (XAF)': d.depenses,
+            'Marge (XAF)': d.marge,
           }))
           break
         case 'production':
@@ -539,9 +539,9 @@ export default function AnalyticsPage() {
             'Date': d.date,
             'Oeufs': d.oeufs || 0,
             'Taux ponte (%)': d.tauxPonte?.toFixed(1) || '-',
-            'Ventes (FCFA)': d.ventes || 0,
-            'Depenses (FCFA)': d.depenses || 0,
-            'Marge (FCFA)': d.marge || 0,
+            'Ventes (XAF)': d.ventes || 0,
+            'Depenses (XAF)': d.depenses || 0,
+            'Marge (XAF)': d.marge || 0,
           }))
           break
       }
@@ -795,7 +795,7 @@ export default function AnalyticsPage() {
               selectedLotId !== 'all' && "border-orange-300 bg-orange-50"
             )}
           >
-            <option value="all">Tous les lots</option>
+            <option value="all">Toutes les bandes</option>
             {(lots || []).map((lot: any) => (
               <option key={lot.id} value={lot.id}>
                 {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''} - J{lot.age_days || 0}
@@ -973,7 +973,7 @@ export default function AnalyticsPage() {
               onClick={() => setSelectedLotId('all')}
               className="text-xs sm:text-sm text-orange-600 hover:text-orange-700 font-medium px-2 sm:px-3 py-1 rounded-lg hover:bg-orange-100 transition self-end sm:self-auto"
             >
-              Voir tous les lots
+              Voir toutes les bandes
             </button>
           </div>
         </div>
@@ -1330,7 +1330,7 @@ export default function AnalyticsPage() {
                 ? `${Math.round(kpis.totalBirds / 1000)}K`
                 : kpis.totalBirds.toLocaleString()}
           </p>
-          <p className="text-xs sm:text-sm opacity-80 mt-0.5 sm:mt-1">{kpis.activeLots} lots actifs</p>
+          <p className="text-xs sm:text-sm opacity-80 mt-0.5 sm:mt-1">{kpis.activeLots} bandes actives</p>
         </div>
 
         <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-3 sm:p-4 text-white">

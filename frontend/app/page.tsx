@@ -131,9 +131,9 @@ export default function HomePage() {
 const features = [
   {
     icon: '🐔',
-    title: 'Gestion des Lots',
+    title: 'Gestion des Bandes',
     description:
-      'Suivez vos lots de poulets de chair et pondeuses avec des métriques détaillées.',
+      'Suivez vos bandes de poulets de chair et pondeuses avec des métriques détaillées.',
   },
   {
     icon: '🥚',

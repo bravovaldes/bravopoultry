@@ -171,7 +171,7 @@ export default function WaterPage() {
             onChange={(e) => setSelectedLotId(e.target.value)}
             className="px-3 py-1.5 border rounded-lg text-sm bg-white"
           >
-            <option value="all">Tous les lots</option>
+            <option value="all">Toutes les bandes</option>
             {lots?.map((lot: any) => (
               <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}</option>
             ))}
@@ -337,7 +337,7 @@ export default function WaterPage() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="text-left p-3 font-medium text-gray-600">Date</th>
-                <th className="text-left p-3 font-medium text-gray-600">Lot</th>
+                <th className="text-left p-3 font-medium text-gray-600">Bande</th>
                 <th className="text-right p-3 font-medium text-gray-600">Eau (L)</th>
                 <th className="text-right p-3 font-medium text-gray-600">Aliment (kg)</th>
                 <th className="text-right p-3 font-medium text-gray-600">Ratio</th>
@@ -425,7 +425,7 @@ function AddWaterModal({ lots, onClose, onSuccess }: { lots: any[]; onClose: () 
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Lot</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Bande</label>
               <select
                 value={formData.lot_id}
                 onChange={(e) => setFormData({ ...formData, lot_id: e.target.value })}

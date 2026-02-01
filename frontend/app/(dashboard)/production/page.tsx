@@ -214,13 +214,13 @@ export default function ProductionPage() {
           {showAddMenu && hasActiveLayerLots && (
             <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
               <div className="p-2 border-b">
-                <p className="text-xs text-gray-500 font-medium">Choisir un lot actif</p>
+                <p className="text-xs text-gray-500 font-medium">Choisir une bande active</p>
               </div>
               {activeLayerLots.length > 5 && (
                 <div className="p-2 border-b">
                   <input
                     type="text"
-                    placeholder="Rechercher un lot..."
+                    placeholder="Rechercher une bande..."
                     value={lotSearch}
                     onChange={(e) => setLotSearch(e.target.value)}
                     className="w-full px-3 py-1.5 border rounded-lg text-sm"
@@ -301,7 +301,7 @@ export default function ProductionPage() {
             {lots?.length > 5 && (
               <input
                 type="text"
-                placeholder="Rechercher lot..."
+                placeholder="Rechercher bande..."
                 value={lotSearch}
                 onChange={(e) => setLotSearch(e.target.value)}
                 className="px-3 py-1.5 border rounded-lg text-sm w-32"
@@ -313,7 +313,7 @@ export default function ProductionPage() {
               className="px-3 py-1.5 border rounded-lg text-sm bg-white"
               size={filteredLots.length > 5 ? 3 : 1}
             >
-              <option value="all">Tous les lots</option>
+              <option value="all">Toutes les bandes</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
                   {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}
@@ -405,7 +405,7 @@ export default function ProductionPage() {
             <p className="text-xl lg:text-2xl font-bold text-green-600">{stats.sellableEggs.toLocaleString()}</p>
           </div>
           <div className="bg-white rounded-lg border p-3">
-            <p className="text-sm text-gray-500">Casses/Feles</p>
+            <p className="text-sm text-gray-500">Casses</p>
             <p className="text-xl lg:text-2xl font-bold text-red-600">{stats.crackedEggs.toLocaleString()}</p>
           </div>
         </div>
@@ -499,7 +499,7 @@ export default function ProductionPage() {
             <p className="text-gray-500 max-w-sm mx-auto mb-4">
               {hasActiveLayerLots
                 ? "Commencez a enregistrer la collecte d'oeufs quotidienne pour suivre vos performances."
-                : "Vous avez des lots pondeuses mais aucun n'est actif. Activez un lot pour commencer la saisie."
+                : "Vous avez des bandes pondeuses mais aucune n'est active. Activez une bande pour commencer la saisie."
               }
             </p>
             {hasActiveLayerLots ? (
@@ -520,7 +520,7 @@ export default function ProductionPage() {
                 href="/lots"
                 className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition"
               >
-                Gerer les lots
+                Gerer les bandes
                 <ArrowRight className="w-4 h-4" />
               </Link>
             )}
@@ -531,9 +531,9 @@ export default function ProductionPage() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="text-left p-3 font-medium text-gray-600">Date</th>
-                  <th className="text-left p-3 font-medium text-gray-600">Lot</th>
+                  <th className="text-left p-3 font-medium text-gray-600">Bande</th>
                   <th className="text-right p-3 font-medium text-gray-600">Normaux</th>
-                  <th className="text-right p-3 font-medium text-gray-600">Feles</th>
+                  <th className="text-right p-3 font-medium text-gray-600">Casses</th>
                   <th className="text-right p-3 font-medium text-gray-600">Total</th>
                   <th className="text-right p-3 font-medium text-gray-600">Taux</th>
                   <th className="text-center p-3 font-medium text-gray-600">Actions</th>
@@ -574,7 +574,7 @@ export default function ProductionPage() {
                         <Link
                           href={`/lots/${prod.lot_id}`}
                           className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition"
-                          title="Voir le lot"
+                          title="Voir la bande"
                         >
                           <Eye className="w-4 h-4" />
                         </Link>
@@ -604,17 +604,17 @@ export default function ProductionPage() {
               <Egg className="w-8 h-8 text-orange-500" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">
-              {!hasLayerLots ? 'Aucun lot pondeuses' : 'Aucun lot pondeuses actif'}
+              {!hasLayerLots ? 'Aucune bande pondeuses' : 'Aucune bande pondeuses active'}
             </h3>
             <p className="text-gray-500 text-center mb-6">
               {!hasLayerLots ? (
                 <>
-                  Pour enregistrer la production d'oeufs, vous devez d'abord creer un lot de type <strong>"Pondeuses"</strong>.
+                  Pour enregistrer la production d'oeufs, vous devez d'abord creer une bande de type <strong>"Pondeuses"</strong>.
                 </>
               ) : (
                 <>
-                  Vous avez {lots?.length} lot(s) pondeuses mais aucun n'est actif.
-                  Activez un lot existant ou creez-en un nouveau pour commencer la saisie.
+                  Vous avez {lots?.length} bande(s) pondeuses mais aucune n'est active.
+                  Activez une bande existante ou creez-en une nouvelle pour commencer la saisie.
                 </>
               )}
             </p>
@@ -631,14 +631,14 @@ export default function ProductionPage() {
                   className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition"
                 >
                   <Plus className="w-4 h-4" />
-                  Creer un lot pondeuses
+                  Creer une bande pondeuses
                 </Link>
               ) : (
                 <Link
                   href="/lots?type=layer"
                   className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition"
                 >
-                  Gerer mes lots
+                  Gerer mes bandes
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               )}

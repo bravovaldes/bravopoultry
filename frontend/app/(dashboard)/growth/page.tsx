@@ -126,7 +126,7 @@ export default function GrowthPage() {
     if (!acc[lotId]) {
       acc[lotId] = {
         lot_id: lotId,
-        lot_code: w.lot?.code || 'Lot inconnu',
+        lot_code: w.lot?.code || 'Bande inconnue',
         lot_age: w.lot?.age_days || 0,
         records: [],
       }
@@ -191,7 +191,7 @@ export default function GrowthPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Croissance & Pesees</h1>
-          <p className="text-gray-500">Suivi du poids de tous les lots chairs</p>
+          <p className="text-gray-500">Suivi du poids de toutes les bandes chairs</p>
         </div>
 
         {/* Quick Add Button */}
@@ -208,12 +208,12 @@ export default function GrowthPage() {
           {showAddMenu && (
             <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border z-50">
               <div className="p-2">
-                <p className="text-xs text-gray-500 px-2 py-1">Selectionner un lot</p>
+                <p className="text-xs text-gray-500 px-2 py-1">Selectionner une bande</p>
                 {lots?.length > 5 && (
                   <div className="px-2 py-1">
                     <input
                       type="text"
-                      placeholder="Rechercher un lot..."
+                      placeholder="Rechercher une bande..."
                       value={lotSearch}
                       onChange={(e) => setLotSearch(e.target.value)}
                       className="w-full px-3 py-1.5 border rounded-lg text-sm"
@@ -237,9 +237,9 @@ export default function GrowthPage() {
                     </button>
                   ))
                 ) : lotSearch ? (
-                  <p className="text-sm text-gray-500 px-3 py-2">Aucun lot trouve pour "{lotSearch}"</p>
+                  <p className="text-sm text-gray-500 px-3 py-2">Aucune bande trouvee pour "{lotSearch}"</p>
                 ) : (
-                  <p className="text-sm text-gray-500 px-3 py-2">Aucun lot chair actif</p>
+                  <p className="text-sm text-gray-500 px-3 py-2">Aucune bande chair active</p>
                 )}
               </div>
             </div>
@@ -292,7 +292,7 @@ export default function GrowthPage() {
             {lots?.length > 5 && (
               <input
                 type="text"
-                placeholder="Rechercher lot..."
+                placeholder="Rechercher bande..."
                 value={lotSearch}
                 onChange={(e) => setLotSearch(e.target.value)}
                 className="px-3 py-1.5 border rounded-lg text-sm w-32"
@@ -304,7 +304,7 @@ export default function GrowthPage() {
               className="px-3 py-1.5 border rounded-lg text-sm bg-white"
               size={filteredLots.length > 5 ? 3 : 1}
             >
-              <option value="all">Tous les lots</option>
+              <option value="all">Toutes les bandes</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
                   {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}
@@ -382,7 +382,7 @@ export default function GrowthPage() {
             <p className="text-2xl font-bold text-gray-900">{globalStats.totalRecords}</p>
           </div>
           <div className="bg-white rounded-xl border p-4">
-            <p className="text-sm text-gray-500">Lots actifs</p>
+            <p className="text-sm text-gray-500">Bandes actives</p>
             <p className="text-2xl font-bold text-blue-600">{globalStats.activeLots}</p>
           </div>
         </div>
@@ -431,7 +431,7 @@ export default function GrowthPage() {
       {selectedLotId === 'all' && lotSummaries.length > 0 && (
         <div className="bg-white rounded-xl border">
           <div className="p-4 border-b">
-            <h3 className="font-semibold">Performance par lot</h3>
+            <h3 className="font-semibold">Performance par bande</h3>
           </div>
           <div className="divide-y">
             {lotSummaries.map((lot: any) => (
@@ -506,7 +506,7 @@ export default function GrowthPage() {
           <div className="text-center py-12">
             <Scale className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500">Aucune pesee enregistree</p>
-            <p className="text-sm text-gray-400 mt-1">Commencez par ajouter des pesees dans un lot</p>
+            <p className="text-sm text-gray-400 mt-1">Commencez par ajouter des pesees dans une bande</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -514,7 +514,7 @@ export default function GrowthPage() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="text-left p-3 font-medium text-gray-600">Date</th>
-                  <th className="text-left p-3 font-medium text-gray-600">Lot</th>
+                  <th className="text-left p-3 font-medium text-gray-600">Bande</th>
                   <th className="text-right p-3 font-medium text-gray-600">Age</th>
                   <th className="text-right p-3 font-medium text-gray-600">Poids (g)</th>
                   <th className="text-right p-3 font-medium text-gray-600">Poids (kg)</th>
@@ -558,7 +558,7 @@ export default function GrowthPage() {
                         <button
                           onClick={() => router.push(`/lots/${w.lot_id}/weight?view=history`)}
                           className="p-1.5 hover:bg-blue-100 rounded transition"
-                          title="Voir lot"
+                          title="Voir bande"
                         >
                           <Eye className="w-4 h-4 text-blue-600" />
                         </button>

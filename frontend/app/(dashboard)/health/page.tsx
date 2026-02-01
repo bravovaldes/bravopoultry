@@ -204,7 +204,7 @@ export default function HealthPage() {
               <Bird className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Lots actifs</p>
+              <p className="text-sm text-gray-500">Bandes actives</p>
               <p className="text-2xl font-bold">{lots?.length || 0}</p>
             </div>
           </div>
@@ -299,7 +299,7 @@ export default function HealthPage() {
                       <div className="text-right">
                         <p className="text-sm text-gray-500">{formatDate(event.date)}</p>
                         {event.cost && (
-                          <p className="text-xs text-gray-400">{Number(event.cost).toLocaleString()} F</p>
+                          <p className="text-xs text-gray-400">{Number(event.cost).toLocaleString()} XAF</p>
                         )}
                       </div>
                     </div>
@@ -314,7 +314,7 @@ export default function HealthPage() {
       {/* Lots Quick Access */}
       <div className="bg-white rounded-xl border">
         <div className="p-4 border-b">
-          <h2 className="font-semibold">Acces rapide par lot</h2>
+          <h2 className="font-semibold">Acces rapide par bande</h2>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 p-4">
           {lots?.map((lot: any) => (

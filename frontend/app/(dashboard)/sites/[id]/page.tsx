@@ -88,7 +88,7 @@ export default function SiteDetailPage() {
         // FastAPI wraps errors in 'detail' field
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'site_has_active_lots') {
-          toast.error(`Impossible de supprimer ce site. Vous avez ${errorData.total_active_lots || 0} lot(s) actif(s) en cours. Veuillez d'abord clôturer ou déplacer tous les lots actifs avant de supprimer le site.`)
+          toast.error(`Impossible de supprimer ce site. Vous avez ${errorData.total_active_lots || 0} bande(s) active(s) en cours. Veuillez d'abord cloturer ou deplacer toutes les bandes actives avant de supprimer le site.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)
@@ -115,7 +115,7 @@ export default function SiteDetailPage() {
         // FastAPI wraps errors in 'detail' field
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'building_has_active_lots') {
-          toast.error(`Impossible de supprimer ce bâtiment. Il contient ${errorData.active_lots?.length || 0} lot(s) actif(s) en cours d'élevage. Veuillez d'abord clôturer ou déplacer ces lots.`)
+          toast.error(`Impossible de supprimer ce batiment. Il contient ${errorData.active_lots?.length || 0} bande(s) active(s) en cours d'elevage. Veuillez d'abord cloturer ou deplacer ces bandes.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)
@@ -348,11 +348,11 @@ export default function SiteDetailPage() {
                         {getBuildingTypeLabel(building.type)} • {building.current_occupancy?.toLocaleString() || 0} / {building.capacity?.toLocaleString() || 0}
                       </p>
                       <div className="sm:hidden mt-1 text-xs text-gray-500">
-                        {building.active_lots || 0} lots • {building.sections_count || 0} sections
+                        {building.active_lots || 0} bandes • {building.sections_count || 0} sections
                       </div>
                     </div>
                     <div className="text-right hidden sm:block flex-shrink-0">
-                      <p className="text-sm font-medium">{building.active_lots || 0} lots actifs</p>
+                      <p className="text-sm font-medium">{building.active_lots || 0} bandes actives</p>
                       <p className="text-xs text-gray-500">{building.sections_count || 0} sections</p>
                     </div>
                   </Link>

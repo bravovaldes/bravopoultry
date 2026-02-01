@@ -35,7 +35,7 @@ const navGroups = [
     title: null,
     items: [
       { name: 'Dashboard', href: '/overview', icon: LayoutDashboard },
-      { name: 'Mes Lots', href: '/lots', icon: Bird },
+      { name: 'Mes Bandes', href: '/lots', icon: Bird },
       { name: 'Sites', href: '/sites', icon: MapPin },
     ],
   },

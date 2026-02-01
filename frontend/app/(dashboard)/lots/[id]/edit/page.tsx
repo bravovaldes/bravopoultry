@@ -78,7 +78,7 @@ export default function EditLotPage() {
       return response.data
     },
     onSuccess: () => {
-      toast.success('Lot mis à jour avec succès!')
+      toast.success('Bande mise a jour avec succes!')
       queryClient.invalidateQueries({ queryKey: ['lot', lotId] })
       queryClient.invalidateQueries({ queryKey: ['lots'] })
       setSuccess(true)
@@ -144,16 +144,16 @@ export default function EditLotPage() {
   if (!lot) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Lot non trouvé</p>
+        <p className="text-gray-500">Bande non trouvee</p>
         <Link href="/lots" className="text-orange-500 hover:underline mt-2 inline-block">
-          Retour à la liste des lots
+          Retour a la liste des bandes
         </Link>
       </div>
     )
   }
 
   if (success) {
-    return <SuccessScreen title="Lot mis à jour avec succès!" />
+    return <SuccessScreen title="Bande mise a jour avec succes!" />
   }
 
   return (
@@ -167,7 +167,7 @@ export default function EditLotPage() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="min-w-0 flex-1">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">Modifier le lot</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">Modifier la bande</h1>
           <p className="text-sm sm:text-base text-gray-500 truncate">{lot.name || 'Sans nom'} ({lot.code})</p>
         </div>
       </div>
@@ -177,7 +177,7 @@ export default function EditLotPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {/* Type selection (read-only for existing lots) */}
           <div className="bg-white rounded-xl border p-4 sm:p-5 lg:col-span-2">
-            <h2 className="font-semibold mb-3 text-sm sm:text-base">Type de lot</h2>
+            <h2 className="font-semibold mb-3 text-sm sm:text-base">Type de bande</h2>
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <div
                 className={cn(
@@ -233,7 +233,7 @@ export default function EditLotPage() {
               ))}
             </select>
             <div className="mt-3">
-              <label className="block text-xs font-medium text-gray-700 mb-1">Nom du lot</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Nom de la bande</label>
               <input
                 type="text"
                 {...register('name')}
@@ -352,7 +352,7 @@ export default function EditLotPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Prix poussin (FCFA)</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Prix poussin (XAF)</label>
               <input
                 type="number"
                 {...register('chick_price_unit', { valueAsNumber: true })}
@@ -362,7 +362,7 @@ export default function EditLotPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Transport (FCFA)</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Transport (XAF)</label>
               <input
                 type="number"
                 {...register('transport_cost', { valueAsNumber: true })}

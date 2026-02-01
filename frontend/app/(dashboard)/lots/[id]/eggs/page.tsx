@@ -375,7 +375,7 @@ export default function EggsPage() {
                     <tr>
                       <th className="text-left p-3 font-medium text-gray-600">Date</th>
                       <th className="text-right p-3 font-medium text-gray-600">Normaux</th>
-                      <th className="text-right p-3 font-medium text-gray-600">Feles</th>
+                      <th className="text-right p-3 font-medium text-gray-600">Casses</th>
                       <th className="text-right p-3 font-medium text-gray-600">Sales</th>
                       <th className="text-right p-3 font-medium text-gray-600">Total</th>
                       <th className="text-right p-3 font-medium text-gray-600">Taux</th>

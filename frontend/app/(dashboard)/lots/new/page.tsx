@@ -61,7 +61,7 @@ export default function NewLotPage() {
       return response.data
     },
     onSuccess: (data) => {
-      toast.success('Lot créé avec succès!')
+      toast.success('Bande creee avec succes!')
       setSuccess(true)
       setError('')
       // Invalider le cache pour rafraîchir les listes
@@ -113,7 +113,7 @@ export default function NewLotPage() {
   }
 
   if (success) {
-    return <SuccessScreen title="Lot créé avec succès!" />
+    return <SuccessScreen title="Bande creee avec succes!" />
   }
 
   return (
@@ -127,15 +127,15 @@ export default function NewLotPage() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="min-w-0 flex-1">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Nouveau Lot</h1>
-          <p className="text-sm sm:text-base text-gray-500">Créez un nouveau lot de volailles</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Nouvelle Bande</h1>
+          <p className="text-sm sm:text-base text-gray-500">Creez une nouvelle bande de volailles</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
         {/* Type selection */}
         <div className="bg-white rounded-xl border p-4 sm:p-5">
-          <h2 className="font-semibold mb-3 text-sm sm:text-base">Type de lot</h2>
+          <h2 className="font-semibold mb-3 text-sm sm:text-base">Type de bande</h2>
           <div className="grid grid-cols-2 gap-2 sm:gap-3">
             <button
               type="button"
@@ -193,7 +193,7 @@ export default function NewLotPage() {
             {/* Nom du lot - spans full width */}
             <div className="col-span-2 sm:col-span-3 lg:col-span-4">
               <label className="block text-xs font-medium text-gray-700 mb-1">
-                Nom du lot <span className="text-gray-400">(optionnel)</span>
+                Nom de la bande <span className="text-gray-400">(optionnel)</span>
               </label>
               <input
                 type="text"
@@ -212,17 +212,19 @@ export default function NewLotPage() {
 
             {/* Bâtiment - spans 2 cols on mobile, 2 on large */}
             <div className="col-span-2 lg:col-span-2">
-              <label className="block text-xs font-medium text-gray-700 mb-1">Bâtiment *</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-medium text-gray-700">Bâtiment *</label>
+                <Link
+                  href="/sites"
+                  className="inline-flex items-center gap-1 text-xs text-orange-600 hover:text-orange-700 font-medium"
+                >
+                  <Plus className="w-3 h-3" />
+                  Créer un bâtiment
+                </Link>
+              </div>
               {buildings.length === 0 ? (
                 <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                  <p className="text-sm text-amber-800 mb-2">Aucun bâtiment disponible</p>
-                  <Link
-                    href="/sites"
-                    className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
-                  >
-                    <Plus className="w-3 h-3" />
-                    Créer un site et bâtiment
-                  </Link>
+                  <p className="text-sm text-amber-800">Aucun bâtiment disponible. Créez d'abord un site avec un bâtiment.</p>
                 </div>
               ) : (
                 <select
@@ -309,7 +311,7 @@ export default function NewLotPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Prix poussin (FCFA)</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Prix poussin (XAF)</label>
               <input
                 type="number"
                 {...register('chick_price_unit', { valueAsNumber: true })}
@@ -319,7 +321,7 @@ export default function NewLotPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Transport (FCFA)</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Transport (XAF)</label>
               <input
                 type="number"
                 {...register('transport_cost', { valueAsNumber: true })}
@@ -362,7 +364,7 @@ export default function NewLotPage() {
             disabled={createMutation.isPending}
             className="px-5 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition disabled:opacity-50 text-sm"
           >
-            {createMutation.isPending ? 'Création...' : 'Créer le lot'}
+            {createMutation.isPending ? 'Creation...' : 'Creer la bande'}
           </button>
         </div>
       </form>

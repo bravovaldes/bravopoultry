@@ -103,7 +103,7 @@ export default function BuildingDetailPage() {
         // FastAPI wraps errors in 'detail' field
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'building_has_active_lots') {
-          toast.error(`Impossible de supprimer ce bâtiment. Il contient ${errorData.active_lots?.length || 0} lot(s) actif(s) en cours d'élevage. Veuillez d'abord clôturer ou déplacer ces lots.`)
+          toast.error(`Impossible de supprimer ce batiment. Il contient ${errorData.active_lots?.length || 0} bande(s) active(s) en cours d'elevage. Veuillez d'abord cloturer ou deplacer ces bandes.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)
@@ -130,7 +130,7 @@ export default function BuildingDetailPage() {
       try {
         const errorData = error.response?.data?.detail
         if (typeof errorData === 'object' && errorData?.error === 'lot_is_active') {
-          toast.error(`Impossible de supprimer ce lot. Il est encore actif avec ${errorData.current_quantity || 0} oiseaux en élevage. Veuillez d'abord clôturer le lot avant de le supprimer.`)
+          toast.error(`Impossible de supprimer cette bande. Elle est encore active avec ${errorData.current_quantity || 0} oiseaux en elevage. Veuillez d'abord cloturer la bande avant de la supprimer.`)
         } else {
           const message = typeof errorData === 'string' ? errorData : errorData?.message || 'Erreur lors de la suppression'
           toast.error(message)

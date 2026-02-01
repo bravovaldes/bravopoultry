@@ -378,8 +378,8 @@ export default function TreasuryPage() {
           <div>
             <p className="font-medium text-amber-800">Rappels de paiement</p>
             <ul className="mt-2 space-y-1 text-sm text-amber-700">
-              <li>• Facture fournisseur Agri Feed - 450,000 FCFA (echeance: 25 Jan)</li>
-              <li>• Salaires employes Fevrier - 280,000 FCFA (echeance: 5 Fev)</li>
+              <li>• Facture fournisseur Agri Feed - 450,000 XAF (echeance: 25 Jan)</li>
+              <li>• Salaires employes Fevrier - 280,000 XAF (echeance: 5 Fev)</li>
             </ul>
           </div>
         </div>
@@ -483,7 +483,7 @@ function AddTransactionModal({
                 placeholder="0"
                 required
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">FCFA</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">XAF</span>
             </div>
           </div>
 

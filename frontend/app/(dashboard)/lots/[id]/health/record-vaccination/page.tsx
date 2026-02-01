@@ -296,7 +296,7 @@ export default function RecordVaccinationPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Cout (FCFA)
+                Cout (XAF)
               </label>
               <input
                 type="number"

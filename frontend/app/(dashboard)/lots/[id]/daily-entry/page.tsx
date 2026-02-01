@@ -325,7 +325,7 @@ export default function DailyEntryPage() {
             )}
           </div>
 
-          {/* Mortalite compact */}
+          {/* Mortalite compact + cause */}
           <div className="bg-white rounded-lg border p-4">
             <div className="flex items-center gap-1.5 mb-1.5">
               <Skull className="w-5 h-5 text-red-500" />
@@ -341,6 +341,30 @@ export default function DailyEntryPage() {
               min="0"
               className="w-full px-3 py-2 border rounded-lg text-base font-semibold text-center focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
+            {/* Cause probable - inline on mobile */}
+            {formData.mortality_count && parseInt(formData.mortality_count) > 0 && (
+              <div className="mt-3 pt-3 border-t lg:hidden">
+                <label className="block text-xs font-medium text-gray-600 mb-2">Cause probable</label>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {MORTALITY_CAUSES.map((cause) => (
+                    <button
+                      key={cause.value}
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, mortality_cause: cause.value }))}
+                      className={cn(
+                        'p-1.5 rounded-lg border-2 transition text-center',
+                        formData.mortality_cause === cause.value
+                          ? 'border-red-500 bg-red-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      )}
+                    >
+                      <span className="text-sm block">{cause.icon}</span>
+                      <span className="text-[10px] text-gray-600 truncate block leading-tight">{cause.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Eau compact */}
@@ -368,11 +392,11 @@ export default function DailyEntryPage() {
           </div>
         </div>
 
-        {/* Cause mortalite si necessaire */}
+        {/* Cause mortalite si necessaire - Desktop only (mobile version is inline above) */}
         {formData.mortality_count && parseInt(formData.mortality_count) > 0 && (
-          <div className="bg-white rounded-lg border p-4">
+          <div className="hidden lg:block bg-white rounded-lg border p-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">Cause probable</label>
-            <div className="grid grid-cols-4 lg:grid-cols-8 gap-2">
+            <div className="grid grid-cols-8 gap-2">
               {MORTALITY_CAUSES.map((cause) => (
                 <button
                   key={cause.value}
@@ -431,7 +455,7 @@ export default function DailyEntryPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Feles</label>
+                <label className="block text-sm text-gray-600 mb-1">Casses</label>
                 <input
                   type="number"
                   name="eggs_cracked"

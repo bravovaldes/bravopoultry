@@ -506,7 +506,7 @@ function CalendarTab({
             </div>
             <div className="p-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Jour (age du lot)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Jour (age de la bande)</label>
                 <input
                   type="number"
                   value={newSchedule.day_from}
@@ -836,7 +836,7 @@ function VaccinationTab({
                     )}
                     {event.batch_number && (
                       <span className="text-xs px-2 py-0.5 bg-gray-50 text-gray-600 rounded-full">
-                        Lot: {event.batch_number}
+                        Bande: {event.batch_number}
                       </span>
                     )}
                   </div>
@@ -847,7 +847,7 @@ function VaccinationTab({
                 <div className="text-right flex-shrink-0">
                   <p className="text-sm font-medium text-gray-900">{formatDate(event.date)}</p>
                   {event.cost && (
-                    <p className="text-sm text-orange-600">{Number(event.cost).toLocaleString()} FCFA</p>
+                    <p className="text-sm text-orange-600">{Number(event.cost).toLocaleString()} XAF</p>
                   )}
                 </div>
               </div>
@@ -1068,7 +1068,7 @@ function TreatmentTab({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cout (FCFA)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Cout (XAF)</label>
               <input
                 type="number"
                 value={formData.cost}
@@ -1157,7 +1157,7 @@ function TreatmentTab({
                 <div className="text-right">
                   <p className="text-sm text-gray-500">{formatDate(event.date)}</p>
                   {event.cost && (
-                    <p className="text-sm font-medium">{Number(event.cost).toLocaleString()} FCFA</p>
+                    <p className="text-sm font-medium">{Number(event.cost).toLocaleString()} XAF</p>
                   )}
                 </div>
               </div>
@@ -1312,7 +1312,7 @@ function ObservationTab({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cout consultation (FCFA)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Cout consultation (XAF)</label>
               <input
                 type="number"
                 value={formData.cost}
@@ -1432,7 +1432,7 @@ function ObservationTab({
                 <div className="text-right">
                   <p className="text-sm text-gray-500">{formatDate(event.date)}</p>
                   {event.cost && (
-                    <p className="text-sm font-medium">{Number(event.cost).toLocaleString()} FCFA</p>
+                    <p className="text-sm font-medium">{Number(event.cost).toLocaleString()} XAF</p>
                   )}
                 </div>
               </div>
