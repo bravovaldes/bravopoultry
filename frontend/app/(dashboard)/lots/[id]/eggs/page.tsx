@@ -493,6 +493,7 @@ export default function EggsPage() {
                   type="number"
                   value={formData.eggs_normal}
                   onChange={(e) => setFormData(prev => ({ ...prev, eggs_normal: e.target.value }))}
+                  onWheel={(e) => e.currentTarget.blur()}
                   placeholder="0"
                   min="0"
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-2xl font-bold text-center"
@@ -504,6 +505,7 @@ export default function EggsPage() {
                       type="number"
                       value={formData.cartons}
                       onChange={(e) => setFormData(prev => ({ ...prev, cartons: e.target.value }))}
+                      onWheel={(e) => e.currentTarget.blur()}
                       placeholder="0"
                       min="0"
                       className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-xl font-bold text-center"
@@ -515,6 +517,7 @@ export default function EggsPage() {
                       type="number"
                       value={formData.extra_eggs}
                       onChange={(e) => setFormData(prev => ({ ...prev, extra_eggs: e.target.value }))}
+                      onWheel={(e) => e.currentTarget.blur()}
                       placeholder="0"
                       min="0"
                       max="29"
@@ -544,6 +547,7 @@ export default function EggsPage() {
                     type="number"
                     value={formData.eggs_cracked}
                     onChange={(e) => setFormData(prev => ({ ...prev, eggs_cracked: e.target.value }))}
+                    onWheel={(e) => e.currentTarget.blur()}
                     placeholder="0"
                     min="0"
                     className="w-full px-2 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-lg font-bold text-center"
@@ -555,6 +559,7 @@ export default function EggsPage() {
                     type="number"
                     value={formData.eggs_dirty}
                     onChange={(e) => setFormData(prev => ({ ...prev, eggs_dirty: e.target.value }))}
+                    onWheel={(e) => e.currentTarget.blur()}
                     placeholder="0"
                     min="0"
                     className="w-full px-2 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-lg font-bold text-center"
@@ -566,6 +571,7 @@ export default function EggsPage() {
                     type="number"
                     value={formData.eggs_small}
                     onChange={(e) => setFormData(prev => ({ ...prev, eggs_small: e.target.value }))}
+                    onWheel={(e) => e.currentTarget.blur()}
                     placeholder="0"
                     min="0"
                     className="w-full px-2 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-lg font-bold text-center"

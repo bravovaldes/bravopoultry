@@ -384,6 +384,7 @@ export default function WeightPage() {
             type="number"
             value={formData.average_weight_g}
             onChange={(e) => setFormData(prev => ({ ...prev, average_weight_g: e.target.value }))}
+            onWheel={(e) => e.currentTarget.blur()}
             placeholder="0"
             min="0"
             className="w-full px-4 py-4 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-3xl font-bold text-center"
@@ -416,6 +417,7 @@ export default function WeightPage() {
             type="number"
             value={formData.sample_size}
             onChange={(e) => setFormData(prev => ({ ...prev, sample_size: e.target.value }))}
+            onWheel={(e) => e.currentTarget.blur()}
             placeholder="10"
             min="1"
             className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-lg text-center"
