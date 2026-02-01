@@ -635,7 +635,7 @@ function AddSaleModal({ onClose, sites, lots, onSuccess }: {
               >
                 <option value="">Aucun</option>
                 {lots?.map((lot: any) => (
-                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''}</option>
+                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}</option>
                 ))}
               </select>
             </div>
@@ -889,7 +889,7 @@ function EditSaleModal({ sale, onClose, sites, lots, onSuccess }: {
               >
                 <option value="">Aucun</option>
                 {lots?.map((lot: any) => (
-                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''}</option>
+                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}</option>
                 ))}
               </select>
             </div>

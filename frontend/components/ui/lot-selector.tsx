@@ -181,8 +181,8 @@ export function LotSelector({
                       {lot.type === 'layer' && <Egg className="w-4 h-4 text-orange-500 flex-shrink-0" />}
                       <div className="flex-1 min-w-0">
                         <span className="font-medium">{lot.name || lot.code}</span>
-                        {lot.site_name && (
-                          <span className="text-xs text-gray-400 ml-1">({lot.site_name})</span>
+                        {lot.building_name && (
+                          <span className="text-xs text-gray-400 ml-1">({lot.building_name})</span>
                         )}
                       </div>
                       {lot.age_days !== undefined && (

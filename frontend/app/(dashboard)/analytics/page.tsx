@@ -798,7 +798,7 @@ export default function AnalyticsPage() {
             <option value="all">Tous les lots</option>
             {(lots || []).map((lot: any) => (
               <option key={lot.id} value={lot.id}>
-                {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.site_name ? `· ${lot.site_name}` : ''} - J{lot.age_days || 0}
+                {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''} - J{lot.age_days || 0}
               </option>
             ))}
           </select>

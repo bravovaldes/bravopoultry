@@ -211,7 +211,7 @@ export default function ProductionPage() {
                     <Egg className="w-4 h-4 text-orange-500" />
                     <div>
                       <span className="text-sm font-medium">{lot.name || lot.code}</span>
-                      {lot.site_name && <span className="text-xs text-gray-400 ml-1">({lot.site_name})</span>}
+                      {lot.building_name && <span className="text-xs text-gray-400 ml-1">({lot.building_name})</span>}
                     </div>
                   </button>
                 )) : (
@@ -283,7 +283,7 @@ export default function ProductionPage() {
               <option value="all">Tous les lots</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
-                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.site_name ? `· ${lot.site_name}` : ''}
+                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}
                 </option>
               ))}
             </select>

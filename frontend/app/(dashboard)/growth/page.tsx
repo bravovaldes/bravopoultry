@@ -231,7 +231,7 @@ export default function GrowthPage() {
                       <Bird className="w-4 h-4 text-green-600" />
                       <div className="flex-1">
                         <span className="font-medium">{lot.name || lot.code}</span>
-                        {lot.site_name && <span className="text-xs text-gray-400 ml-1">({lot.site_name})</span>}
+                        {lot.building_name && <span className="text-xs text-gray-400 ml-1">({lot.building_name})</span>}
                       </div>
                       <span className="text-xs text-gray-400">J{lot.age_days || 0}</span>
                     </button>
@@ -307,7 +307,7 @@ export default function GrowthPage() {
               <option value="all">Tous les lots</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
-                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.site_name ? `· ${lot.site_name}` : ''}
+                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''}
                 </option>
               ))}
             </select>

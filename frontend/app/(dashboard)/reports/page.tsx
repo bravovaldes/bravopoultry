@@ -493,7 +493,7 @@ function GenerateReportModal({
                 <option value="all">Selectionner un lot</option>
                 {lots?.map((lot: any) => (
                   <option key={lot.id} value={lot.id}>
-                    {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} - {lot.type === 'layer' ? 'Pondeuse' : 'Chair'}
+                    {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.building_name ? `· ${lot.building_name}` : ''} - {lot.type === 'layer' ? 'Pondeuse' : 'Chair'}
                   </option>
                 ))}
               </select>
