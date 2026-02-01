@@ -267,7 +267,7 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top header - Fixed */}
-        <header className="fixed top-0 right-0 left-0 lg:left-64 z-30 bg-white border-b">
+        <header className="fixed top-0 right-0 left-0 lg:left-64 z-30 bg-white border-b border-gray-200">
           <div className="flex items-center justify-between h-16 px-4 mt-2 sm:mt-0">
             <button
               className="lg:hidden p-2 rounded-lg hover:bg-gray-100"

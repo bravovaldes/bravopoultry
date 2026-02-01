@@ -53,6 +53,10 @@
   * {
     @apply border-border;
   }
+  html {
+    background-color: #ffffff;
+  }
+
   html, body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
