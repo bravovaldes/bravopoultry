@@ -32,6 +32,7 @@ import {
   UserPlus,
   User,
   ChevronDown,
+  Loader2,
 } from 'lucide-react'
 import { cn, formatCurrency, formatCurrencyCompact, formatDate, safeNumber, roundDecimal } from '@/lib/utils'
 import { DatePicker } from '@/components/ui/date-picker'
@@ -314,8 +315,9 @@ export default function GestionFinancesPage() {
             <div className="lg:col-span-2 bg-white p-4 rounded-xl border">
               <h3 className="font-semibold mb-4">Flux de tresorerie</h3>
               {financialLoading ? (
-                <div className="h-64 flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-orange-500"></div>
+                <div className="h-64 flex flex-col items-center justify-center text-gray-400">
+                  <Loader2 className="w-8 h-8 animate-spin text-orange-500 mb-2" />
+                  <span className="text-sm">Chargement...</span>
                 </div>
               ) : cashflowData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={250}>
@@ -351,8 +353,9 @@ export default function GestionFinancesPage() {
               )}
             </div>
             {financialLoading ? (
-              <div className="p-8 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-orange-500"></div>
+              <div className="p-8 flex flex-col items-center justify-center text-gray-400">
+                <Loader2 className="w-8 h-8 animate-spin text-orange-500 mb-2" />
+                <span className="text-sm">Chargement...</span>
               </div>
             ) : transactions.length > 0 ? (
               <div className="divide-y max-h-[600px] overflow-y-auto">
@@ -606,8 +609,9 @@ export default function GestionFinancesPage() {
               </button>
             </div>
             {suppliersLoading ? (
-              <div className="p-8 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500"></div>
+              <div className="p-8 flex flex-col items-center justify-center text-gray-400">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-2" />
+                <span className="text-sm">Chargement...</span>
               </div>
             ) : suppliers.length === 0 ? (
               <div className="p-8 text-center text-gray-500">

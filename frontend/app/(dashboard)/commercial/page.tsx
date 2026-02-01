@@ -420,8 +420,9 @@ export default function CommercialPage() {
               <h3 className="font-semibold">Liste des clients ({filteredClients.length})</h3>
             </div>
             {clientsLoading ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500"></div>
+              <div className="flex flex-col items-center justify-center py-12 text-gray-400">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-2" />
+                <span className="text-sm">Chargement...</span>
               </div>
             ) : filteredClients.length === 0 ? (
               <div className="text-center py-12">

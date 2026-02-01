@@ -136,6 +136,11 @@ export default function SiteDetailPage() {
   const totalBirds = site.buildings?.reduce((sum, b) => sum + (b.current_occupancy || 0), 0) || 0
   const totalCapacity = site.buildings?.reduce((sum, b) => sum + (b.capacity || 0), 0) || site.total_capacity || 0
 
+  // Get the building data for deletion modal
+  const buildingToDeleteData = buildingToDelete
+    ? site.buildings?.find(b => b.id === buildingToDelete)
+    : null
+
   const getBuildingTypeLabel = (type: string) => {
     const types: Record<string, string> = {
       'layer': 'Pondeuses',
@@ -423,54 +428,51 @@ export default function SiteDetailPage() {
       )}
 
       {/* Delete Building Confirmation Modal */}
-      {buildingToDelete && (() => {
-        const buildingToDeleteData = site.buildings?.find(b => b.id === buildingToDelete)
-        return (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Supprimer le bâtiment ?
-              </h3>
-              <p className="text-gray-500 mb-4">
-                Cette action est irréversible. Toutes les sections et données associées seront supprimées.
+      {buildingToDelete && buildingToDeleteData && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Supprimer le bâtiment ?
+            </h3>
+            <p className="text-gray-500 mb-4">
+              Cette action est irréversible. Toutes les sections et données associées seront supprimées.
+            </p>
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">
+                Pour confirmer, tapez le nom du bâtiment: <span className="font-mono font-bold">{buildingToDeleteData.name}</span>
               </p>
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-800">
-                  Pour confirmer, tapez le nom du bâtiment: <span className="font-mono font-bold">{buildingToDeleteData?.name}</span>
-                </p>
-              </div>
-              <input
-                type="text"
-                value={buildingDeleteConfirmInput}
-                onChange={(e) => setBuildingDeleteConfirmInput(e.target.value)}
-                placeholder="Entrez le nom du bâtiment"
-                className="w-full px-3 py-2 border rounded-lg mb-4 font-mono text-sm"
-              />
-              <p className="text-xs text-gray-500 mb-4">
-                Si c'est une erreur de saisie, vous pouvez <Link href={`/buildings/${buildingToDelete}/edit`} className="text-orange-500 hover:underline font-medium">modifier le bâtiment</Link> à la place.
-              </p>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => {
-                    setBuildingToDelete(null)
-                    setBuildingDeleteConfirmInput('')
-                  }}
-                  className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
-                >
-                  Annuler
-                </button>
-                <button
-                  onClick={() => deleteBuilding.mutate(buildingToDelete)}
-                  disabled={deleteBuilding.isPending || buildingDeleteConfirmInput !== buildingToDeleteData?.name}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {deleteBuilding.isPending ? 'Suppression...' : 'Supprimer'}
-                </button>
-              </div>
+            </div>
+            <input
+              type="text"
+              value={buildingDeleteConfirmInput}
+              onChange={(e) => setBuildingDeleteConfirmInput(e.target.value)}
+              placeholder="Entrez le nom du bâtiment"
+              className="w-full px-3 py-2 border rounded-lg mb-4 font-mono text-sm"
+            />
+            <p className="text-xs text-gray-500 mb-4">
+              Si c'est une erreur de saisie, vous pouvez <Link href={`/buildings/${buildingToDelete}/edit`} className="text-orange-500 hover:underline font-medium">modifier le bâtiment</Link> à la place.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setBuildingToDelete(null)
+                  setBuildingDeleteConfirmInput('')
+                }}
+                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={() => deleteBuilding.mutate(buildingToDelete)}
+                disabled={deleteBuilding.isPending || buildingDeleteConfirmInput !== buildingToDeleteData.name}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {deleteBuilding.isPending ? 'Suppression...' : 'Supprimer'}
+              </button>
             </div>
           </div>
-        )
-      })()}
+        </div>
+      )}
     </div>
   )
 }
