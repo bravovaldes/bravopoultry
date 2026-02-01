@@ -8,7 +8,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.site import Site, SiteMember
 from app.models.building import Building
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.schemas.site import SiteCreate, SiteUpdate, SiteResponse, SiteWithStats, SiteMemberAdd, SiteMemberResponse
 
 router = APIRouter()
@@ -56,7 +56,7 @@ async def get_sites(
     ).join(Lot, Lot.building_id == Building.id).filter(
         Building.site_id.in_(site_ids),
         Building.is_active == True,
-        Lot.status == "active"
+        Lot.status == LotStatus.ACTIVE
     ).group_by(Building.site_id).all()
 
     lot_stats_map = {
@@ -148,7 +148,7 @@ async def get_site(
             func.coalesce(func.sum(Lot.current_quantity), 0).label('total_birds')
         ).filter(
             Lot.building_id.in_(building_ids),
-            Lot.status == "active"
+            Lot.status == LotStatus.ACTIVE
         ).group_by(Lot.building_id).all()
 
         lot_stats_per_building = {

@@ -11,7 +11,7 @@ from app.models.building import Building
 from app.models.lot import Lot, LotType, LotStatus
 from app.models.production import EggProduction, Mortality, WeightRecord
 from app.models.finance import Sale, Expense, SaleType
-from app.models.alert import Alert
+from app.models.alert import Alert, AlertStatus
 from app.services.financial_service import get_financial_service
 
 router = APIRouter()
@@ -182,7 +182,7 @@ async def get_dashboard_overview(
     # Active alerts
     active_alerts = db.query(Alert).filter(
         Alert.organization_id == org_id,
-        Alert.status == "active"
+        Alert.status == AlertStatus.ACTIVE
     ).count()
 
     # Pending payments - use centralized service
@@ -339,7 +339,7 @@ async def get_active_alerts(
     """Get active alerts for dashboard."""
     alerts = db.query(Alert).filter(
         Alert.organization_id == current_user.organization_id,
-        Alert.status == "active"
+        Alert.status == AlertStatus.ACTIVE
     ).order_by(Alert.created_at.desc()).limit(limit).all()
 
     return [

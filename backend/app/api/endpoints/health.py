@@ -7,8 +7,8 @@ from datetime import date, timedelta
 
 from app.api.deps import get_db, get_current_user
 from app.models.user import User
-from app.models.lot import Lot
-from app.models.health import HealthEvent, VaccinationSchedule
+from app.models.lot import Lot, LotStatus
+from app.models.health import HealthEvent, VaccinationSchedule, HealthEventType
 from app.models.finance import Expense
 from app.schemas.health import (
     HealthEventCreate, HealthEventUpdate, HealthEventResponse,
@@ -107,7 +107,7 @@ async def get_upcoming_vaccinations(
         Site.organization_id == current_user.organization_id,
         Site.is_active == True,
         Building.is_active == True,
-        Lot.status == "active"
+        Lot.status == LotStatus.ACTIVE
     )
 
     if site_id:
@@ -147,7 +147,7 @@ async def get_upcoming_vaccinations(
                 # Check if already done (case-insensitive matching)
                 existing = db.query(HealthEvent).filter(
                     HealthEvent.lot_id == lot.id,
-                    HealthEvent.event_type == "vaccination",
+                    HealthEvent.event_type == HealthEventType.VACCINATION,
                     func.lower(HealthEvent.product_name) == func.lower(schedule.vaccine_name)
                 ).first()
 

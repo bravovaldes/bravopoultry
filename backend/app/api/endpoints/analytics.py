@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from app.api.deps import get_db, get_current_user
 from app.models.user import User
-from app.models.lot import Lot, LotStats
+from app.models.lot import Lot, LotStats, LotStatus
 from app.models.production import EggProduction, WeightRecord, Mortality
 from app.models.feed import FeedConsumption
 from app.models.finance import Sale, Expense
@@ -142,7 +142,7 @@ async def get_site_summary(
     lots = db.query(Lot).join(Building).filter(
         Building.site_id == site_id,
         Building.is_active == True,
-        Lot.status == "active"
+        Lot.status == LotStatus.ACTIVE
     ).all()
 
     lot_ids = [lot.id for lot in lots]

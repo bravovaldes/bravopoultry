@@ -200,20 +200,26 @@ export default function LoginPage() {
 
           {/* Email not verified warning */}
           {showResendVerification && (
-            <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-5">
               <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-amber-600" />
+                </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-amber-800">
-                    Email non verifie
+                  <p className="font-medium text-amber-900">
+                    Verifiez votre email
                   </p>
                   <p className="text-sm text-amber-700 mt-1">
-                    Veuillez verifier votre email avant de vous connecter.
+                    Un email de verification a ete envoye a <strong>{unverifiedEmail}</strong>.
+                    Cliquez sur le lien dans l'email pour activer votre compte.
+                  </p>
+                  <p className="text-sm text-amber-600 mt-2">
+                    Pensez a verifier votre dossier spam.
                   </p>
                   <button
                     onClick={handleResendVerification}
                     disabled={resendingEmail}
-                    className="mt-3 text-sm font-medium text-amber-800 hover:text-amber-900 flex items-center gap-2"
+                    className="mt-4 w-full bg-amber-100 text-amber-800 py-2.5 px-4 rounded-lg font-medium hover:bg-amber-200 transition disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {resendingEmail ? (
                       <>

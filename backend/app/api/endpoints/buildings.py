@@ -8,7 +8,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.site import Site
 from app.models.building import Building, Section
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.schemas.building import (
     BuildingCreate, BuildingUpdate, BuildingResponse,
     SectionCreate, SectionUpdate, SectionResponse,
@@ -37,7 +37,7 @@ def build_building_response(
         current_birds = lot_stats.get('current_birds', 0)
     else:
         # Fallback to Python-level calculation (for single building queries)
-        active_lots = [lot for lot in building.lots if lot.status == "active"]
+        active_lots = [lot for lot in building.lots if lot.status == LotStatus.ACTIVE]
         active_lots_count = len(active_lots)
         current_birds = sum(lot.current_quantity or 0 for lot in active_lots)
 
@@ -120,7 +120,7 @@ async def get_buildings(
         func.coalesce(func.sum(Lot.current_quantity), 0).label('current_birds')
     ).filter(
         Lot.building_id.in_(building_ids),
-        Lot.status == "active"
+        Lot.status == LotStatus.ACTIVE
     ).group_by(Lot.building_id).all()
 
     lot_stats_map = {

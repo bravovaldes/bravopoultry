@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from app.api.deps import get_db, get_current_user
 from app.models.user import User
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.models.site import Site
 from app.models.building import Building
 from app.models.feed import FeedConsumption, WaterConsumption, FeedStock, FeedStockMovement, FeedType, StockMovementType
@@ -498,7 +498,7 @@ async def get_monitoring_stats(
             Site.organization_id == current_user.organization_id,
             Site.is_active == True,
             Building.is_active == True,
-            Lot.status == "active"
+            Lot.status == LotStatus.ACTIVE
         ).all()
         total_birds = sum(l.current_quantity or 0 for l in active_lots)
         # For multiple lots, use average age (weighted by bird count)

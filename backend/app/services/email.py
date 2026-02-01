@@ -132,7 +132,7 @@ class EmailService:
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto;">
                 <tr>
                     <td>
                         <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">BravoPoultry</p>
@@ -226,7 +226,7 @@ Si vous n'attendiez pas cette invitation, vous pouvez ignorer cet email.
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto;">
                 <tr>
                     <td>
                         <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">{organization_name}</p>
@@ -323,7 +323,7 @@ Pour toute question concernant cette facture, n'hesitez pas a nous contacter.
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto;">
                 <tr>
                     <td>
                         <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">BravoPoultry</p>
@@ -402,7 +402,7 @@ Si vous n'avez pas cree de compte sur BravoPoultry, vous pouvez ignorer cet emai
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #1a1a1a; background-color: #ffffff;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto;">
                 <tr>
                     <td>
                         <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">BravoPoultry</p>

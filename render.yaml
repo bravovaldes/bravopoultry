@@ -29,9 +29,9 @@ services:
       - key: API_V1_PREFIX
         value: /api/v1
       - key: CORS_ORIGINS
-        value: https://bravopoultry.vercel.app,https://bravopoultry.com
+        value: https://bravopoultry.com,https://www.bravopoultry.com,https://bravopoultry.vercel.app,https://bravopoultry-git-main-bravovaldes-projects.vercel.app
       - key: FRONTEND_URL
-        value: https://bravopoultry.vercel.app
+        value: https://www.bravopoultry.com
       - key: EMAIL_FROM
         value: noreply@bravopoultry.com
       # SMTP - a configurer manuellement dans le dashboard Render

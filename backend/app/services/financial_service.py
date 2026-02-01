@@ -16,7 +16,7 @@ from uuid import UUID
 from app.models.lot import Lot
 from app.models.building import Building
 from app.models.site import Site
-from app.models.finance import Sale, Expense
+from app.models.finance import Sale, Expense, PaymentStatus
 
 
 class FinancialService:
@@ -399,7 +399,7 @@ class FinancialService:
                 0
             )
         ).filter(
-            func.lower(Sale.payment_status).in_(['pending', 'partial'])
+            Sale.payment_status.in_([PaymentStatus.PENDING, PaymentStatus.PARTIAL])
         )
 
         if site_ids:
