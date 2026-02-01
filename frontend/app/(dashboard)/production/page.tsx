@@ -173,7 +173,7 @@ export default function ProductionPage() {
   const activeLayerLots = lots?.filter((lot: any) => lot.status === 'active') || []
   const hasActiveLayerLots = activeLayerLots.length > 0
 
-  // If no layer lots at all, show empty state
+  // If no layer lots at all, show empty state with preview
   if (!isLoading && !hasLayerLots) {
     return (
       <div className="space-y-4 lg:space-y-3">
@@ -183,53 +183,174 @@ export default function ProductionPage() {
             <h1 className="text-xl font-bold text-gray-900">Production d'oeufs</h1>
             <p className="text-sm text-gray-500">Vue globale de la production</p>
           </div>
+          <Link
+            href="/lots/new?type=layer"
+            className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
+          >
+            <Plus className="w-5 h-5" />
+            <span className="hidden sm:inline">Creer un lot pondeuses</span>
+            <span className="sm:hidden">Creer</span>
+          </Link>
         </div>
 
-        {/* Empty State */}
-        <div className="bg-white rounded-xl border">
-          <div className="flex flex-col items-center justify-center py-16 px-4">
-            <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-              <Egg className="w-10 h-10 text-orange-500" />
+        {/* CTA Banner */}
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-4 sm:p-6 text-white">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <Egg className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2 text-center">
-              Pas encore de lot pondeuses
-            </h2>
-            <p className="text-gray-500 text-center max-w-md mb-6">
-              Pour suivre la production d'oeufs, vous devez d'abord creer un lot de type "Pondeuses".
-              Les lots pondeuses vous permettent d'enregistrer la collecte quotidienne des oeufs et d'analyser vos performances.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/lots/new?type=layer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition"
-              >
-                <Plus className="w-5 h-5" />
-                Creer un lot pondeuses
-              </Link>
-              <Link
-                href="/lots"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
-              >
-                Voir tous les lots
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="flex-1">
+              <h2 className="text-lg sm:text-xl font-semibold mb-1">
+                Commencez a suivre votre production
+              </h2>
+              <p className="text-orange-100 text-sm sm:text-base">
+                Creez un lot de type "Pondeuses" pour debloquer le suivi complet : collecte quotidienne,
+                taux de ponte, analyse par phase et graphiques d'evolution.
+              </p>
             </div>
+            <Link
+              href="/lots/new?type=layer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition flex-shrink-0"
+            >
+              <Plus className="w-5 h-5" />
+              Creer un lot
+            </Link>
+          </div>
+        </div>
 
-            {/* Tips */}
-            <div className="mt-8 p-4 bg-orange-50 rounded-lg border border-orange-100 max-w-lg">
-              <div className="flex gap-3">
-                <div className="flex-shrink-0">
-                  <AlertCircle className="w-5 h-5 text-orange-500" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-orange-800 mb-1">Conseil</h3>
-                  <p className="text-sm text-orange-700">
-                    Lors de la creation du lot, selectionnez le type <strong>"Pondeuses"</strong> pour debloquer
-                    le suivi de production d'oeufs avec taux de ponte, analyse par phase et recommandations.
-                  </p>
-                </div>
+        {/* Preview Stats Cards - Disabled/Preview mode */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg flex items-center justify-center">
+            <div className="bg-white rounded-lg shadow-lg px-4 py-2 border flex items-center gap-2">
+              <Eye className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-gray-600 font-medium">Apercu - Creez un lot pour voir vos donnees</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 opacity-60">
+            <div className="bg-white rounded-lg border p-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-gray-500">Total oeufs</p>
+                <span className="text-xs flex items-center gap-1 text-green-600">
+                  <TrendingUp className="w-3 h-3" />
+                  +5.2%
+                </span>
               </div>
+              <p className="text-xl lg:text-2xl font-bold text-gray-900">12,450</p>
+            </div>
+            <div className="bg-white rounded-lg border p-3">
+              <p className="text-sm text-gray-500">Taux moyen</p>
+              <p className="text-xl lg:text-2xl font-bold text-green-600">85.3%</p>
+            </div>
+            <div className="bg-white rounded-lg border p-3">
+              <p className="text-sm text-gray-500">Plateaux</p>
+              <p className="text-xl lg:text-2xl font-bold text-gray-900">415</p>
+            </div>
+            <div className="bg-white rounded-lg border p-3">
+              <p className="text-sm text-gray-500">Vendables</p>
+              <p className="text-xl lg:text-2xl font-bold text-green-600">12,180</p>
+            </div>
+            <div className="bg-white rounded-lg border p-3">
+              <p className="text-sm text-gray-500">Casses/Feles</p>
+              <p className="text-xl lg:text-2xl font-bold text-red-600">270</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Preview Chart */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg"></div>
+          <div className="bg-white rounded-lg border p-3 opacity-60">
+            <div className="flex items-center gap-2 mb-3">
+              <BarChart3 className="w-5 h-5 text-gray-400" />
+              <h3 className="font-semibold">Evolution de la production</h3>
+            </div>
+            <div className="h-48 lg:h-56 flex items-end justify-around gap-2 px-4">
+              {/* Fake bar chart visualization */}
+              {[65, 72, 68, 80, 85, 78, 82, 88, 84, 90, 86, 92].map((height, i) => (
+                <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                  <div
+                    className="w-full bg-gradient-to-t from-orange-400 to-orange-300 rounded-t"
+                    style={{ height: `${height}%` }}
+                  ></div>
+                  <span className="text-[10px] text-gray-400">{i + 1}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center gap-6 mt-3 text-xs text-gray-500">
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 bg-orange-400 rounded"></div>
+                <span>Production journaliere</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 bg-green-400 rounded"></div>
+                <span>Taux de ponte</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Preview Table */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg"></div>
+          <div className="bg-white rounded-lg border opacity-60">
+            <div className="p-3 border-b flex items-center justify-between">
+              <h3 className="font-semibold">Historique detaille</h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="text-left p-3 font-medium text-gray-600">Date</th>
+                    <th className="text-left p-3 font-medium text-gray-600">Lot</th>
+                    <th className="text-right p-3 font-medium text-gray-600">Normaux</th>
+                    <th className="text-right p-3 font-medium text-gray-600">Feles</th>
+                    <th className="text-right p-3 font-medium text-gray-600">Total</th>
+                    <th className="text-right p-3 font-medium text-gray-600">Taux</th>
+                    <th className="text-center p-3 font-medium text-gray-600">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {[
+                    { date: '31/01/2026', lot: 'LOT-001', normal: 850, feles: 12, total: 862, taux: 86.2 },
+                    { date: '30/01/2026', lot: 'LOT-001', normal: 842, feles: 8, total: 850, taux: 85.0 },
+                    { date: '29/01/2026', lot: 'LOT-001', normal: 865, feles: 15, total: 880, taux: 88.0 },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-gray-50">
+                      <td className="p-3 font-medium">{row.date}</td>
+                      <td className="p-3 text-orange-600">{row.lot}</td>
+                      <td className="p-3 text-right">{row.normal}</td>
+                      <td className="p-3 text-right text-red-600">{row.feles}</td>
+                      <td className="p-3 text-right font-medium">{row.total}</td>
+                      <td className="p-3 text-right">
+                        <span className="font-medium text-green-600">{row.taux}%</span>
+                      </td>
+                      <td className="p-3">
+                        <div className="flex items-center justify-center gap-1">
+                          <span className="p-1.5 text-gray-300"><Pencil className="w-4 h-4" /></span>
+                          <span className="p-1.5 text-gray-300"><Eye className="w-4 h-4" /></span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Tips */}
+        <div className="bg-orange-50 rounded-lg border border-orange-100 p-4">
+          <div className="flex gap-3">
+            <div className="flex-shrink-0">
+              <AlertCircle className="w-5 h-5 text-orange-500" />
+            </div>
+            <div>
+              <h3 className="font-medium text-orange-800 mb-1">Comment commencer ?</h3>
+              <p className="text-sm text-orange-700">
+                1. <Link href="/lots/new?type=layer" className="underline font-medium">Creez un lot pondeuses</Link> en selectionnant le type "Pondeuses"<br />
+                2. Une fois le lot actif, enregistrez la collecte quotidienne d'oeufs<br />
+                3. Suivez vos performances avec les graphiques et analyses automatiques
+              </p>
             </div>
           </div>
         </div>
