@@ -57,8 +57,8 @@ export default function SiteDetailPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [buildingToDelete, setBuildingToDelete] = useState<string | null>(null)
 
-  // Lock body scroll when modal is open
-  useBodyScrollLock(showDeleteConfirm)
+  // Lock body scroll when any modal is open
+  useBodyScrollLock(showDeleteConfirm || !!buildingToDelete)
 
   const siteId = params.id as string
 
