@@ -168,7 +168,7 @@ export default function EditLotPage() {
         </Link>
         <div className="min-w-0 flex-1">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">Modifier le lot</h1>
-          <p className="text-sm sm:text-base text-gray-500 truncate">{lot.code} - {lot.name || 'Sans nom'}</p>
+          <p className="text-sm sm:text-base text-gray-500 truncate">{lot.name || 'Sans nom'} ({lot.code})</p>
         </div>
       </div>
 

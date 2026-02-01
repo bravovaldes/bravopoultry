@@ -143,54 +143,54 @@ export default function TeamPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-blue-600" />
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
             </div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{users?.length || 0}</p>
-              <p className="text-sm text-gray-500">Total membres</p>
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">{users?.length || 0}</p>
+              <p className="text-xs sm:text-sm text-gray-500 truncate">Membres</p>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl border p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Crown className="w-5 h-5 text-purple-600" />
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
             </div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">
                 {users?.filter((u: any) => u.role === 'owner').length || 0}
               </p>
-              <p className="text-sm text-gray-500">Proprietaires</p>
+              <p className="text-xs sm:text-sm text-gray-500 truncate">Proprio.</p>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl border p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
             </div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">
                 {users?.filter((u: any) => u.is_active).length || 0}
               </p>
-              <p className="text-sm text-gray-500">Actifs</p>
+              <p className="text-xs sm:text-sm text-gray-500 truncate">Actifs</p>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl border p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-              <Clock className="w-5 h-5 text-amber-600" />
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
             </div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">
                 {pendingInvitations.length}
               </p>
-              <p className="text-sm text-gray-500">En attente</p>
+              <p className="text-xs sm:text-sm text-gray-500 truncate">Attente</p>
             </div>
           </div>
         </div>
@@ -238,50 +238,52 @@ export default function TeamPage() {
             {pendingInvitations.map((invitation: any) => {
               const roleInfo = getRoleInfo(invitation.role)
               return (
-                <div key={invitation.id} className="p-4 flex items-center justify-between hover:bg-gray-50">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                      <Mail className="w-5 h-5 text-amber-600" />
+                <div key={invitation.id} className="p-3 sm:p-4 hover:bg-gray-50">
+                  <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
                     </div>
-                    <div>
-                      <p className="font-medium text-gray-900">
-                        {invitation.first_name && invitation.last_name
-                          ? `${invitation.first_name} ${invitation.last_name}`
-                          : invitation.email}
-                      </p>
-                      <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                        <span>{invitation.email}</span>
-                        <span className="text-amber-600">
-                          Expire le {new Date(invitation.expires_at).toLocaleDateString('fr-FR')}
-                        </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                          <p className="font-medium text-gray-900 truncate">
+                            {invitation.first_name && invitation.last_name
+                              ? `${invitation.first_name} ${invitation.last_name}`
+                              : invitation.email}
+                          </p>
+                          <p className="text-sm text-gray-500 truncate">{invitation.email}</p>
+                          <p className="text-xs text-amber-600 mt-0.5">
+                            Expire le {new Date(invitation.expires_at).toLocaleDateString('fr-FR')}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <span className={cn("px-2 sm:px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1", roleInfo.color)}>
+                            <roleInfo.icon className="w-3 h-3" />
+                            <span className="hidden sm:inline">{roleInfo.label}</span>
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => resendMutation.mutate(invitation.id)}
+                              disabled={resendMutation.isPending}
+                              className="p-1.5 sm:p-2 hover:bg-blue-100 rounded-lg"
+                              title="Renvoyer"
+                            >
+                              <RefreshCw className={cn("w-4 h-4 text-blue-500", resendMutation.isPending && "animate-spin")} />
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (confirm('Annuler cette invitation ?')) {
+                                  cancelMutation.mutate(invitation.id)
+                                }
+                              }}
+                              className="p-1.5 sm:p-2 hover:bg-red-100 rounded-lg"
+                              title="Annuler"
+                            >
+                              <X className="w-4 h-4 text-red-500" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className={cn("px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1", roleInfo.color)}>
-                      <roleInfo.icon className="w-3 h-3" />
-                      {roleInfo.label}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => resendMutation.mutate(invitation.id)}
-                        disabled={resendMutation.isPending}
-                        className="p-2 hover:bg-blue-100 rounded-lg"
-                        title="Renvoyer l'invitation"
-                      >
-                        <RefreshCw className={cn("w-4 h-4 text-blue-500", resendMutation.isPending && "animate-spin")} />
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm('Annuler cette invitation ?')) {
-                            cancelMutation.mutate(invitation.id)
-                          }
-                        }}
-                        className="p-2 hover:bg-red-100 rounded-lg"
-                        title="Annuler l'invitation"
-                      >
-                        <X className="w-4 h-4 text-red-500" />
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -313,79 +315,81 @@ export default function TeamPage() {
               const isCurrentUser = user.id === currentUser?.id
 
               return (
-                <div key={user.id} className="p-4 flex items-center justify-between hover:bg-gray-50">
-                  <div className="flex items-center gap-4">
+                <div key={user.id} className="p-3 sm:p-4 hover:bg-gray-50">
+                  <div className="flex items-start sm:items-center gap-3 sm:gap-4">
                     {/* Avatar */}
-                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                      <span className="text-orange-600 font-semibold text-lg">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-orange-600 font-semibold text-base sm:text-lg">
                         {user.first_name?.[0]}{user.last_name?.[0]}
                       </span>
                     </div>
 
-                    {/* Info */}
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="font-medium text-gray-900">
-                          {user.first_name} {user.last_name}
-                        </p>
-                        {isCurrentUser && (
-                          <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">
-                            Vous
+                    {/* Info + Actions */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        {/* Name and badges */}
+                        <div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="font-medium text-gray-900 truncate">
+                              {user.first_name} {user.last_name}
+                            </p>
+                            {isCurrentUser && (
+                              <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">
+                                Vous
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-500 truncate mt-0.5">
+                            {user.email}
+                          </p>
+                          {user.phone && (
+                            <p className="text-sm text-gray-500 sm:hidden">
+                              {user.phone}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Right side - badges and actions */}
+                        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                          {/* Role Badge */}
+                          <span className={cn("px-2 sm:px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1", roleInfo.color)}>
+                            <roleInfo.icon className="w-3 h-3" />
+                            <span className="hidden sm:inline">{roleInfo.label}</span>
+                            <span className="sm:hidden">{roleInfo.label.slice(0, 4)}.</span>
                           </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                        <span className="flex items-center gap-1">
-                          <Mail className="w-3 h-3" />
-                          {user.email}
-                        </span>
-                        {user.phone && (
-                          <span className="flex items-center gap-1">
-                            <Phone className="w-3 h-3" />
-                            {user.phone}
+
+                          {/* Status */}
+                          <span className={cn(
+                            "px-2 py-1 rounded-full text-xs",
+                            user.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
+                          )}>
+                            {user.is_active ? 'Actif' : 'Inactif'}
                           </span>
-                        )}
+
+                          {/* Actions */}
+                          {canManageTeam && !isCurrentUser && (
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => handleEdit(user)}
+                                className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg"
+                                title="Modifier"
+                              >
+                                <Pencil className="w-4 h-4 text-gray-500" />
+                              </button>
+                              {(isOwner || (isManager && user.role !== 'owner' && user.role !== 'manager')) && (
+                                <button
+                                  onClick={() => handleDelete(user.id)}
+                                  className="p-1.5 sm:p-2 hover:bg-red-100 rounded-lg"
+                                  title="Supprimer"
+                                >
+                                  <Trash2 className="w-4 h-4 text-red-500" />
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    {/* Role Badge */}
-                    <span className={cn("px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1", roleInfo.color)}>
-                      <roleInfo.icon className="w-3 h-3" />
-                      {roleInfo.label}
-                    </span>
-
-                    {/* Status */}
-                    <span className={cn(
-                      "px-2 py-1 rounded-full text-xs",
-                      user.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
-                    )}>
-                      {user.is_active ? 'Actif' : 'Inactif'}
-                    </span>
-
-                    {/* Actions */}
-                    {canManageTeam && !isCurrentUser && (
-                      <div className="flex items-center gap-1">
-                        <button
-                          onClick={() => handleEdit(user)}
-                          className="p-2 hover:bg-gray-100 rounded-lg"
-                          title="Modifier"
-                        >
-                          <Pencil className="w-4 h-4 text-gray-500" />
-                        </button>
-                        {/* Managers cannot delete owners or other managers */}
-                        {(isOwner || (isManager && user.role !== 'owner' && user.role !== 'manager')) && (
-                          <button
-                            onClick={() => handleDelete(user.id)}
-                            className="p-2 hover:bg-red-100 rounded-lg"
-                            title="Supprimer"
-                          >
-                            <Trash2 className="w-4 h-4 text-red-500" />
-                          </button>
-                        )}
-                      </div>
-                    )}
                   </div>
                 </div>
               )
@@ -395,25 +399,25 @@ export default function TeamPage() {
       </div>
 
       {/* Roles Legend */}
-      <div className="bg-white rounded-xl border p-4">
-        <h3 className="font-semibold mb-4 flex items-center gap-2">
-          <Shield className="w-5 h-5 text-gray-400" />
+      <div className="bg-white rounded-xl border p-3 sm:p-4">
+        <h3 className="font-semibold mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
+          <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           Roles et permissions
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
           {ROLES.map((role) => (
-            <div key={role.value} className="p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={cn("px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1", role.color)}>
+            <div key={role.value} className="p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                <span className={cn("px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium flex items-center gap-1", role.color)}>
                   <role.icon className="w-3 h-3" />
                   {role.label}
                 </span>
               </div>
-              <p className="text-xs text-gray-500">
-                {role.value === 'owner' && "Acces complet, gestion equipe et parametres"}
-                {role.value === 'manager' && "Gestion equipe, lots, production, ventes et depenses"}
-                {role.value === 'technician' && "Saisie quotidienne, consultation rapports"}
-                {role.value === 'viewer' && "Consultation uniquement, pas de modification"}
+              <p className="text-xs text-gray-500 line-clamp-2">
+                {role.value === 'owner' && "Acces complet, gestion equipe"}
+                {role.value === 'manager' && "Gestion lots, ventes, depenses"}
+                {role.value === 'technician' && "Saisie quotidienne"}
+                {role.value === 'viewer' && "Consultation uniquement"}
               </p>
             </div>
           ))}

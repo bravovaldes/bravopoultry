@@ -296,41 +296,41 @@ export default function BandeDetailPage() {
   }
 
   return (
-    <div className="space-y-4 lg:space-y-5 w-full px-4 sm:px-6">
+    <div className="space-y-3 sm:space-y-4 lg:space-y-5 w-full">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-3">
           <Link
             href="/lots"
-            className="p-2 hover:bg-gray-100 rounded-lg transition"
+            className="p-2 hover:bg-gray-100 rounded-lg transition flex-shrink-0"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div>
-            <div className="flex items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 sm:gap-3">
               <div className={cn(
-                'w-10 h-10 rounded-lg flex items-center justify-center',
+                'w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0',
                 isBroiler ? 'bg-blue-100' : 'bg-orange-100'
               )}>
                 {isBroiler ? (
-                  <Bird className="w-5 h-5 text-blue-600" />
+                  <Bird className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                 ) : (
-                  <Egg className="w-5 h-5 text-orange-600" />
+                  <Egg className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
                 )}
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h1 className="text-xl md:text-2xl font-bold text-gray-900">
+                  <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate">
                     {lot.name || lot.code || 'Bande sans nom'}
                   </h1>
                   {lot.name && lot.code && (
-                    <span className="text-sm text-gray-400">{lot.code}</span>
+                    <span className="text-xs sm:text-sm text-gray-400">{lot.code}</span>
                   )}
-                  <span className={cn('px-2 py-1 text-xs font-medium rounded-full', getStatusColor(lot.status))}>
+                  <span className={cn('px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap', getStatusColor(lot.status))}>
                     {getStatusLabel(lot.status)}
                   </span>
                 </div>
-                <p className="text-sm md:text-base text-gray-500">
+                <p className="text-xs sm:text-sm md:text-base text-gray-500 truncate">
                   {isBroiler ? 'Poulet de chair' : 'Pondeuses'} • {lot.breed || 'Souche non specifiee'}
                 </p>
               </div>
@@ -338,7 +338,7 @@ export default function BandeDetailPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 ml-14 md:ml-0">
+        <div className="flex items-center gap-2 pl-10 sm:pl-0">
           {isActive && (lot.current_quantity || 0) > 1 && (
             <button
               onClick={() => {
@@ -349,32 +349,33 @@ export default function BandeDetailPage() {
                 setSplitBuildingId('')
                 setSplitLotName('')
               }}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm md:px-4 md:text-base border border-purple-200 text-purple-600 rounded-lg hover:bg-purple-50 transition"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm border border-purple-200 text-purple-600 rounded-lg hover:bg-purple-50 transition"
             >
-              <Split className="w-4 h-4" />
-              <span className="hidden md:inline">Scinder</span>
+              <Split className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Scinder</span>
             </button>
           )}
           {isActive && (
             <button
               onClick={() => setShowCloseConfirm(true)}
-              className="px-3 py-2 text-sm md:px-4 md:text-base border border-gray-200 rounded-lg hover:bg-gray-50 transition"
+              className="px-2.5 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm border border-gray-200 rounded-lg hover:bg-gray-50 transition"
             >
-              Cloturer
+              <span className="sm:hidden">Fin</span>
+              <span className="hidden sm:inline">Cloturer</span>
             </button>
           )}
           <Link
             href={`/lots/${lotId}/edit`}
-            className="inline-flex items-center gap-2 px-3 py-2 text-sm md:px-4 md:text-base border rounded-lg hover:bg-gray-50 transition"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm border rounded-lg hover:bg-gray-50 transition"
           >
-            <Edit className="w-4 h-4" />
-            <span className="hidden md:inline">Modifier</span>
+            <Edit className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Modifier</span>
           </Link>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="inline-flex items-center gap-2 px-3 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition"
+            className="inline-flex items-center gap-1.5 p-1.5 sm:px-2.5 sm:py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>
@@ -426,8 +427,8 @@ export default function BandeDetailPage() {
       )}
 
       {/* Info Bar */}
-      <div className="bg-white rounded-xl border p-3">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-2">
+      <div className="bg-white rounded-xl border p-2.5 sm:p-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-3 sm:gap-x-4 gap-y-2">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
             <div className="min-w-0">
@@ -611,61 +612,61 @@ export default function BandeDetailPage() {
 
       {/* Quick Actions - Primary section for daily tasks */}
       {isActive && (
-        <div className="bg-white rounded-xl border p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <h2 className="font-semibold text-gray-900 text-sm">Saisie rapide</h2>
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
+            <h2 className="font-semibold text-gray-900 text-xs sm:text-sm">Saisie rapide</h2>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 lg:gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-2 lg:gap-3">
             <Link
               href={`/lots/${lotId}/daily-entry`}
-              className="flex flex-col items-center gap-1.5 p-3 border-2 border-dashed rounded-xl hover:border-orange-500 hover:bg-orange-50 transition"
+              className="flex flex-col items-center gap-1 p-2 sm:p-3 border-2 border-dashed rounded-lg sm:rounded-xl hover:border-orange-500 hover:bg-orange-50 transition"
             >
-              <Plus className="w-5 h-5 text-orange-500" />
-              <span className="text-xs font-medium text-center">Saisie jour</span>
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
+              <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">Saisie</span>
             </Link>
 
             {isBroiler && (
               <Link
                 href={`/lots/${lotId}/weight`}
-                className="flex flex-col items-center gap-1.5 p-3 border rounded-xl hover:bg-gray-50 transition"
+                className="flex flex-col items-center gap-1 p-2 sm:p-3 border rounded-lg sm:rounded-xl hover:bg-gray-50 transition"
               >
-                <Scale className="w-5 h-5 text-green-500" />
-                <span className="text-xs font-medium text-center">Pesée</span>
+                <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
+                <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">Pesée</span>
               </Link>
             )}
 
             {isLayer && (
               <Link
                 href={`/lots/${lotId}/eggs`}
-                className="flex flex-col items-center gap-1.5 p-3 border rounded-xl hover:bg-gray-50 transition"
+                className="flex flex-col items-center gap-1 p-2 sm:p-3 border rounded-lg sm:rounded-xl hover:bg-gray-50 transition"
               >
-                <Egg className="w-5 h-5 text-orange-500" />
-                <span className="text-xs font-medium text-center">Production</span>
+                <Egg className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
+                <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">Oeufs</span>
               </Link>
             )}
 
             <Link
               href={`/lots/${lotId}/feed`}
-              className="flex flex-col items-center gap-1.5 p-3 border rounded-xl hover:bg-gray-50 transition"
+              className="flex flex-col items-center gap-1 p-2 sm:p-3 border rounded-lg sm:rounded-xl hover:bg-gray-50 transition"
             >
-              <Wheat className="w-5 h-5 text-yellow-600" />
-              <span className="text-xs font-medium text-center">Aliment</span>
+              <Wheat className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" />
+              <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">Aliment</span>
             </Link>
 
             <Link
               href={`/lots/${lotId}/mortality`}
-              className="flex flex-col items-center gap-1.5 p-3 border rounded-xl hover:bg-gray-50 transition"
+              className="flex flex-col items-center gap-1 p-2 sm:p-3 border rounded-lg sm:rounded-xl hover:bg-gray-50 transition"
             >
-              <AlertTriangle className="w-5 h-5 text-red-500" />
-              <span className="text-xs font-medium text-center">Mortalité</span>
+              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
+              <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">Mortal.</span>
             </Link>
 
             <Link
               href={`/lots/${lotId}/health`}
-              className="flex flex-col items-center gap-1.5 p-3 border rounded-xl hover:bg-gray-50 transition"
+              className="flex flex-col items-center gap-1 p-2 sm:p-3 border rounded-lg sm:rounded-xl hover:bg-gray-50 transition"
             >
-              <Stethoscope className="w-5 h-5 text-teal-500" />
-              <span className="text-xs font-medium text-center">Santé</span>
+              <Stethoscope className="w-4 h-4 sm:w-5 sm:h-5 text-teal-500" />
+              <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">Santé</span>
             </Link>
           </div>
         </div>
@@ -676,20 +677,20 @@ export default function BandeDetailPage() {
         <div className="bg-white rounded-xl border">
           <button
             onClick={() => setShowLayingAnalysis(!showLayingAnalysis)}
-            className="w-full p-3 flex items-center justify-between hover:bg-gray-50 transition"
+            className="w-full p-2.5 sm:p-3 flex items-center justify-between hover:bg-gray-50 transition"
           >
-            <div className="flex items-center gap-3">
-              <Target className="w-5 h-5 text-orange-500" />
-              <div className="text-left">
-                <h2 className="font-semibold text-gray-900">Phase de ponte</h2>
-                <p className="text-sm text-gray-500">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+              <Target className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 flex-shrink-0" />
+              <div className="text-left min-w-0 flex-1">
+                <h2 className="font-semibold text-gray-900 text-sm sm:text-base">Phase de ponte</h2>
+                <p className="text-xs sm:text-sm text-gray-500 truncate">
                   {layingAnalysis.current_phase?.label} (S{lot.age_weeks}) • Attendu: {layingAnalysis.expected_rate?.optimal_expected?.toFixed(0) || 0}%
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               <span className={cn(
-                'px-2 py-1 text-xs font-medium rounded-full',
+                'px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full whitespace-nowrap',
                 layingAnalysis.analysis?.status === 'EXCELLENT' ? 'bg-green-100 text-green-700' :
                 layingAnalysis.analysis?.status === 'GOOD' ? 'bg-blue-100 text-blue-700' :
                 layingAnalysis.analysis?.status === 'BELOW_EXPECTED' ? 'bg-orange-100 text-orange-700' :
@@ -698,20 +699,20 @@ export default function BandeDetailPage() {
               )}>
                 {layingAnalysis.analysis?.status === 'EXCELLENT' ? 'Excellente' :
                  layingAnalysis.analysis?.status === 'GOOD' ? 'Bonne' :
-                 layingAnalysis.analysis?.status === 'BELOW_EXPECTED' ? 'Sous attentes' :
+                 layingAnalysis.analysis?.status === 'BELOW_EXPECTED' ? 'Sous att.' :
                  layingAnalysis.analysis?.status === 'CRITICAL' ? 'Critique' :
                  'Pre-ponte'}
               </span>
               {showLayingAnalysis ? (
-                <ChevronUp className="w-5 h-5 text-gray-400" />
+                <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               ) : (
-                <ChevronDown className="w-5 h-5 text-gray-400" />
+                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               )}
             </div>
           </button>
 
           {showLayingAnalysis && (
-            <div className="border-t p-3 space-y-3">
+            <div className="border-t p-2.5 sm:p-3 space-y-2.5 sm:space-y-3">
               {/* Phase Description */}
               {layingAnalysis.current_phase?.description && (
                 <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
@@ -819,42 +820,42 @@ export default function BandeDetailPage() {
       <div className="bg-white rounded-xl border">
         <button
           onClick={() => setShowFinancialDetails(!showFinancialDetails)}
-          className="w-full p-3 lg:p-4 flex items-center justify-between hover:bg-gray-50 transition"
+          className="w-full p-2.5 sm:p-3 lg:p-4 flex items-center justify-between hover:bg-gray-50 transition"
         >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-100 rounded-lg">
-              <Wallet className="w-5 h-5 text-emerald-600" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-1.5 sm:p-2 bg-emerald-100 rounded-lg">
+              <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
             </div>
             <div className="text-left">
-              <h2 className="font-semibold text-gray-900">Bilan financier</h2>
-              <p className="text-sm text-gray-500">
+              <h2 className="font-semibold text-gray-900 text-sm sm:text-base">Bilan financier</h2>
+              <p className="text-xs sm:text-sm text-gray-500">
                 {financialSummary?.summary?.profit_status === 'profit' ? 'Rentable' :
                  financialSummary?.summary?.profit_status === 'loss' ? 'Deficit' : 'En cours'}
                 {financialSummary?.sales_count ? ` • ${financialSummary.sales_count} vente(s)` : ''}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <div className={cn(
               'text-right',
               (financialSummary?.summary?.gross_profit || 0) >= 0 ? 'text-green-600' : 'text-red-600'
             )}>
-              <p className="text-lg md:text-xl font-bold">
+              <p className="text-sm sm:text-lg md:text-xl font-bold">
                 {(financialSummary?.summary?.gross_profit || 0) >= 0 ? '+' : ''}
                 {(financialSummary?.summary?.gross_profit || 0).toLocaleString()} F
               </p>
-              <p className="text-xs text-gray-500">Profit</p>
+              <p className="text-[10px] sm:text-xs text-gray-500">Profit</p>
             </div>
             {showFinancialDetails ? (
-              <ChevronUp className="w-5 h-5 text-gray-400" />
+              <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
             ) : (
-              <ChevronDown className="w-5 h-5 text-gray-400" />
+              <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
             )}
           </div>
         </button>
 
         {showFinancialDetails && (
-          <div className="border-t p-3 lg:p-4 space-y-4">
+          <div className="border-t p-2.5 sm:p-3 lg:p-4 space-y-3 sm:space-y-4">
             {isLoadingFinancial && (
               <div className="flex items-center justify-center py-8">
                 <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-emerald-500"></div>
@@ -1106,16 +1107,16 @@ export default function BandeDetailPage() {
       <div className="bg-white rounded-xl border">
         <button
           onClick={() => setShowHistory(!showHistory)}
-          className="w-full p-3 flex items-center justify-between hover:bg-gray-50 transition"
+          className="w-full p-2.5 sm:p-3 flex items-center justify-between hover:bg-gray-50 transition"
         >
           <div className="flex items-center gap-2">
-            <History className="w-5 h-5 text-gray-500" />
-            <h2 className="font-semibold text-gray-900">Historique des saisies</h2>
+            <History className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+            <h2 className="font-semibold text-gray-900 text-sm sm:text-base">Historique des saisies</h2>
           </div>
           {showHistory ? (
-            <ChevronUp className="w-5 h-5 text-gray-400" />
+            <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-400" />
+            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           )}
         </button>
 
@@ -1210,9 +1211,9 @@ export default function BandeDetailPage() {
 
       {/* Notes */}
       {lot.notes && (
-        <div className="bg-white rounded-xl border p-4">
-          <h2 className="font-semibold text-gray-900 text-sm mb-2">Notes</h2>
-          <p className="text-gray-600 text-sm">{lot.notes}</p>
+        <div className="bg-white rounded-xl border p-3 sm:p-4">
+          <h2 className="font-semibold text-gray-900 text-xs sm:text-sm mb-2">Notes</h2>
+          <p className="text-gray-600 text-xs sm:text-sm">{lot.notes}</p>
         </div>
       )}
 

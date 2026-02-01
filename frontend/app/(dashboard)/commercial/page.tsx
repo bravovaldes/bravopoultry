@@ -1123,7 +1123,7 @@ function AddSaleModal({ clients, onClose, onSuccess, initialClientId = '' }: { c
                   <option value="">Selectionner un lot</option>
                   {filteredLots?.map((lot: any) => (
                     <option key={lot.id} value={lot.id}>
-                      {lot.name || lot.code || `Lot ${lot.id?.slice(0, 8)}`} - {lot.site_name} / {lot.building_name} - {lot.available_birds} {formData.product_type === 'culled_hens' ? 'poules' : 'poulets'}
+                      {lot.name || lot.code || `Lot ${lot.id?.slice(0, 8)}`}{lot.name && lot.code ? ` (${lot.code})` : ''} · {lot.site_name} / {lot.building_name} · {lot.available_birds} {formData.product_type === 'culled_hens' ? 'poules' : 'poulets'}
                     </option>
                   ))}
                 </select>

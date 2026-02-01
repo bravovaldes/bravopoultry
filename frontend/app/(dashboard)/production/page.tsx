@@ -283,7 +283,7 @@ export default function ProductionPage() {
               <option value="all">Tous les lots</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
-                  {lot.name || lot.code} {lot.site_name ? `(${lot.site_name})` : ''}
+                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} {lot.site_name ? `· ${lot.site_name}` : ''}
                 </option>
               ))}
             </select>

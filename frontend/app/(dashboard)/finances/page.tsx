@@ -623,7 +623,7 @@ function AddExpenseModal({ onClose, sites, lots, onSuccess }: {
               >
                 <option value="">Aucun</option>
                 {lots?.map((lot: any) => (
-                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}</option>
+                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''}</option>
                 ))}
               </select>
             </div>
@@ -892,7 +892,7 @@ function EditExpenseModal({ expense, onClose, sites, lots, onSuccess }: {
               >
                 <option value="">Aucun</option>
                 {lots?.map((lot: any) => (
-                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}</option>
+                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''}</option>
                 ))}
               </select>
             </div>

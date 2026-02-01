@@ -169,7 +169,7 @@ export default function WaterPage() {
           >
             <option value="all">Tous les lots</option>
             {lots?.map((lot: any) => (
-              <option key={lot.id} value={lot.id}>{lot.name || lot.code}</option>
+              <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''}</option>
             ))}
           </select>
 
@@ -430,7 +430,7 @@ function AddWaterModal({ lots, onClose, onSuccess }: { lots: any[]; onClose: () 
               >
                 <option value="">Selectionner</option>
                 {lots?.map((lot: any) => (
-                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}</option>
+                  <option key={lot.id} value={lot.id}>{lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''}</option>
                 ))}
               </select>
             </div>

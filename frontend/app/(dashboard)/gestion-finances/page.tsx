@@ -935,7 +935,7 @@ function AddExpenseModal({ suppliers, lots, onClose, onSuccess }: { suppliers: a
               <option value="">-- Aucun lot --</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
-                  {lot.name || lot.code} ({lot.current_quantity?.toLocaleString()})
+                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} · {lot.current_quantity?.toLocaleString()} oiseaux
                 </option>
               ))}
             </select>
@@ -1179,7 +1179,7 @@ function AddTransactionModal({ accounts, lots, onClose, onSuccess }: { accounts:
               <option value="">-- Aucun lot (vente generale) --</option>
               {filteredLots.map((lot: any) => (
                 <option key={lot.id} value={lot.id}>
-                  {lot.name || lot.code} - {lot.type === 'layer' ? 'Pondeuses' : 'Chair'} ({lot.current_quantity?.toLocaleString()}) {lot.site_name ? `• ${lot.site_name}` : ''}
+                  {lot.name || lot.code}{lot.name && lot.code ? ` (${lot.code})` : ''} · {lot.type === 'layer' ? 'Pondeuses' : 'Chair'} · {lot.current_quantity?.toLocaleString()} {lot.site_name ? `· ${lot.site_name}` : ''}
                 </option>
               ))}
             </select>

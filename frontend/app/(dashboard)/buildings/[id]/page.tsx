@@ -387,7 +387,7 @@ export default function BuildingDetailPage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-medium text-gray-900">{lot.code || lot.name || 'Bande'}</h3>
+                      <h3 className="font-medium text-gray-900">{lot.name || lot.code || 'Bande'}</h3>
                       <span className={cn('text-xs px-2 py-0.5 rounded-full', getLotStatusColor(lot.status))}>
                         {lot.status === 'active' ? 'En cours' : lot.status === 'completed' ? 'Terminee' : lot.status}
                       </span>
