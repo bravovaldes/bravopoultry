@@ -33,7 +33,8 @@ import {
   GitBranch,
   X,
   Search,
-  MapPin
+  MapPin,
+  Loader2
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -128,7 +129,7 @@ export default function BandeDetailPage() {
     enabled: !!lotId
   })
 
-  const { data: historyData } = useQuery({
+  const { data: historyData, isLoading: isLoadingHistory } = useQuery({
     queryKey: ['lot-history', lotId],
     queryFn: async () => {
       const response = await api.get(`/lots/${lotId}/history?limit=14`)
@@ -1137,7 +1138,12 @@ export default function BandeDetailPage() {
 
         {showHistory && (
           <div className="border-t">
-            {historyData?.history?.length > 0 ? (
+            {isLoadingHistory ? (
+              <div className="p-8 flex flex-col items-center justify-center">
+                <Loader2 className="w-8 h-8 text-orange-500 animate-spin mb-2" />
+                <p className="text-sm text-gray-500">Chargement de l'historique...</p>
+              </div>
+            ) : historyData?.history?.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-gray-50">
