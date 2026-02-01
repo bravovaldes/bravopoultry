@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -11,7 +11,7 @@ import { CheckCircle, XCircle, Loader2, Mail, RefreshCw } from 'lucide-react'
 
 type VerificationStatus = 'loading' | 'success' | 'error' | 'expired' | 'no-token'
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const setAuth = useAuthStore((state) => state.setAuth)
@@ -294,5 +294,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500" /></div>}>
+      <VerifyEmailContent />
+    </Suspense>
   )
 }
