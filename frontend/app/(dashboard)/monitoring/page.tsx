@@ -369,7 +369,7 @@ export default function MonitoringPage() {
                 </Link>
               </div>
               <div className="space-y-4">
-                {feed.byType.map((type) => {
+                {feed.byType.map((type: { name: string; stock: number; consumption: number }) => {
                   const percentage = (type.stock / feed.totalStock) * 100
                   const isLow = type.stock < 300
                   return (
