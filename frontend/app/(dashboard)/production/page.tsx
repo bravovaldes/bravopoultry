@@ -545,7 +545,7 @@ export default function ProductionPage() {
                     <td className="p-3 font-medium">{formatDate(prod.date)}</td>
                     <td className="p-3">
                       <Link href={`/lots/${prod.lot_id}`} className="text-orange-600 hover:underline">
-                        {prod.lot?.code || '-'}
+                        {prod.lot?.name || prod.lot?.code || '-'}
                       </Link>
                     </td>
                     <td className="p-3 text-right">{prod.normal_eggs?.toLocaleString()}</td>

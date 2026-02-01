@@ -329,6 +329,34 @@ async def record_daily_entry(
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
+    # Check if data already exists for this date - prevent duplicates
+    existing_eggs = db.query(EggProduction).filter(
+        EggProduction.lot_id == lot_id,
+        EggProduction.date == entry.date
+    ).first()
+    existing_feed = db.query(FeedConsumption).filter(
+        FeedConsumption.lot_id == lot_id,
+        FeedConsumption.date == entry.date
+    ).first()
+    existing_water = db.query(WaterConsumption).filter(
+        WaterConsumption.lot_id == lot_id,
+        WaterConsumption.date == entry.date
+    ).first()
+    existing_weight = db.query(WeightRecord).filter(
+        WeightRecord.lot_id == lot_id,
+        WeightRecord.date == entry.date
+    ).first()
+    existing_mortality = db.query(Mortality).filter(
+        Mortality.lot_id == lot_id,
+        Mortality.date == entry.date
+    ).first()
+
+    if existing_eggs or existing_feed or existing_water or existing_weight or existing_mortality:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Des donnees existent deja pour cette date ({entry.date}). Utilisez la fonction Modifier pour mettre a jour."
+        )
+
     # Mortality
     if entry.mortality_count and entry.mortality_count > 0:
         mortality = Mortality(
