@@ -100,7 +100,7 @@ async def create_feed_consumption(
     db: Session = Depends(get_db)
 ):
     """Record feed consumption."""
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -144,7 +144,7 @@ async def create_water_consumption(
     db: Session = Depends(get_db)
 ):
     """Record water consumption."""
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -460,7 +460,7 @@ async def get_monitoring_stats(
             Site.organization_id == current_user.organization_id,
             Site.is_active == True,
             Building.is_active == True,
-            Lot.status != "deleted"
+            Lot.status != LotStatus.DELETED
         ).all()
         lot_ids = [l[0] for l in lot_ids]
         feed_query = feed_query.filter(FeedConsumption.lot_id.in_(lot_ids))
@@ -487,7 +487,7 @@ async def get_monitoring_stats(
     lot_age = None
     lot_type = "broiler"
     if lot_id:
-        lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+        lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
         total_birds = lot.current_quantity or 0 if lot else 0
         if lot:
             lot_age = lot.age_days
@@ -649,7 +649,7 @@ async def get_all_stock_movements(
         data = FeedStockMovementResponse.model_validate(m).model_dump()
         data['feed_type'] = m.stock.feed_type.value if m.stock else None
         if m.lot_id:
-            lot = db.query(Lot).filter(Lot.id == m.lot_id, Lot.status != "deleted").first()
+            lot = db.query(Lot).filter(Lot.id == m.lot_id, Lot.status != LotStatus.DELETED).first()
             data['lot_code'] = lot.code if lot else None
         result.append(data)
 

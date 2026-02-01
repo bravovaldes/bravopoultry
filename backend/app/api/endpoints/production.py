@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from app.api.deps import get_db, get_current_user
 from app.models.user import User
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.models.production import EggProduction, WeightRecord, Mortality
 from app.schemas.production import (
     EggProductionCreate, EggProductionResponse,
@@ -59,7 +59,7 @@ async def create_egg_production(
     db: Session = Depends(get_db)
 ):
     """Record egg production."""
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -119,7 +119,7 @@ async def create_weight_record(
     db: Session = Depends(get_db)
 ):
     """Record weight measurement."""
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -162,7 +162,7 @@ async def create_mortality(
     db: Session = Depends(get_db)
 ):
     """Record mortality."""
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -197,7 +197,7 @@ async def analyze_lot_laying_performance(
     db: Session = Depends(get_db)
 ):
     """Get laying performance analysis for a layer lot."""
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 

@@ -25,7 +25,7 @@ async def get_lot_performance(
     db: Session = Depends(get_db)
 ):
     """Get comprehensive performance data for a lot."""
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -206,7 +206,7 @@ async def compare_lots(
     comparisons = []
 
     for lot_id in lot_ids:
-        lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+        lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
         if not lot:
             continue
 

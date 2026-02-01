@@ -14,7 +14,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.finance import Sale, Client, SaleType
 from app.models.production import EggProduction
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.models.building import Building
 from app.schemas.finance import SaleCreate, SaleUpdate, SaleResponse, ClientCreate, ClientUpdate, ClientResponse
 from app.core.permissions import Permission, has_permission
@@ -132,7 +132,7 @@ async def get_sales(
 ):
     """Get sales with filters."""
     from app.models.site import Site
-    from app.models.lot import Lot
+    from app.models.lot import Lot, LotStatus
     from app.models.building import Building
 
     query = db.query(Sale)
@@ -172,7 +172,7 @@ async def get_sales(
     if lot_ids:
         lots_data = db.query(Lot.id, Lot.code).filter(
             Lot.id.in_(lot_ids),
-            Lot.status != "deleted"
+            Lot.status != LotStatus.DELETED
         ).all()
         lot_codes_map = {lot_id: code for lot_id, code in lots_data}
 
@@ -294,7 +294,7 @@ async def create_sale(
 
     # Stock deduction for bird sales
     if data.deduct_from_stock and data.lot_id and data.sale_type in ['live_birds', 'dressed_birds', 'culled_hens']:
-        lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+        lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
         if lot:
             available_birds = lot.current_quantity or lot.initial_quantity or 0
             requested_birds = int(data.quantity)
@@ -381,7 +381,7 @@ async def create_sale(
     response = SaleResponse.model_validate(sale)
     # Add lot code if linked
     if sale.lot_id:
-        lot = db.query(Lot).filter(Lot.id == sale.lot_id, Lot.status != "deleted").first()
+        lot = db.query(Lot).filter(Lot.id == sale.lot_id, Lot.status != LotStatus.DELETED).first()
         if lot:
             response.lot_code = lot.code
 

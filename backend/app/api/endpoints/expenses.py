@@ -8,7 +8,7 @@ from datetime import date
 from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.finance import Expense, Supplier
-from app.models.lot import Lot
+from app.models.lot import Lot, LotStatus
 from app.models.building import Building
 from app.schemas.finance import ExpenseCreate, ExpenseUpdate, ExpenseResponse, SupplierCreate, SupplierUpdate, SupplierResponse
 from app.core.permissions import Permission, has_permission
@@ -63,7 +63,7 @@ async def get_expenses(
     if lot_ids:
         lots_data = db.query(Lot.id, Lot.code).filter(
             Lot.id.in_(lot_ids),
-            Lot.status != "deleted"
+            Lot.status != LotStatus.DELETED
         ).all()
         lot_codes_map = {lot_id: code for lot_id, code in lots_data}
 
@@ -105,7 +105,7 @@ async def create_expense(
     response = ExpenseResponse.model_validate(expense)
     # Add lot code if linked
     if expense.lot_id:
-        lot = db.query(Lot).filter(Lot.id == expense.lot_id, Lot.status != "deleted").first()
+        lot = db.query(Lot).filter(Lot.id == expense.lot_id, Lot.status != LotStatus.DELETED).first()
         if lot:
             response.lot_code = lot.code
 

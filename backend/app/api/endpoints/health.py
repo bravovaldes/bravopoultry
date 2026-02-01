@@ -43,7 +43,7 @@ async def create_health_event(
     db: Session = Depends(get_db)
 ):
     """Record a health event."""
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -224,7 +224,7 @@ async def apply_program_to_lot(
 ):
     """Apply a vaccination program template to a lot."""
     # Verify lot exists and belongs to user's organization
-    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == data.lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 

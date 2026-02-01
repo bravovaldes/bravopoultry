@@ -271,7 +271,7 @@ async def get_eggs_trend(
         Site.is_active == True,
         Building.is_active == True,
         Lot.type == LotType.LAYER,
-        Lot.status != "deleted"
+        Lot.status != LotStatus.DELETED
     )
 
     if site_id:

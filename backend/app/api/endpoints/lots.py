@@ -11,7 +11,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.site import Site
 from app.models.building import Building
-from app.models.lot import Lot, LotStats
+from app.models.lot import Lot, LotStats, LotStatus
 from app.schemas.lot import LotCreate, LotUpdate, LotResponse, LotSummary, LotStatsResponse, LotDailyEntry, LotSplitRequest, LotSplitResponse
 from app.core.permissions import Permission, has_permission, can_write
 
@@ -39,7 +39,7 @@ def update_lot_stats(db: Session, lot_id: UUID) -> None:
     from app.models.feed import FeedConsumption
     from app.models.finance import Sale, Expense
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         return
 
@@ -123,7 +123,7 @@ async def get_lots(
 
     # Exclude deleted lots by default
     if not include_deleted and not status:
-        query = query.filter(Lot.status != "deleted")
+        query = query.filter(Lot.status != LotStatus.DELETED)
 
     if site_id:
         query = query.filter(Site.id == site_id)
@@ -223,7 +223,7 @@ async def get_lot(
     db: Session = Depends(get_db)
 ):
     """Get a specific lot with stats."""
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -257,7 +257,7 @@ async def update_lot(
     if not has_permission(current_user, Permission.EDIT_LOT):
         raise HTTPException(status_code=403, detail="Acces refuse. Seuls les proprietaires et gestionnaires peuvent modifier les lots.")
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -290,7 +290,7 @@ async def record_daily_entry(
     from app.models.production import EggProduction, WeightRecord, Mortality
     from app.models.feed import FeedConsumption, WaterConsumption
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -418,7 +418,7 @@ async def get_daily_entry(
     from app.models.production import EggProduction, WeightRecord, Mortality
     from app.models.feed import FeedConsumption, WaterConsumption
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -501,7 +501,7 @@ async def update_daily_entry(
     from app.models.production import EggProduction, WeightRecord, Mortality
     from app.models.feed import FeedConsumption, WaterConsumption
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -631,7 +631,7 @@ async def get_lot_history(
     from app.models.production import EggProduction, WeightRecord, Mortality
     from app.models.feed import FeedConsumption, WaterConsumption
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -714,7 +714,7 @@ async def close_lot(
     if not has_permission(current_user, Permission.EDIT_LOT):
         raise HTTPException(status_code=403, detail="Acces refuse. Seuls les proprietaires et gestionnaires peuvent cloturer les lots.")
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -736,7 +736,7 @@ async def delete_lot(
     if not has_permission(current_user, Permission.DELETE_LOT):
         raise HTTPException(status_code=403, detail="Acces refuse. Seuls les proprietaires et gestionnaires peuvent supprimer les lots.")
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -764,7 +764,7 @@ async def get_lot_financial_summary(
     from app.models.finance import Sale, Expense
     from app.models.production import EggProduction
 
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -801,7 +801,7 @@ async def get_lot_financial_summary(
         total_expenses += cat_total
 
     # Check if this lot has been split (has child lots)
-    child_lots_exist = db.query(Lot).filter(Lot.parent_lot_id == lot_id, Lot.status != "deleted").first() is not None
+    child_lots_exist = db.query(Lot).filter(Lot.parent_lot_id == lot_id, Lot.status != LotStatus.DELETED).first() is not None
 
     # DEBUG: Log lot financial fields
     logger.warning(f"[FINANCIAL DEBUG] lot_id={lot_id}, code={lot.code}")
@@ -970,7 +970,7 @@ async def get_lot_financial_summary(
         inherited_expenses = float(inherited_expenses)
 
     # Check if this lot has been split (has child lots)
-    child_lots_count = db.query(Lot).filter(Lot.parent_lot_id == lot_id, Lot.status != "deleted").count()
+    child_lots_count = db.query(Lot).filter(Lot.parent_lot_id == lot_id, Lot.status != LotStatus.DELETED).count()
 
     # Build response
     response = {
@@ -1047,7 +1047,7 @@ async def split_lot(
     from app.models.finance import Expense
 
     # Get the original lot
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -1310,7 +1310,7 @@ async def get_lot_split_history(
     Get the split history of a lot.
     Shows both parent lot (if this lot was split from another) and child lots (lots split from this one).
     """
-    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != "deleted").first()
+    lot = db.query(Lot).filter(Lot.id == lot_id, Lot.status != LotStatus.DELETED).first()
     if not lot:
         raise HTTPException(status_code=404, detail="Lot not found")
 
@@ -1329,7 +1329,7 @@ async def get_lot_split_history(
 
     # Get parent lot info if exists
     if lot.parent_lot_id:
-        parent = db.query(Lot).filter(Lot.id == lot.parent_lot_id, Lot.status != "deleted").first()
+        parent = db.query(Lot).filter(Lot.id == lot.parent_lot_id, Lot.status != LotStatus.DELETED).first()
         if parent:
             result['parent_lot'] = {
                 'id': str(parent.id),
@@ -1342,7 +1342,7 @@ async def get_lot_split_history(
             }
 
     # Get child lots
-    child_lots = db.query(Lot).filter(Lot.parent_lot_id == lot_id, Lot.status != "deleted").order_by(Lot.split_date.desc()).all()
+    child_lots = db.query(Lot).filter(Lot.parent_lot_id == lot_id, Lot.status != LotStatus.DELETED).order_by(Lot.split_date.desc()).all()
     for child in child_lots:
         result['child_lots'].append({
             'id': str(child.id),
