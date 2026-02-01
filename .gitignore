@@ -1,55 +1,58 @@
 # Dependencies
 node_modules/
 __pycache__/
-*.py[cod]
-*$py.class
-.Python
+*.pyc
+.venv/
 venv/
 env/
-.venv/
 
 # Environment
 .env
 .env.local
 .env.*.local
-*.local
+*.env
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
+
+# OS
 .DS_Store
+Thumbs.db
 
 # Build
-.next/
-out/
-build/
 dist/
+build/
 *.egg-info/
+.next/
 
 # Logs
-logs/
 *.log
-npm-debug.log*
-
-# Testing
-.coverage
-htmlcov/
-.pytest_cache/
-.tox/
+logs/
 
 # Database
 *.db
-*.sqlite3
+*.sqlite
 
-# Uploads
-uploads/*
-!uploads/.gitkeep
+# Invoices and uploads (sensitive data)
+backend/invoices/
+backend/uploads/
+uploads/
+invoices/
 
-# Cache
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.temp
 .cache/
-*.cache
 
-# OS
-Thumbs.db
+# Service worker files (auto-generated)
+frontend/public/sw.js
+frontend/public/swe-worker-*.js
+frontend/public/workbox-*.js
