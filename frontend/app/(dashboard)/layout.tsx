@@ -231,8 +231,8 @@ export default function DashboardLayout({
 
       {/* Main content */}
       <div className="lg:pl-64">
-        {/* Top header */}
-        <header className="sticky top-0 z-30 bg-white border-b">
+        {/* Top header - Fixed */}
+        <header className="fixed top-0 right-0 left-0 lg:left-64 z-30 bg-white border-b">
           <div className="flex items-center justify-between h-16 px-4">
             <button
               className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
@@ -254,8 +254,8 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="px-3 py-4 sm:px-4 lg:p-6">{children}</main>
+        {/* Page content - with top padding for fixed header */}
+        <main className="pt-16 px-3 py-4 sm:px-4 lg:p-6 lg:pt-20">{children}</main>
       </div>
     </div>
   )
