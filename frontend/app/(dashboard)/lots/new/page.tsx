@@ -215,7 +215,7 @@ export default function NewLotPage() {
               <div className="flex items-center justify-between mb-1">
                 <label className="text-xs font-medium text-gray-700">Bâtiment *</label>
                 <Link
-                  href="/sites"
+                  href={buildings.length > 0 && buildings[0]?.site_id ? `/sites/${buildings[0].site_id}` : '/sites'}
                   className="inline-flex items-center gap-1 text-xs text-orange-600 hover:text-orange-700 font-medium"
                 >
                   <Plus className="w-3 h-3" />
