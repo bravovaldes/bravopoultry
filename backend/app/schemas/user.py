@@ -35,6 +35,7 @@ class UserResponse(UserBase):
     role: str
     is_active: bool
     is_verified: bool
+    is_superuser: bool = False
     avatar_url: Optional[str] = None
     created_at: datetime
 

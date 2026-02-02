@@ -12,6 +12,7 @@ interface User {
   language: string
   currency: string
   timezone?: string
+  is_superuser?: boolean
 }
 
 interface AuthState {
