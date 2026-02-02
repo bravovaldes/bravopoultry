@@ -49,14 +49,20 @@ def update_lot_stats(db: Session, lot_id: UUID) -> None:
         db.add(stats)
         db.flush()
 
-    # Mortality stats - recalculate current_quantity from initial - total mortality
+    # Mortality stats - recalculate current_quantity from initial - total mortality - splits
     mortality_sum = db.query(func.coalesce(func.sum(Mortality.quantity), 0)).filter(
         Mortality.lot_id == lot_id
     ).scalar()
     stats.total_mortality = int(mortality_sum)
 
-    # Recalculate current_quantity based on mortality
-    lot.current_quantity = lot.initial_quantity - int(mortality_sum)
+    # Calculate quantity transferred to child lots (splits)
+    split_quantity = db.query(func.coalesce(func.sum(Lot.initial_quantity), 0)).filter(
+        Lot.parent_lot_id == lot_id,
+        Lot.status != LotStatus.DELETED
+    ).scalar()
+
+    # Recalculate current_quantity based on mortality AND splits
+    lot.current_quantity = lot.initial_quantity - int(mortality_sum) - int(split_quantity)
     if lot.current_quantity < 0:
         lot.current_quantity = 0
 
