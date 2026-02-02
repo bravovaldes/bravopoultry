@@ -246,7 +246,7 @@ async def create_sale(
 
     # Stock deduction for egg sales (1 carton = 12 plateaux, 1 plateau = 30 oeufs)
     if data.deduct_from_stock and data.site_id and data.sale_type in ['eggs_tray', 'eggs_carton']:
-        from app.models.lot import LotType, LotStatus
+        from app.models.lot import LotType
 
         # Get all layer lots in this site
         buildings = db.query(Building).filter(Building.site_id == data.site_id, Building.is_active == True).all()
@@ -460,7 +460,7 @@ async def send_invoice_email(
     organization_name = organization.name if organization else "BravoPoultry"
 
     # Format amount
-    total_amount = f"{int(sale.total_amount or 0):,} FCFA".replace(",", " ")
+    total_amount = f"{int(sale.total_amount or 0):,} XAF".replace(",", " ")
 
     # Send email with invoice
     success = email_service.send_invoice_email(
