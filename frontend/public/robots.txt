@@ -1,0 +1,13 @@
+# BravoPoultry - Robots.txt
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /lots/
+Disallow: /sites/
+Disallow: /production/
+Disallow: /admin/
+Disallow: /settings/
+Disallow: /profile/
+
+# Sitemap
+Sitemap: https://bravopoultry.com/sitemap.xml
