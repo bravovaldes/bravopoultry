@@ -165,7 +165,7 @@ export default function LoginPage() {
       {/* Right side - Form */}
       <div className="flex-1 flex flex-col min-h-screen lg:min-h-0">
         {/* Mobile Header with gradient */}
-        <div className="lg:hidden relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-500 to-amber-500 pt-12 pb-16 px-6">
+        <div className="lg:hidden relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-500 to-amber-500 pt-12 pb-20 px-6">
           <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4" />
 
@@ -181,8 +181,8 @@ export default function LoginPage() {
         </div>
 
         {/* Form card */}
-        <div className="flex-1 flex items-start lg:items-center justify-center px-4 sm:px-6 lg:px-8 -mt-8 lg:mt-0">
-          <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none p-6 sm:p-8 lg:p-0">
+        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+          <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0">
             {/* Desktop header */}
             <div className="hidden lg:block text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-900">Bon retour !</h1>

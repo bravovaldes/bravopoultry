@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
         {/* Right side */}
         <div className="flex-1 flex flex-col min-h-screen lg:min-h-0">
           {/* Mobile header */}
-          <div className="lg:hidden relative overflow-hidden bg-gradient-to-br from-green-500 via-green-500 to-emerald-500 pt-12 pb-16 px-6">
+          <div className="lg:hidden relative overflow-hidden bg-gradient-to-br from-green-500 via-green-500 to-emerald-500 pt-12 pb-20 px-6">
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4" />
             <div className="relative text-center">
@@ -83,8 +83,8 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
 
-          <div className="flex-1 flex items-start lg:items-center justify-center px-4 sm:px-6 lg:px-8 -mt-8 lg:mt-0">
-            <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none p-6 sm:p-8 lg:p-0 text-center">
+          <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+            <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0 text-center">
               <div className="hidden lg:flex w-20 h-20 bg-green-100 rounded-full items-center justify-center mx-auto mb-6 animate-[scale-in_0.3s_ease-out]">
                 <Mail className="w-10 h-10 text-green-600" />
               </div>
@@ -160,7 +160,7 @@ export default function ForgotPasswordPage() {
       {/* Right side - Form */}
       <div className="flex-1 flex flex-col min-h-screen lg:min-h-0">
         {/* Mobile Header */}
-        <div className="lg:hidden relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-500 to-amber-500 pt-12 pb-16 px-6">
+        <div className="lg:hidden relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-500 to-amber-500 pt-12 pb-20 px-6">
           <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4" />
 
@@ -176,8 +176,8 @@ export default function ForgotPasswordPage() {
         </div>
 
         {/* Form card */}
-        <div className="flex-1 flex items-start lg:items-center justify-center px-4 sm:px-6 lg:px-8 -mt-8 lg:mt-0">
-          <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none p-6 sm:p-8 lg:p-0">
+        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+          <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0">
             {/* Desktop header */}
             <div className="hidden lg:block text-center mb-8">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-5">
