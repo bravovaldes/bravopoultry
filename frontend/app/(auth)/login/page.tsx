@@ -10,7 +10,19 @@ import { z } from 'zod'
 import { toast } from 'sonner'
 import { api } from '@/lib/api'
 import { useAuthStore } from '@/lib/store'
-import { BarChart3, TrendingUp, Zap, Mail, Loader2, AlertCircle, X } from 'lucide-react'
+import {
+  BarChart3,
+  TrendingUp,
+  Zap,
+  Mail,
+  Lock,
+  Loader2,
+  AlertCircle,
+  X,
+  Eye,
+  EyeOff,
+  ArrowRight,
+} from 'lucide-react'
 
 const loginSchema = z.object({
   email: z.string().email('Email invalide'),
@@ -22,6 +34,7 @@ type LoginForm = z.infer<typeof loginSchema>
 export default function LoginPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [showResendVerification, setShowResendVerification] = useState(false)
   const [resendingEmail, setResendingEmail] = useState(false)
   const [unverifiedEmail, setUnverifiedEmail] = useState('')
@@ -57,11 +70,10 @@ export default function LoginPage() {
     } catch (error: any) {
       const detail = error.response?.data?.detail
 
-      // Check if email is not verified (handle both old and new message format)
       if (detail?.includes('verifier votre email') || detail === 'EMAIL_NOT_VERIFIED') {
         setUnverifiedEmail(data.email)
         setShowResendVerification(true)
-        setErrorMessage(null) // Don't show error alert, show verification prompt instead
+        setErrorMessage(null)
         toast.error('Veuillez verifier votre email avant de vous connecter.')
       } else {
         const message = detail || 'Une erreur est survenue lors de la connexion. Veuillez reessayer.'
@@ -98,9 +110,13 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Left side - Features & Branding (hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-orange-50 p-12 flex-col justify-between">
-        <div>
+      {/* Left side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 p-12 flex-col justify-between relative overflow-hidden">
+        {/* Decorative blobs */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-200/30 rounded-full translate-y-1/3 -translate-x-1/4 blur-3xl" />
+
+        <div className="relative">
           <Link href="/" className="flex items-center gap-3">
             <Image
               src="/logo.png"
@@ -113,49 +129,51 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <div className="max-w-lg">
+        <div className="relative max-w-lg">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             La plateforme avicole la plus complete
           </h2>
           <p className="text-gray-600 text-lg mb-10">
-            Rejoignez des centaines d'eleveurs qui optimisent leur production avec nos outils intelligents.
+            Rejoignez des centaines d&apos;eleveurs qui optimisent leur production avec nos outils intelligents.
           </p>
 
-          {/* Features list */}
-          <div className="space-y-5">
-            <div className="flex items-start gap-4 bg-white rounded-xl p-4">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center shrink-0">
-                <BarChart3 className="w-5 h-5 text-white" />
+          <div className="space-y-4">
+            {[
+              {
+                icon: BarChart3,
+                color: 'bg-orange-500',
+                title: 'Analytics en temps reel',
+                desc: 'Suivez vos performances avec des tableaux de bord detailles',
+              },
+              {
+                icon: TrendingUp,
+                color: 'bg-green-500',
+                title: '+30% de productivite',
+                desc: 'Nos utilisateurs ameliorent leurs resultats rapidement',
+              },
+              {
+                icon: Zap,
+                color: 'bg-blue-500',
+                title: 'Predictions IA',
+                desc: "Anticipez les problemes avant qu'ils n'arrivent",
+              },
+            ].map((item) => (
+              <div key={item.title} className="flex items-start gap-4 bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/50 shadow-sm">
+                <div className={`w-10 h-10 ${item.color} rounded-lg flex items-center justify-center shrink-0`}>
+                  <item.icon className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{item.title}</h3>
+                  <p className="text-sm text-gray-600">{item.desc}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Analytics en temps reel</h3>
-                <p className="text-sm text-gray-600">Suivez vos performances avec des tableaux de bord detailles</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4 bg-white rounded-xl p-4">
-              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center shrink-0">
-                <TrendingUp className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">+30% de productivite</h3>
-                <p className="text-sm text-gray-600">Nos utilisateurs ameliorent leurs resultats rapidement</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4 bg-white rounded-xl p-4">
-              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center shrink-0">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Predictions IA</h3>
-                <p className="text-sm text-gray-600">Anticipez les problemes avant qu'ils n'arrivent</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div>
+        <div className="relative">
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} BravoPoultry. Tous droits reserves.
+            &copy; {new Date().getFullYear()} BravoPoultry. Tous droits reserves.
           </p>
         </div>
       </div>
@@ -174,7 +192,7 @@ export default function LoginPage() {
               />
               <span className="text-xl font-bold text-gray-900">BravoPoultry</span>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Bon retour !</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Bon retour !</h1>
             <p className="text-gray-500 mt-2">
               Connectez-vous a votre compte
             </p>
@@ -182,7 +200,7 @@ export default function LoginPage() {
 
           {/* Error Alert */}
           {errorMessage && (
-            <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+            <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3 animate-[fade-in_0.3s_ease-out]">
               <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
               <div className="flex-1">
                 <p className="text-red-800 text-sm font-medium">Erreur de connexion</p>
@@ -200,7 +218,7 @@ export default function LoginPage() {
 
           {/* Email not verified warning */}
           {showResendVerification && (
-            <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-5">
+            <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-5 animate-[fade-in_0.3s_ease-out]">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
                   <Mail className="w-5 h-5 text-amber-600" />
@@ -211,7 +229,7 @@ export default function LoginPage() {
                   </p>
                   <p className="text-sm text-amber-700 mt-1">
                     Un email de verification a ete envoye a <strong>{unverifiedEmail}</strong>.
-                    Cliquez sur le lien dans l'email pour activer votre compte.
+                    Cliquez sur le lien dans l&apos;email pour activer votre compte.
                   </p>
                   <p className="text-sm text-amber-600 mt-2">
                     Pensez a verifier votre dossier spam.
@@ -240,15 +258,18 @@ export default function LoginPage() {
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Email
               </label>
-              <input
-                id="email"
-                type="email"
-                {...register('email')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
-                placeholder="votre@email.com"
-              />
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  id="email"
+                  type="email"
+                  {...register('email')}
+                  className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
+                  placeholder="votre@email.com"
+                />
+              </div>
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1.5">{errors.email.message}</p>
               )}
             </div>
 
@@ -256,29 +277,39 @@ export default function LoginPage() {
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Mot de passe
               </label>
-              <input
-                id="password"
-                type="password"
-                {...register('password')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password')}
+                  className="w-full pl-11 pr-12 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1.5">{errors.password.message}</p>
               )}
             </div>
 
             <div className="flex items-center justify-between">
-              <label className="flex items-center cursor-pointer">
+              <label className="flex items-center cursor-pointer group">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="rounded border-gray-300 text-orange-500 focus:ring-orange-500"
                 />
-                <span className="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
+                <span className="ml-2 text-sm text-gray-600 group-hover:text-gray-900 transition">Se souvenir de moi</span>
               </label>
-              <Link href="/forgot-password" className="text-sm text-orange-600 hover:text-orange-700 font-medium">
+              <Link href="/forgot-password" className="text-sm text-orange-600 hover:text-orange-700 font-medium transition">
                 Mot de passe oublie?
               </Link>
             </div>
@@ -286,16 +317,26 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-orange-600 transition disabled:opacity-50"
+              className="w-full bg-orange-500 text-white py-3.5 px-4 rounded-xl font-semibold hover:bg-orange-600 transition-all disabled:opacity-50 hover:shadow-lg hover:shadow-orange-500/25 flex items-center justify-center gap-2 group"
             >
-              {loading ? 'Connexion...' : 'Se connecter'}
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Connexion...
+                </>
+              ) : (
+                <>
+                  Se connecter
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                </>
+              )}
             </button>
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-500">
               Pas encore de compte?{' '}
-              <Link href="/register" className="text-orange-600 hover:text-orange-700 font-medium">
+              <Link href="/register" className="text-orange-600 hover:text-orange-700 font-semibold transition">
                 Creer un compte
               </Link>
             </p>
