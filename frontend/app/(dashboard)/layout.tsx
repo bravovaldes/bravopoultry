@@ -30,7 +30,6 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock'
-import { InstallPrompt } from '@/components/InstallPrompt'
 
 // Navigation simplifiee - 10 items au lieu de 22
 const navGroups = [
@@ -306,7 +305,6 @@ export default function DashboardLayout({
         <main className="pt-[calc(64px+env(safe-area-inset-top)+16px)] px-3 py-4 sm:px-4 lg:p-6 lg:pt-[90px]">{children}</main>
       </div>
 
-      <InstallPrompt />
     </div>
   )
 }
