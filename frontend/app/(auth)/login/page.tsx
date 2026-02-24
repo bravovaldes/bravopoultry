@@ -181,7 +181,7 @@ export default function LoginPage() {
         </div>
 
         {/* Form card */}
-        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-6 lg:mt-0">
           <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0">
             {/* Desktop header */}
             <div className="hidden lg:block text-center mb-8">

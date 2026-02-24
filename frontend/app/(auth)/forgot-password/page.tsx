@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
 
-          <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+          <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-6 lg:mt-0">
             <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0 text-center">
               <div className="hidden lg:flex w-20 h-20 bg-green-100 rounded-full items-center justify-center mx-auto mb-6 animate-[scale-in_0.3s_ease-out]">
                 <Mail className="w-10 h-10 text-green-600" />
@@ -176,7 +176,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         {/* Form card */}
-        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-6 lg:mt-0">
           <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0">
             {/* Desktop header */}
             <div className="hidden lg:block text-center mb-8">

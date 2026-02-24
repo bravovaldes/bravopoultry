@@ -153,7 +153,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0">
+          <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-6 lg:mt-0">
             <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-6 px-6 sm:p-8 lg:p-0 text-center">
               <div className="hidden lg:block w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-[scale-in_0.3s_ease-out]">
                 <Mail className="w-10 h-10 text-orange-600" />
@@ -278,7 +278,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Form card */}
-        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-12 lg:mt-0 pb-6">
+        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-6 lg:px-8 -mt-6 lg:mt-0 pb-6">
           <div className="w-full max-w-md mx-auto bg-white rounded-2xl lg:rounded-none shadow-xl lg:shadow-none pt-8 pb-5 px-5 sm:p-7 lg:p-0">
             {/* Desktop header */}
             <div className="hidden lg:block text-center mb-6">
