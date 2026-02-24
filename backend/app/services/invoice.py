@@ -25,8 +25,8 @@ def generate_invoice_number(sale_id: str, date: datetime) -> str:
 
 
 def format_currency(amount: Decimal) -> str:
-    """Format amount as FCFA currency."""
-    return f"{int(amount):,} FCFA".replace(",", " ")
+    """Format amount as XAF currency."""
+    return f"{int(amount):,} XAF".replace(",", " ")
 
 
 def generate_invoice_pdf(

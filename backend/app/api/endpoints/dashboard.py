@@ -827,7 +827,7 @@ async def get_ai_insights(
             "priority": "low",
             "icon": "performance",
             "title": "Rentabilite positive",
-            "message": f"Marge de +{margin:,.0f} FCFA ce mois. Continuez ainsi!",
+            "message": f"Marge de +{margin:,.0f} XAF ce mois. Continuez ainsi!",
             "value": f"+{margin:,.0f} F",
             "trend": "up"
         })
@@ -837,7 +837,7 @@ async def get_ai_insights(
             "priority": "high",
             "icon": "alert",
             "title": "Marge negative",
-            "message": f"Perte de {abs(margin):,.0f} FCFA ce mois. Reduisez les couts ou augmentez les ventes.",
+            "message": f"Perte de {abs(margin):,.0f} XAF ce mois. Reduisez les couts ou augmentez les ventes.",
             "value": f"{margin:,.0f} F",
             "trend": "down"
         })

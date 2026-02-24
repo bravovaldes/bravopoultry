@@ -35,7 +35,7 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
 
     language = Column(String(5), default="fr")
-    currency = Column(String(10), default="XAF")  # FCFA
+    currency = Column(String(10), default="XAF")
     timezone = Column(String(50), default="Africa/Douala")
 
     avatar_url = Column(String(500), nullable=True)
