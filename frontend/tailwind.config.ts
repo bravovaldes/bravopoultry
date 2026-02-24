@@ -69,6 +69,13 @@ const config: Config = {
           foreground: '#ffffff',
         },
       },
+      animation: {
+        float: 'float 6s ease-in-out infinite',
+        'float-slow': 'float 8s ease-in-out infinite',
+        'float-slower': 'float 10s ease-in-out infinite',
+        shimmer: 'shimmer 3s linear infinite',
+        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
